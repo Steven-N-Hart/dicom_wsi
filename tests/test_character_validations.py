@@ -47,3 +47,8 @@ def test_ds_validator():
         cv.ds_validator('Xoffset', '2.3**6')
         cv.ds_validator('Xoffset', '2.3^6')
 
+def test_intstring_validator():
+    cv.intstring_validator('Series Number', '+30000')
+    with pytest.raises(AssertionError):
+        cv.int_validator('SER', 'a')
+

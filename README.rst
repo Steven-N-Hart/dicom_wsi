@@ -13,10 +13,10 @@ dicom-wsi
         :target: https://dicom-wsi.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
+----------
 
 
-
-Package for converting whole slide image files to dicom.
+Package for converting whole slide image files to DICOM.
 
 
 * Free software: MIT license
@@ -25,8 +25,11 @@ Package for converting whole slide image files to dicom.
 
 Features
 --------
+* Validate DICOM elements
 
-* TODO
+TODO
+--------
+
 
 Credits
 -------

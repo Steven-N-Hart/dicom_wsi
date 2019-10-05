@@ -1,0 +1,8 @@
+Patient:
+    PatientName: UNKNOWN
+    PatientSex: M
+Specimen:
+    ValueType: UNKNOWN
+    ContainerIdentifier: UNKNOWN
+    SpecimenIdentifier: UNKNOWN
+    SpecimenUID: 1
