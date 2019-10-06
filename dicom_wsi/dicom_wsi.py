@@ -9,6 +9,7 @@ from input_validation import validate_cfg
 from patient import build_patient
 from specimen import build_specimen
 from study import build_study
+from general_series import build_series
 
 """Main module."""
 def create_dicom(cfg):
@@ -28,6 +29,10 @@ def create_dicom(cfg):
     # Build Study info
     dcm = build_study(dcm, cfg['GeneralStudy'])
     logger.info('Study info is built')
+    # Build Series info
+    dcm = build_series(dcm, cfg['GeneralSeries'])
+    logger.info('Series info is built')
+
 
     # http://dicom.nema.org/dicom/2013/output/chtml/part04/sect_I.4.html
     VLWholeSlideMicroscopyImage = '1.2.840.10008.5.1.4.1.1.77.1.6'
