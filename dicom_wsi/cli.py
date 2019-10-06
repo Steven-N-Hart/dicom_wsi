@@ -4,7 +4,8 @@
 import argparse
 import sys
 import logging
-from yaml import CLoader as Loader, load
+from yaml import load, BaseLoader
+
 from dicom_wsi import create_dicom
 
 def main():
@@ -18,16 +19,16 @@ def main():
     parser.add_argument("-V", "--verbose",
                         dest="logLevel",
                         choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
-                        default="DEBUG",
+                        default="INFO",
                         help="Set the logging level")
 
     args = parser.parse_args()
     logging.basicConfig(stream=sys.stderr, level=args.logLevel,
                         format='%(name)s (%(levelname)s): %(message)s')
 
-    logger = logging.getLogger('wsi_dicom_logger')
+    logger = logging.getLogger(__name__)
     logger.setLevel(args.logLevel)
-    cfg = load(open(args.yaml), Loader=Loader)
+    cfg = load(open(args.yaml), Loader=BaseLoader)
     create_dicom(cfg)
     return 0
 

@@ -15,13 +15,10 @@ dicom-wsi
 
 ----------
 
-
 Package for converting whole slide image files to DICOM.
-
 
 * Free software: MIT license
 * Documentation: https://dicom-wsi.readthedocs.io.
-
 
 Features
 --------
@@ -29,7 +26,8 @@ Features
 
 TODO
 --------
-
+* Add validation for types 1C, 2, and 3
+* Add byte or character size limit validation (see `size_limits` in character_validation.py)
 
 Credits
 -------

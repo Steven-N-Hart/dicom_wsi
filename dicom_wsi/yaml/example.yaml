@@ -1,8 +1,79 @@
+General:
+    OutFile: output.dcm
+    NumberOfLevels: 5
 Patient:
-    PatientName: UNKNOWN
+    PatientName: Mr. Bo Jangles
     PatientSex: M
 Specimen:
     ValueType: UNKNOWN
     ContainerIdentifier: UNKNOWN
     SpecimenIdentifier: UNKNOWN
-    SpecimenUID: 1
+    SpecimenUID: UID
+    ConceptNameCodeSequence: NULL
+    SpecimenDescriptionSequence: NULL
+    SpecimenPreparationStepContentItemSequence: NULL
+    ConceptNameCodeSequence: NULL
+    SpecimenPreparationSequence: NULL
+    TextValue: SomeText
+GeneralStudy:
+    StudyInstanceUID: UID
+GeneralSeries:
+    Modality: SM
+    SeriesInstanceUID: 1
+GeneralEquipment:
+EnhancedGeneralEquipment:
+    DeviceSerialNumber: UNKNOWN
+    Manufacturer: UNKNOWN
+    ManufacturerModelName: UNKNOWN
+    SoftwareVersions: UNKNOWN
+WholeSlideMicroscopyImage:
+    BurnedInAnnotation: NO
+    ExtendedDepthOfField: NO
+    FocusMethod: AUTO
+    ImageType: WSI
+    LossyImageCompression: '00'
+    PhotometricInterpretation: RGB
+    SpecimenLabelInImage: NO
+    VolumetricProperties: VOLUME
+    ImageOrientationSlide: SLIDE_CORNER
+    XOffsetInSlideCoordinateSystem: NULL
+    YOffsetInSlideCoordinateSystem: NULL
+    AcquisitionDateTime: 000000000000.000000
+    AcquisitionDuration: 1
+    BitsAllocated: 8
+    BitsStored: 8
+    HighBit: 7
+    PixelRepresentation: 0
+    SamplesPerPixel: 3
+    Rows: NULL
+    Columns: NULL
+    ImagedVolumeDepth: 1
+    ImagedVolumeHeight: 15
+    ImagedVolumeWidth: 15
+    TotalPixelMatrixColumns: NULL
+    TotalPixelMatrixRows: NULL
+    TotalPixelMatrixOriginSequence: NULL
+AcquisitionContext:
+FrameOfReference:
+    FrameOfReferenceUID: UID
+OpticalPath:
+    OpticalPathIdentifier:
+    OpticalPathSequence: NULL
+SOPCommon:
+    SOPClassUID: UID
+    SOPInstanceUID: UID
+ImagePixel:
+    PixelData: NULL
+MultiFrameFunctionalGroups:
+    DimensionIndexPointer: NULL
+    FrameType: ORIGINAL, PRIMARY, VOLUME, NONE
+    ContentDate: 00000000
+    InstanceNumber: NULL
+    NumberOfFrames: NULL
+    DimensionIndexSequence: NULL
+    DimensionOrganizationSequence: NULL
+    PixelMeasuresSequence: NULL
+    SharedFunctionalGroupsSequence: NULL
+    WholeSlideMicroscopyImageFrameTypeSequence: NULL
+    ContentTime: 000000.000000
+    DimensionOrganizationUID: UID
