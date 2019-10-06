@@ -4,6 +4,8 @@ from pydicom.dataset import Dataset
 from pydicom.sequence import Sequence
 
 def build_specimen(dcm, specimen_dict):
+
+    logging.debug('Beginning Specimen Module')
     ds1 = Dataset()
     ds2 = Dataset()
     ds3 = Dataset()
@@ -15,7 +17,6 @@ def build_specimen(dcm, specimen_dict):
 
     if specimen_dict.get('SpecimenDescriptionSequence'):
 
-        logging.debug('Processing SpecimenDescriptionSequence')
         if specimen_dict.get('SpecimenIdentifier'):
             ds1.SpecimenIdentifier = specimen_dict['SpecimenIdentifier']
         if specimen_dict.get('IssuerOfTheSpecimenIdentifierSequence'):
@@ -29,10 +30,7 @@ def build_specimen(dcm, specimen_dict):
         if specimen_dict.get('SpecimenDetailedDescription'):
             ds1.SpecimenDetailedDescription = specimen_dict['SpecimenDetailedDescription']
 
-
         if specimen_dict.get('SpecimenPreparationSequence'):
-
-            logging.debug('Processing SpecimenPreparationSequence')
             if specimen_dict.get('ValueType'):
                 ds2.ValueType = specimen_dict['ValueType']
             if specimen_dict.get('TextValue'):
@@ -41,6 +39,7 @@ def build_specimen(dcm, specimen_dict):
             ds1.SpecimenPreparationSequence = Sequence([ds3])
 
     dcm.SpecimenDescriptionSequence = Sequence([ds1])
+    logging.debug('Completed Specimen Module')
 
     return dcm
 

@@ -4,7 +4,7 @@ import logging
 from pydicom.dataset import Dataset, FileDataset, Tag
 
 def build_patient(patient_dict):
-    logging.debug('Building file metadata')
+    logging.debug('Beginning Patient Module')
     suffix = '.dcm'
     filename_little_endian = tempfile.NamedTemporaryFile(suffix=suffix).name
 
@@ -19,4 +19,5 @@ def build_patient(patient_dict):
         logging.debug('Attempting to add ' + 'ds.' + str(k) + '=' + str(v))
         exec('ds.' + str(k) + '=\"' + str(v) + '\"')
 
+    logging.debug('Completed Patient Module')
     return ds
