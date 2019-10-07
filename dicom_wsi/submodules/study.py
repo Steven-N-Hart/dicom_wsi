@@ -6,6 +6,9 @@ from pydicom.sequence import Sequence
 def build_study(dcm, study_dict):
     logging.debug('Beginning Study Module')
 
+    if study_dict is '':
+        return dcm
+
     ds1 = Dataset()
 
     if study_dict.get('StudyInstanceUID'):

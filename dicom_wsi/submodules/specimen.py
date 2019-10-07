@@ -5,6 +5,9 @@ from pydicom.sequence import Sequence
 
 def build_specimen(dcm, specimen_dict):
 
+    if specimen_dict is '':
+        return dcm
+
     logging.debug('Beginning Specimen Module')
     ds1 = Dataset()
     ds2 = Dataset()
