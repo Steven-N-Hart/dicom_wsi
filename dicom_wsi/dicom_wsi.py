@@ -11,7 +11,7 @@ from specimen import build_specimen
 from study import build_study
 from general_series import build_series
 from general_equipment import build_equipment
-
+from enhanced_general_equipment import build_enhanced_equipment
 
 """Main module."""
 def create_dicom(cfg):
@@ -36,6 +36,8 @@ def create_dicom(cfg):
     logger.info('Series info is built')
     # Build General Equipment info
     dcm = build_equipment(dcm, cfg['GeneralEquipment'])
+    # Build Enhanced Equipment
+    dcm = build_enhanced_equipment(dcm, cfg['EnhancedGeneralEquipment'])
 
     # http://dicom.nema.org/dicom/2013/output/chtml/part04/sect_I.4.html
     VLWholeSlideMicroscopyImage = '1.2.840.10008.5.1.4.1.1.77.1.6'

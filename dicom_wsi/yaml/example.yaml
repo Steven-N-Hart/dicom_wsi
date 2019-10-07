@@ -30,7 +30,7 @@ WholeSlideMicroscopyImage:
     BurnedInAnnotation: NO
     ExtendedDepthOfField: NO
     FocusMethod: AUTO
-    ImageType: WSI
+    ImageType: ORIGINAL, PRIMARY, VOLUME, NONE
     LossyImageCompression: '00'
     PhotometricInterpretation: RGB
     SpecimenLabelInImage: NO
