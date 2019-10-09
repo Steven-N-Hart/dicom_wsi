@@ -6,9 +6,6 @@ def build_series(dcm, series_dict):
 
     dcm.Modality = 'SM'
 
-    if series_dict is '':
-        return dcm
-
     if series_dict.get('SeriesInstanceUID'):
         dcm.StudyInstanceUID = uid_maker('SeriesInstanceUID', series_dict['SeriesInstanceUID'])
 

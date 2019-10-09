@@ -4,7 +4,6 @@ sys.path.insert(0, 'submodules')
 import logging
 logger = logging.getLogger(__name__)
 
-
 from input_validation import validate_cfg
 from patient import build_patient
 from specimen import build_specimen
@@ -12,6 +11,8 @@ from study import build_study
 from general_series import build_series
 from general_equipment import build_equipment
 from enhanced_general_equipment import build_enhanced_equipment
+from whole_slide_microscopy_image import build_whole_slide_microscopy_image
+
 
 """Main module."""
 def create_dicom(cfg):
@@ -39,7 +40,11 @@ def create_dicom(cfg):
     # Build Enhanced Equipment
     dcm = build_enhanced_equipment(dcm, cfg['EnhancedGeneralEquipment'])
 
+    # Now start reading the image to get the number of frames
+    dcm = build_whole_slide_microscopy_image(dcm, cfg['WholeSlideMicroscopyImage'], cfg['General'])
+
+
     # http://dicom.nema.org/dicom/2013/output/chtml/part04/sect_I.4.html
-    VLWholeSlideMicroscopyImage = '1.2.840.10008.5.1.4.1.1.77.1.6'
+    #VLWholeSlideMicroscopyImage = '1.2.840.10008.5.1.4.1.1.77.1.6'
 
     print(dcm)
