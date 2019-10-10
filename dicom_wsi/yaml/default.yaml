@@ -99,7 +99,7 @@ MultiFrameFunctionalGroups:
     FrameType: [ORIGINAL, PRIMARY, VOLUME, NONE]
     SliceThickness: 1
   PerFrameFunctionalGroupsSequence:
-    X​Offset​InSlide​Coordinate​System: NUMBER #Calculated
-    Y​Offset​InSlide​Coordinate​System: NUMBER #Calculated
-    Z​Offset​InSlide​Coordinate​System: NUMBER #Calculated
+    XOffsetInSlideCoordinateSystem: NUMBER #Calculated
+    YOffsetInSlideCoordinateSystem: NUMBER #Calculated
+    ZOffsetInSlideCoordinateSystem: NUMBER #Calculated
     DimensionIndexValues: [NUMBER, NUMBER] #Calculated
