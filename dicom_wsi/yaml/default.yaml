@@ -43,7 +43,7 @@ GeneralImage:
   PatientOrientation: UNKNOWN
 
 WholeSlideMicroscopyImage:
-  ImageType: ORIGINAL, PRIMARY, VOLUME, NONE
+  ImageType: [ORIGINAL, PRIMARY, VOLUME, NONE]
   ImagedVolumeWidth: 15
   ImagedVolumeHeight: 15
   ImagedVolumeDepth: 1
@@ -52,7 +52,7 @@ WholeSlideMicroscopyImage:
   TotalPixelMatrixOriginSequence:
     XOffsetInSlideCoordinateSystem: 20
     YOffsetInSlideCoordinateSystem: 40
-  ImageOrientationSlide: 0, -1, 0, -1, 0, 0
+  ImageOrientationSlide: [0, -1, 0, -1, 0, 0]
   PlanarConfiguration: 0
   AcquisitionDateTime: 0000000000.000000
   LossyImageCompression: '01'
@@ -105,16 +105,16 @@ ImagePixel:
 MultiFrameFunctionalGroups:
   SharedFunctionalGroupsSequence:
     PixelMeasuresSequence:
-      PixelSpacing: 0.000499, 0.000499
+      PixelSpacing: [0.000499, 0.000499]
     InstanceNumber: NUMBER #Calculated
     ContentDate: NUMBER #Calculated
     ContentTime:  NUMBER #Calculated
     NumberofFrames: NUMBER #Calculated
-    FrameType: ORIGINAL, PRIMARY, VOLUME, NONE
+    FrameType: [ORIGINAL, PRIMARY, VOLUME, NONE]
     SliceThickness: 1
 
   PerFrameFunctionalGroupsSequence:
     X​Offset​InSlide​Coordinate​System: NUMBER #Calculated
     Y​Offset​InSlide​Coordinate​System: NUMBER #Calculated
     Z​Offset​InSlide​Coordinate​System: NUMBER #Calculated
-    DimensionIndexValues: NUMBER, NUMBER #Calculated
+    DimensionIndexValues: [NUMBER, NUMBER] #Calculated
