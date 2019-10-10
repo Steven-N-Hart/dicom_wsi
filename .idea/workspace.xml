@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1b600bea-d078-4d05-8606-dabdc12cd059" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/dicom_wsi/yaml/default.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dicom_wsi.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dicom_wsi.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dicom_wsi/cli.py" beforeDir="false" afterPath="$PROJECT_DIR$/dicom_wsi/cli.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dicom_wsi/submodules/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/dicom_wsi/submodules/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dicom_wsi/yaml/default.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/dicom_wsi/yaml/default.yaml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,17 +28,38 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dicom_wsi/yaml/default.yaml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1479">
-              <caret line="96" column="32" lean-forward="true" selection-start-line="96" selection-start-column="32" selection-end-line="96" selection-end-column="32" />
+            <state relative-caret-position="429">
+              <caret line="51" column="2" selection-start-line="51" selection-start-column="2" selection-end-line="51" selection-end-column="2" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dicom_wsi/yaml/example.yaml">
+        <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/patient.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="2" selection-end-column="21" />
+            <state relative-caret-position="238">
+              <caret line="17" selection-start-line="17" selection-end-line="19" selection-end-column="52" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/utils.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="11" selection-start-line="11" selection-end-line="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dicom_wsi/cli.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="510">
+              <caret line="30" column="4" lean-forward="true" selection-start-line="30" selection-start-column="4" selection-end-line="30" selection-end-column="50" />
+              <folding>
+                <element signature="e#129#139#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -70,7 +92,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/requirements_dev.txt" />
-        <option value="$PROJECT_DIR$/dicom_wsi/submodules/utils.py" />
         <option value="$PROJECT_DIR$/dicom_wsi/submodules/patient.py" />
         <option value="$PROJECT_DIR$/dicom_wsi/submodules/study.py" />
         <option value="$PROJECT_DIR$/dicom_wsi/submodules/series.py" />
@@ -82,13 +103,15 @@
         <option value="$PROJECT_DIR$/dicom_wsi/submodules/character_validations.py" />
         <option value="$PROJECT_DIR$/tests/test_character_validations.py" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.json" />
+        <option value="$PROJECT_DIR$/dicom_wsi/submodules/utils.py" />
+        <option value="$PROJECT_DIR$/dicom_wsi/cli.py" />
         <option value="$PROJECT_DIR$/dicom_wsi/yaml/default.yaml" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1594" />
-    <option name="y" value="-12" />
+    <option name="x" value="1805" />
+    <option name="y" value="189" />
     <option name="width" value="864" />
     <option name="height" value="848" />
   </component>
@@ -112,6 +135,12 @@
               <item name="dicom_wsi" type="b2602c69:ProjectViewProjectNode" />
               <item name="dicom_wsi" type="462c0819:PsiDirectoryNode" />
               <item name="dicom_wsi" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="dicom_wsi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dicom_wsi" type="462c0819:PsiDirectoryNode" />
+              <item name="dicom_wsi" type="462c0819:PsiDirectoryNode" />
+              <item name="submodules" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="dicom_wsi" type="b2602c69:ProjectViewProjectNode" />
@@ -201,7 +230,7 @@
       <workItem from="1570126541897" duration="676000" />
       <workItem from="1570221174012" duration="3030000" />
       <workItem from="1570550331401" duration="2067000" />
-      <workItem from="1570738249049" duration="564000" />
+      <workItem from="1570738249049" duration="2543000" />
     </task>
     <task id="LOCAL-00001" summary="Added VR character validation">
       <created>1570222395313</created>
@@ -217,7 +246,21 @@
       <option name="project" value="LOCAL" />
       <updated>1570224136061</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added default.yaml">
+      <created>1570738837038</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1570738837038</updated>
+    </task>
+    <task id="LOCAL-00004" summary="fixed yaml lists">
+      <created>1570738951799</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1570738951799</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -247,13 +290,12 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10105000" />
+    <option name="totallyTimeSpent" value="12084000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1272" y="-8" width="1936" height="1176" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14392324" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14392324" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -267,8 +309,8 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" />
-      <window_info anchor="bottom" id="Python Console" order="12" weight="0.39677048" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32981783" />
+      <window_info active="true" anchor="bottom" id="Python Console" order="12" visible="true" weight="0.39597315" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -284,7 +326,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added VR character validation" />
     <MESSAGE value="Added tests for VR character validation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added tests for VR character validation" />
+    <MESSAGE value="Added default.yaml" />
+    <MESSAGE value="fixed yaml lists" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed yaml lists" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/dicom_wsi$pytest_in_test_character_validations_py.coverage" NAME="pytest in test_character_validations.py Coverage Results" MODIFIED="1570224106481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
@@ -304,9 +348,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/usage.rst">
       <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/patient.py">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/study.py">
       <provider selected="true" editor-type-id="text-editor" />
@@ -363,9 +404,6 @@
     <entry file="file://$PROJECT_DIR$/README.rst">
       <provider selected="true" editor-type-id="restructured-text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/utils.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-354">
@@ -390,17 +428,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/patient.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="17" selection-start-line="17" selection-end-line="19" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1071" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dicom_wsi/cli.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="30" column="4" lean-forward="true" selection-start-line="30" selection-start-column="4" selection-end-line="30" selection-end-column="50" />
+          <folding>
+            <element signature="e#129#139#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/dicom_wsi/yaml/example.yaml">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
+        <state relative-caret-position="-765">
           <caret selection-end-line="2" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dicom_wsi/yaml/default.yaml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1479">
-          <caret line="96" column="32" lean-forward="true" selection-start-line="96" selection-start-column="32" selection-end-line="96" selection-end-column="32" />
+        <state relative-caret-position="429">
+          <caret line="51" column="2" selection-start-line="51" selection-start-column="2" selection-end-line="51" selection-end-column="2" />
         </state>
       </provider>
     </entry>

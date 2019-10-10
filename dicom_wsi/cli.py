@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
 """Console script for dicom_wsi."""
-import argparse
+
+def main():
+    """Console script for dicom_wsi."""import argparse
 import sys
 import logging
 from yaml import load, BaseLoader
 
 from dicom_wsi import create_dicom
 
-def main():
-    """Console script for dicom_wsi."""
     parser = argparse.ArgumentParser()
 
     parser.add_argument("-y", "--yaml",

@@ -2,18 +2,15 @@ General:
     OutFile: output.dcm
     NumberOfLevels: 5
     OrgUIDRoot: 1.2.840.113713.15
-
 Patient:
   PatientName: Mr. Bo Jangles
   PatientID: XXXXXXXXXXXX
   PatientSex: M
   PatientBirthDate: 99999999
   IssuerOfPatientID: UNKNOWN
-
 GeneralStudy:
   StudyInstanceUID: UID
   StudyTime: 000000.000000
-
 GeneralSeries:
   Modality: SM
   SeriesInstanceUID: UID
@@ -24,24 +21,19 @@ GeneralSeries:
   ReferencedDefinedProtocolSequence:
     ReferencedSOPClassUID: 1.2.276.0.7230010.3.1.4.8323329.25650.1570640431.346073
     ReferencedSOPInstanceUID: VL Whole Slide Microscopy Image Storage
-
 Specimen:
   ContainerIdentifier: UNKNOWN
-
 FrameOfReference:
   FrameOfReferenceUID: UID
   PositionReferenceIndicator: SLIDE_CORNER
-
 EnhancedGeneralEquipment:
   Manufacturer: UNKNOWN
   ManufacturerModelName: UNKNOWN
   DeviceSerialNumber: UNKNOWN
   SoftwareVersions: UNKNOWN
-
 GeneralImage:
   InstanceNumber: NUMBER #Calculated
   PatientOrientation: UNKNOWN
-
 WholeSlideMicroscopyImage:
   ImageType: [ORIGINAL, PRIMARY, VOLUME, NONE]
   ImagedVolumeWidth: 15
@@ -56,14 +48,13 @@ WholeSlideMicroscopyImage:
   PlanarConfiguration: 0
   AcquisitionDateTime: 0000000000.000000
   LossyImageCompression: '01'
-    LossyImageCompressionRatio: 1
-    LossyImageCompressionMethod: ISO_10918_1 #https://dicom.innolitics.com/ciods/ophthalmic-photography-8-bit-image/ophthalmic-photography-image/00282114
+  LossyImageCompressionRatio: 1
+  LossyImageCompressionMethod: ISO_10918_1
   VolumetricProperties: VOLUME
   SpecimenLabelInImage: NO
   BurnedInAnnotation: NO
   FocusMethod: AUTO
   ExtendedDepthOfField: NO
-
 OpticalPath:
   NumberOfOpticalPaths: 1
   OpticalPathSequence:
@@ -74,15 +65,12 @@ OpticalPath:
       CodeMeaning: Brightfield illumination
       CodeValue: 111744
     ICCProfile: RGB
-
 SOPCommon:
   SOPClassUID: 1.2.276.0.7230010.3.1.4.8323329.25650.1570640431.346073
   SOPInstanceUID: VL Whole Slide Microscopy Image Storage
   SpecificCharacterSet: ISO_IR 100
-
 WholeSlideMicroscopySeries:
   Modality: SM
-
 MultiframeDimension:
   DimensionOrganizationSequence:
     DimensionOrganizationUID: 1.2.276.0.7230010.3.1.4.8323329.25650.1570640401.346049
@@ -90,7 +78,6 @@ MultiframeDimension:
   DimensionIndexSequence:
     DimensionIndexPointer: (0048, 021e)
     FunctionalGroupPointer: (0048, 021a)
-
 ImagePixel:
   PixelData: NONE
   SamplesPerPixel: 3
@@ -101,7 +88,6 @@ ImagePixel:
   BitsStored: 8
   HighBit: 7
   PixelRepresentation: 0000H
-
 MultiFrameFunctionalGroups:
   SharedFunctionalGroupsSequence:
     PixelMeasuresSequence:
@@ -112,7 +98,6 @@ MultiFrameFunctionalGroups:
     NumberofFrames: NUMBER #Calculated
     FrameType: [ORIGINAL, PRIMARY, VOLUME, NONE]
     SliceThickness: 1
-
   PerFrameFunctionalGroupsSequence:
     X​Offset​InSlide​Coordinate​System: NUMBER #Calculated
     Y​Offset​InSlide​Coordinate​System: NUMBER #Calculated
