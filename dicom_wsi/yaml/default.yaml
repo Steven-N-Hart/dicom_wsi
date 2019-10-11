@@ -1,7 +1,9 @@
 General:
-    OutFile: output.dcm
+    WSIFile: 'tests/CMU-1-JP2K-33005.svs'
+    OutFilePrefix: output
     NumberOfLevels: 5
     OrgUIDRoot: 1.2.840.113713.15
+    WSIBrand: aperio_svs
 Patient:
   PatientName: Mr. Bo Jangles
   PatientID: XXXXXXXXXXXX

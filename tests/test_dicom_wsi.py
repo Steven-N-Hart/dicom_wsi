@@ -6,9 +6,6 @@
 import pytest
 
 
-from dicom_wsi import dicom_wsi
-
-
 @pytest.fixture
 def response():
     """Sample pytest fixture.

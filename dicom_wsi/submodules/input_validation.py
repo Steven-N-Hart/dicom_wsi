@@ -1,9 +1,13 @@
+import logging
+import os
+
 import submodules.character_validations as cv
 from submodules.utils import get_all_keys
-import logging
+
 logger = logging.getLogger(__name__)
 
 restricted_inputs = {
+    'WSIBrand': ['aperio_svs', 'phillips_tiff'],
     'PatientSex': ['M', 'F', 'O'],
     'Modality': ['SM'],
     'BurnedInAnnotation': ['YES', 'NO'],
@@ -17,7 +21,7 @@ restricted_inputs = {
 }
 
 required_fields = {
-    'General': ['InputFile', 'OutFile', 'NumberOfLevels'],
+    'General': ['WSIFile', 'OutFile', 'NumberOfLevels', 'OrgUIDRoot', 'WSIBrand'],
     'BaseAttributes': ['Modality', 'Manufacturer', 'ManufacturerModelName', 'DeviceSerialNumber', 'SoftwareVersions',
                        'SOPClassUID', 'SOPInstanceUID', 'StudyInstanceUID', 'SeriesInstanceUID',
                        'StudyInstanceUID', 'SeriesInstanceUID', 'ContainerIdentifier', 'FrameOfReferenceUID',
@@ -77,7 +81,7 @@ def validate_cfg(cfg):
         except KeyError:
             logging.debug('{} not found in your configuration.  Please define'.format(m))
             exit(1)
-
+    assert os.path.exists(cfg['WSIFile'])
     logging.debug('All data validated')
 
 def _validation_wrapper(provided_keys, sample_dict):
@@ -96,7 +100,7 @@ def _validation_wrapper(provided_keys, sample_dict):
             cv.dt_validator(k, sample_dict[k])
         elif k in cv.INTSTRING_LIST:
             cv.intstring_validator(k, sample_dict[k])
-        #logging.debug('Completed VR type validation for {}'.format(k))
+        logging.debug('Completed VR type validation for {}'.format(k))
 
         # Verify provided values are allowed
         if k in restricted_inputs.keys():
@@ -129,3 +133,4 @@ def _validate(module, sample_dict):
             format(k, required_keys, provided_keys)
 
     _validation_wrapper(provided_keys, sample_dict)
+

@@ -4,9 +4,9 @@
 """Tests for `dicom_wsi` package."""
 
 import pytest
-import sys
 
 from ..dicom_wsi.submodules import character_validations as cv
+
 
 def test_cs():
     cv.cs_validator('patient', 'Roberto')

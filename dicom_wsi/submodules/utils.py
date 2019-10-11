@@ -14,11 +14,11 @@ def add_data(ds, k, v):
         try:
             tmp_var = str(int(v[0]))
             if v[0] == str(int(v[0])):
-                list_type = 'int'
+                # list_type = 'int'
                 logging.debug('INT LIST: ds.' + k + ' = [' + ', '.join(x for x in v) + ']')
                 exec('ds.' + k + ' = [' + ', '.join(x for x in v) + ']')
             else:
-                list_type = 'float'
+                #list_type = 'float'
                 logging.debug('FLOAT LIST: ds.' + k + ' = [' + ', '.join(v) + ']')
                 exec('ds.' + k + ' = [' + ', '.join(float(x) for x in v) + ']')
         except ValueError:

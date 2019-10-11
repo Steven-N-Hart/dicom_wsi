@@ -1,7 +1,9 @@
 import logging
 import tempfile
-from utils import uid_maker, make_time, make_date, make_datetime, add_data
+
 from pydicom.dataset import Dataset, FileDataset
+from utils import uid_maker, make_time, make_date, make_datetime, add_data
+
 
 def build_base(base_dict):
     logging.debug('Beginning BaseAttributes Module')
