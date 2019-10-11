@@ -1,3 +1,17 @@
+import logging
+
+for k, v in patient_dict.items():
+def add_data(k, v):
+    """
+
+    :param k: DICOM keyword
+    :param v: Value to set keyword
+    :return:
+    """
+    logging.debug('Attempting to add ' + 'ds.' + str(k) + '=' + str(v))
+
+    exec('ds.' + str(k) + '=\"' + str(v) + '\"')
+
 
 def uid_maker(element_dict, uid='1.2.3.4'):
     # Need to better understand how to make uids

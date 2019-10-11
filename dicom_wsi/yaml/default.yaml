@@ -1,0 +1,105 @@
+General:
+    OutFile: output.dcm
+    NumberOfLevels: 5
+    OrgUIDRoot: 1.2.840.113713.15
+Patient:
+  PatientName: Mr. Bo Jangles
+  PatientID: XXXXXXXXXXXX
+  PatientSex: M
+  PatientBirthDate: 99999999
+  IssuerOfPatientID: UNKNOWN
+GeneralStudy:
+  StudyInstanceUID: UID
+  StudyTime: 000000.000000
+GeneralSeries:
+  Modality: SM
+  SeriesInstanceUID: UID
+  SeriesNumber: NUMBER #Calculated
+  SeriesDate: 99999999
+  SeriesTime: 000000.000000
+  SeriesDescription: General description
+  ReferencedDefinedProtocolSequence:
+    ReferencedSOPClassUID: 1.2.276.0.7230010.3.1.4.8323329.25650.1570640431.346073
+    ReferencedSOPInstanceUID: VL Whole Slide Microscopy Image Storage
+Specimen:
+  ContainerIdentifier: UNKNOWN
+FrameOfReference:
+  FrameOfReferenceUID: UID
+  PositionReferenceIndicator: SLIDE_CORNER
+EnhancedGeneralEquipment:
+  Manufacturer: UNKNOWN
+  ManufacturerModelName: UNKNOWN
+  DeviceSerialNumber: UNKNOWN
+  SoftwareVersions: UNKNOWN
+GeneralImage:
+  InstanceNumber: NUMBER #Calculated
+  PatientOrientation: UNKNOWN
+WholeSlideMicroscopyImage:
+  ImageType: [ORIGINAL, PRIMARY, VOLUME, NONE]
+  ImagedVolumeWidth: 15
+  ImagedVolumeHeight: 15
+  ImagedVolumeDepth: 1
+  TotalPixelMatrixColumns: NUMBER   #Calculated
+  TotalPixelMatrixRows: NUMBER   #Calculated
+  TotalPixelMatrixOriginSequence:
+    XOffsetInSlideCoordinateSystem: 20
+    YOffsetInSlideCoordinateSystem: 40
+  ImageOrientationSlide: [0, -1, 0, -1, 0, 0]
+  PlanarConfiguration: 0
+  AcquisitionDateTime: 0000000000.000000
+  LossyImageCompression: '01'
+  LossyImageCompressionRatio: 1
+  LossyImageCompressionMethod: ISO_10918_1
+  VolumetricProperties: VOLUME
+  SpecimenLabelInImage: NO
+  BurnedInAnnotation: NO
+  FocusMethod: AUTO
+  ExtendedDepthOfField: NO
+OpticalPath:
+  NumberOfOpticalPaths: 1
+  OpticalPathSequence:
+    OpticalPathIdentifier: 1
+    OpticalPathDescription: 'Brightfield'
+    IlluminationTypeCodeSequence:
+      CodingSchemeDesignator: DCM
+      CodeMeaning: Brightfield illumination
+      CodeValue: 111744
+    ICCProfile: RGB
+SOPCommon:
+  SOPClassUID: 1.2.276.0.7230010.3.1.4.8323329.25650.1570640431.346073
+  SOPInstanceUID: VL Whole Slide Microscopy Image Storage
+  SpecificCharacterSet: ISO_IR 100
+WholeSlideMicroscopySeries:
+  Modality: SM
+MultiframeDimension:
+  DimensionOrganizationSequence:
+    DimensionOrganizationUID: 1.2.276.0.7230010.3.1.4.8323329.25650.1570640401.346049
+  DimensionOrganizationType: TILED_FULL # Could also sparse tile to save space
+  DimensionIndexSequence:
+    DimensionIndexPointer: (0048, 021e)
+    FunctionalGroupPointer: (0048, 021a)
+ImagePixel:
+  PixelData: NONE
+  SamplesPerPixel: 3
+  PhotometricInterpretation: RGB
+  Columns: NUMBER #Calculated
+  Rows: NUMBER #Calculated
+  BitsAllocated: 8
+  BitsStored: 8
+  HighBit: 7
+  PixelRepresentation: 0000H
+MultiFrameFunctionalGroups:
+  SharedFunctionalGroupsSequence:
+    PixelMeasuresSequence:
+      PixelSpacing: [0.000499, 0.000499]
+    InstanceNumber: NUMBER #Calculated
+    ContentDate: NUMBER #Calculated
+    ContentTime:  NUMBER #Calculated
+    NumberofFrames: NUMBER #Calculated
+    FrameType: [ORIGINAL, PRIMARY, VOLUME, NONE]
+    SliceThickness: 1
+  PerFrameFunctionalGroupsSequence:
+    XOffsetInSlideCoordinateSystem: NUMBER #Calculated
+    YOffsetInSlideCoordinateSystem: NUMBER #Calculated
+    ZOffsetInSlideCoordinateSystem: NUMBER #Calculated
+    DimensionIndexValues: [NUMBER, NUMBER] #Calculated
