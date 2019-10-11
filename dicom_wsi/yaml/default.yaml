@@ -59,7 +59,7 @@ OpticalPath:
   NumberOfOpticalPaths: 1
   OpticalPathSequence:
     OpticalPathIdentifier: 1
-    OpticalPathDescription: 'Brightfield'
+    OpticalPathDescription: Brightfield
     IlluminationTypeCodeSequence:
       CodingSchemeDesignator: DCM
       CodeMeaning: Brightfield illumination
