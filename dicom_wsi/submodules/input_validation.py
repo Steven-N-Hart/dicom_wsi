@@ -21,7 +21,7 @@ restricted_inputs = {
 }
 
 required_fields = {
-    'General': ['WSIFile', 'OutFile', 'NumberOfLevels', 'OrgUIDRoot', 'WSIBrand'],
+    'General': ['WSIFile', 'OutFilePrefix', 'NumberOfLevels', 'OrgUIDRoot', 'WSIBrand'],
     'BaseAttributes': ['Modality', 'Manufacturer', 'ManufacturerModelName', 'DeviceSerialNumber', 'SoftwareVersions',
                        'SOPClassUID', 'SOPInstanceUID', 'StudyInstanceUID', 'SeriesInstanceUID',
                        'StudyInstanceUID', 'SeriesInstanceUID', 'ContainerIdentifier', 'FrameOfReferenceUID',
@@ -31,15 +31,13 @@ required_fields = {
                        'FocusMethod', 'ExtendedDepthOfField', 'SeriesInstanceUID', 'Modality', 'PixelData',
                        'SamplesPerPixel', 'PhotometricInterpretation', 'BitsAllocated',
                        'BitsStored', 'HighBit', 'PixelRepresentation', 'SamplesPerPixel'],
-    'SequenceAttributes': ['CodeMeaning', 'CodingSchemeDesignator', 'DimensionIndexPointer',
-                           'DimensionOrganizationSequence', 'DimensionOrganizationUID', 'OpticalPathIdentifier',
-                           'OpticalPathSequence', 'ReferencedSOPClassUID', 'ReferencedSOPInstanceUID',
-                           'TotalPixelMatrixOriginSequence', 'XOffsetInSlideCoordinateSystem',
+    'SequenceAttributes': ['TotalPixelMatrixOriginSequence', 'XOffsetInSlideCoordinateSystem',
                            'YOffsetInSlideCoordinateSystem'],
     'ConditionalAttributes': ['LossyImageCompression'],
-    'PerFrameFunctionalGroupsSequence': ['ZOffsetInSlideCoordinateSystem'],
-    'SharedFunctionalGroupsSequence': ['ContentDate', 'ContentTime', 'PixelMeasuresSequence', 'FrameType',
-                                       'NumberOfFrames']
+    'SharedFunctionalGroupsSequence': ['PixelMeasuresSequence', 'PixelSpacing', 'SliceThickness'],
+    'PerFrameFunctionalGroupsSequence': ['XOffsetInSlideCoordinateSystem', 'YOffsetInSlideCoordinateSystem',
+                                         'ZOffsetInSlideCoordinateSystem']
+
 }
 size_limits = {
     '2': ['PixelPaddingValue', 'BitsAllocated', 'BitsStored', 'Columns', 'HighBit', 'PixelRepresentation', 'Rows',
@@ -79,9 +77,9 @@ def validate_cfg(cfg):
             _validate(m, cfg[m])
             logging.debug('{} data validated'.format(m))
         except KeyError:
-            logging.debug('{} not found in your configuration.  Please define'.format(m))
+            logging.error('{} not found in your configuration.  Please define'.format(m))
             exit(1)
-    assert os.path.exists(cfg['WSIFile'])
+    assert os.path.exists(cfg['General']['WSIFile'])
     logging.debug('All data validated')
 
 def _validation_wrapper(provided_keys, sample_dict):

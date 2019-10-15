@@ -1,3 +1,4 @@
+import openslide
 from submodules.input_validation import restricted_inputs
 
 
@@ -14,14 +15,14 @@ def get_wsi(cfg):
         cfg, wsi = _parse_phillips_tiff(cfg)
     else:
         raise ValueError('Only acceptable files are: {}'.format(', '.join(restricted_inputs['WSIBrand'])))
-
+    return cfg, wsi
 
 def _parse_aperio_svs(cfg):
-    wsi = opsenslide.OpenSlide(cfg['General']['WSIFile'])
+    wsi = openslide.OpenSlide(cfg['General']['WSIFile'])
+
     return cfg, wsi
 
 
 def _parse_phillips_tiff(cfg):
-    wsi = opsenslide.OpenSlide(cfg['General']['WSIFile'])
+    wsi = openslide.OpenSlide(cfg['General']['WSIFile'])
     return cfg, wsi
-    pass

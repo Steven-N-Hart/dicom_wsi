@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 sys.path.insert(0, 'submodules')
+from parse_wsi import get_wsi
 import logging
 logger = logging.getLogger(__name__)
 
@@ -14,9 +15,13 @@ def create_dicom(cfg):
     :param cfg: dictionary containing all required variables
     :return: 0
     """
+    logger.info('Beginning validation')
     validate_cfg(cfg)
     logger.info('All inputs are valid')
-    # Build Patient info
+
+    # Update config with slide attributes
+    cfg, wsi = get_wsi(cfg)
+    exit()
     dcm = build_base(cfg['BaseAttributes'])
     logger.info('BaseAttributes info is built')
 
