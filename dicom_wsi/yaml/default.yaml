@@ -79,6 +79,11 @@ SequenceAttributes:
                 CodingSchemeDesignator: SRT
                 CodeMeaning: Full Spectrum
                 CodeValue: C-102C0
+ConditionalAttributes:
+    LossyImageCompression:
+        '01':
+            LossyImageCompressionRatio: 1
+            LossyImageCompressionMethod: ISO_10918_1
 SharedFunctionalGroupsSequence:
     PixelMeasuresSequence:
         PixelSpacing: [0.000499, 0.000499]
@@ -94,8 +99,3 @@ PerFrameFunctionalGroupsSequence:
     YOffsetInSlideCoordinateSystem: NUMBER #Calculated
     ZOffsetInSlideCoordinateSystem: NUMBER #Calculated
     DimensionIndexValues: [NUMBER, NUMBER] #Calculated
-ConditionalAttributes:
-    LossyImageCompression:
-        '01':
-            LossyImageCompressionRatio: 1
-            LossyImageCompressionMethod: ISO_10918_1

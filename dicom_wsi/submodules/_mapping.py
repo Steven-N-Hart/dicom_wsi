@@ -25,6 +25,8 @@ def map_aperio_features(cfg, wsi):
                              dict_element='SharedFunctionalGroupsSequence')
     cfg['SharedFunctionalGroupsSequence']['PixelMeasuresSequence']['PixelSpacing'] = \
         wsi.properties.get('openslide.mpp-x'), wsi.properties.get('openslide.mpp-y')
+    cfg['SharedFunctionalGroupsSequence']['InstanceNumber'] = 1
+    cfg['SharedFunctionalGroupsSequence']['NumberofFrames'] = 1
     return cfg
 
 
