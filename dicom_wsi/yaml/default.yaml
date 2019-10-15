@@ -29,7 +29,7 @@ BaseAttributes:
     ManufacturerModelName: UNKNOWN
     Modality: SM
     NumberOfOpticalPaths: 1
-    PatientBirthDate: 99999999
+    PatientBirthDate: 20191009
     PatientID: XXXXXXXXXXXX
     PatientName: Mr. Bo Jangles
     PatientOrientation: UNKNOWN

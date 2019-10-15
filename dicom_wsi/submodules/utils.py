@@ -1,5 +1,6 @@
 import datetime
 import logging
+import random
 import re
 
 
@@ -30,15 +31,24 @@ def add_data(ds, k, v):
             exec('ds.' + k + ' = [' + ', '.join("'" + x + "'" for x in v) + ']')
     else:
         exec('ds.' + str(k) + '=\"' + str(v) + '\"')
-    logging.debug('Completed' + 'ds.' + str(k) + '=' + str(v))
+    logging.debug('Completed ' + 'ds.' + str(k) + '=' + str(v))
     return ds
 
 
-def uid_maker(element_dict, uid='1.2.3.4'):
-    # Need to better understand how to make uids
-    return uid
+def uid_maker(k, v, cfg, dict_element='BaseAttributes'):
+    if k == 'SOPClassUID' or k == 'SOPInstanceUID' or k == 'DimensionOrganizationUID':
+        # These are all fixed values
+        pass
+    elif v.startswith('1.2'):
+        # If user has already specificed a UID, use that
+        pass
+    else:
+        r = random.randint(1, 100000)
+        cfg[dict_element][k] = cfg['General']['OrgUIDRoot'] + '.' + str(r)
+    return cfg[dict_element][k], cfg
 
-def make_time(time_var):
+
+def make_time(k, time_var, cfg, dict_element='BaseAttributes'):
     # Need to make sure it return the format HHMMSS.FFFFFF, or return a new one
     if re.match('\d\d\d\d\d\d\.\d\d\d\d\d\d', time_var):
         # Already formatted properly
@@ -49,9 +59,11 @@ def make_time(time_var):
         time_var = t.strftime("%H%M%S.%f")
     else:
         raise ValueError('I do not know how to parse this format: {}'.format(time_var))
-    return time_var
+    cfg[dict_element][k] = time_var
+    return time_var, cfg
 
-def make_datetime(datetime_var):
+
+def make_datetime(k, datetime_var, cfg, dict_element='BaseAttributes'):
     # Need to make sure it return the format YYYYMMDDHHMMSS.FFFFFF, or return a new one
     if re.match('\d\d\d\d\d\d\d\d\d\d\d\d\d\d\.\d\d\d\d\d\d', datetime_var):
         # Already formatted properly
@@ -65,21 +77,25 @@ def make_datetime(datetime_var):
         datetime_var = datetime.datetime(int(y), int(m), int(d)).strftime("%Y%m%d%H%M%S.%f")
     else:
         raise ValueError('I do not know how to parse this format: {}'.format(datetime_var))
-    return datetime_var
+    cfg[dict_element][k] = datetime_var
+    return datetime_var, cfg
 
-def make_date(date_var):
+
+def make_date(k, date_var, cfg, dict_element='BaseAttributes'):
     # Need to ensure date format returns properly, or return a new one
-    if re.match('\d\d\d\d\d\d', date_var):
+    if re.match('\d\d\d\d\d\d\d\d', date_var):
         # Already formatted correctly
         pass
-    if re.match('\d\d/\d\d/\d\d', date_var):
+    elif re.match('\d\d/\d\d/\d\d', date_var):
         m, d, y = date_var.split('/')
         date_var = datetime.datetime(int(y), int(m), int(d)).strftime("%Y%m%d")
     elif date_var is None or date_var == '000000.000000' or date_var == 'NUMBER':
         date_var = datetime.datetime.now().strftime("%Y%m%d")
     else:
         raise ValueError('I do not know how to parse this format: {}'.format(date_var))
-    return date_var
+    cfg[dict_element][k] = date_var
+
+    return date_var, cfg
 
 
 def get_all_keys(d, prefix=False):

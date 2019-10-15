@@ -5,8 +5,9 @@ from pydicom.dataset import Dataset, FileDataset
 from utils import uid_maker, make_time, make_date, make_datetime, add_data
 
 
-def build_base(base_dict):
-    logging.debug('Beginning BaseAttributes Module')
+def build_base(cfg, dict_element='BaseAttributes'):
+    base_dict = cfg[dict_element]
+    logging.debug('Beginning {} Module'.format(dict_element))
     suffix = '.dcm'
     filename_little_endian = tempfile.NamedTemporaryFile(suffix=suffix).name
 
@@ -17,19 +18,19 @@ def build_base(base_dict):
 
     # For each element in the Patient data, add to the DICOM object
     for k, v in base_dict.items():
-        logging.debug('Attempting to add ' + 'ds.' + str(k) + '=' + str(v))
-
         # update based on types
         if k.endswith('UID'):
-            v = uid_maker(k, v)
+            v, cfg = uid_maker(k, v, cfg, dict_element=dict_element)
         if k.endswith('Date'):
-            v = make_date(v)
+            v, cfg = make_date(k, v, cfg, dict_element=dict_element)
         if k.endswith('DateTime'):
-            v = make_datetime(v)
+            v, cfg = make_datetime(k, v, cfg, dict_element=dict_element)
         if k.endswith('Time') and not k.endswith('DateTime'):
-            v = make_time(v)
-
+            v, cfg = make_time(k, v, cfg, dict_element=dict_element)
+        if v == 'NUMBER':
+            v = 1
+            cfg[dict_element][k] = 1
         ds = add_data(ds, k, v)
 
-    logging.debug('Completed BaseAttributes Module')
-    return ds
+    logging.debug('Completed {} Module'.format(dict_element))
+    return ds, cfg

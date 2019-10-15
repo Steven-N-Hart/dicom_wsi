@@ -12,11 +12,17 @@ def map_aperio_features(cfg, wsi):
     """
     cfg['BaseAttributes']['Manufacturer'] = wsi.properties.get('openslide.vendor')
     cfg['BaseAttributes']['SeriesDescription'] = wsi.properties.get('aperio.ImageID')
-    cfg['BaseAttributes']['AcquisitionDateTime'] = utils.make_datetime(wsi.properties.get('aperio.Date'))
-    cfg['SharedFunctionalGroupsSequence']['ContentDate'] = utils.make_date(wsi.properties.get('aperio.Date'))
-    cfg['SharedFunctionalGroupsSequence']['ContentTime'] = utils.make_time(wsi.properties.get('aperio.Time'))
-    cfg['SharedFunctionalGroupsSequence']['StudyTime'] = utils.make_time(wsi.properties.get('aperio.Time'))
-    cfg['SharedFunctionalGroupsSequence']['SeriesTime'] = utils.make_time(wsi.properties.get('aperio.Time'))
+    _, cfg = utils.make_datetime('AcquisitionDateTime', wsi.properties.get('aperio.Date'), cfg)
+    _, cfg = utils.make_date('ContentDate', wsi.properties.get('aperio.Date'), cfg,
+                             dict_element='SharedFunctionalGroupsSequence')
+    _, cfg = utils.make_time('ContentTime', wsi.properties.get('aperio.Time'), cfg,
+                             dict_element='SharedFunctionalGroupsSequence')
+    _, cfg = utils.make_time('StudyTime', wsi.properties.get('aperio.Time'), cfg,
+                             dict_element='SharedFunctionalGroupsSequence')
+    _, cfg = utils.make_time('SeriesTime', wsi.properties.get('aperio.Time'), cfg,
+                             dict_element='SharedFunctionalGroupsSequence')
+    _, cfg = utils.make_time('ContentTime', wsi.properties.get('aperio.Time'), cfg,
+                             dict_element='SharedFunctionalGroupsSequence')
     cfg['SharedFunctionalGroupsSequence']['PixelMeasuresSequence']['PixelSpacing'] = \
         wsi.properties.get('openslide.mpp-x'), wsi.properties.get('openslide.mpp-y')
     return cfg

@@ -21,8 +21,7 @@ def create_dicom(cfg):
 
     # Update config with slide attributes
     cfg, wsi = get_wsi(cfg)
-    exit()
-    dcm = build_base(cfg['BaseAttributes'])
+    dcm, cfg = build_base(cfg)
     logger.info('BaseAttributes info is built')
 
     print(dcm)

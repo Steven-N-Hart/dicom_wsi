@@ -1,5 +1,3 @@
-import pprint as pp
-
 import openslide
 import submodules._mapping as mp
 from submodules.input_validation import restricted_inputs
@@ -24,11 +22,11 @@ def _parse_aperio_svs(cfg):
     wsi = openslide.OpenSlide(cfg['General']['WSIFile'])
     cfg = mp.map_aperio_features(cfg, wsi)
     cfg, wsi = mp.parse_aperio_compression(cfg, wsi)
-    pp.pprint(cfg)
-    exit()
     return cfg, wsi
 
 
 def _parse_phillips_tiff(cfg):
+    logging.error('Sorry but PhillipsTIFF files haven\'t been coded yet')
+    exit(1)
     wsi = openslide.OpenSlide(cfg['General']['WSIFile'])
     return cfg, wsi
