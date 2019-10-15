@@ -1,4 +1,7 @@
+import datetime
 import logging
+import re
+
 
 def add_data(ds, k, v):
     """
@@ -37,14 +40,45 @@ def uid_maker(element_dict, uid='1.2.3.4'):
 
 def make_time(time_var):
     # Need to make sure it return the format HHMMSS.FFFFFF, or return a new one
+    if re.match('\d\d\d\d\d\d\.\d\d\d\d\d\d', time_var):
+        # Already formatted properly
+        pass
+    elif re.match('\d\d:\d\d:\d\d', time_var):
+        h, m, s = time_var.split(':')
+        t = datetime.time(int(h), int(m), int(s))
+        time_var = t.strftime("%H%M%S.%f")
+    else:
+        raise ValueError('I do not know how to parse this format: {}'.format(time_var))
     return time_var
 
 def make_datetime(datetime_var):
     # Need to make sure it return the format YYYYMMDDHHMMSS.FFFFFF, or return a new one
+    if re.match('\d\d\d\d\d\d\d\d\d\d\d\d\d\d\.\d\d\d\d\d\d', datetime_var):
+        # Already formatted properly
+        pass
+    elif re.match('\d\d:\d\d:\d\d', datetime_var):
+        h, m, s = datetime_var.split(':')
+        t = datetime.time(int(h), int(m), int(s))
+        datetime_var = t.strftime("%Y%m%d%H%M%S.%f")
+    elif re.match('\d\d/\d\d/\d\d', datetime_var):
+        m, d, y = datetime_var.split('/')
+        datetime_var = datetime.datetime(int(y), int(m), int(d)).strftime("%Y%m%d%H%M%S.%f")
+    else:
+        raise ValueError('I do not know how to parse this format: {}'.format(datetime_var))
     return datetime_var
 
 def make_date(date_var):
     # Need to ensure date format returns properly, or return a new one
+    if re.match('\d\d\d\d\d\d', date_var):
+        # Already formatted correctly
+        pass
+    if re.match('\d\d/\d\d/\d\d', date_var):
+        m, d, y = date_var.split('/')
+        date_var = datetime.datetime(int(y), int(m), int(d)).strftime("%Y%m%d")
+    elif date_var is None or date_var == '000000.000000' or date_var == 'NUMBER':
+        date_var = datetime.datetime.now().strftime("%Y%m%d")
+    else:
+        raise ValueError('I do not know how to parse this format: {}'.format(date_var))
     return date_var
 
 

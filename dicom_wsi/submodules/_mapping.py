@@ -1,105 +1,58 @@
-aperio_svs = {
-    'AcquisitionDateTime': 'aperio.Date',
-    'SharedFunctionalGroupsSequence.
-    'PixelMeasuresSequence':
-        'PixelSpacing':
+import re
 
-aperio.Filename
-CMU - 1
-aperio.Filtered
-5
-aperio.Focus
-Offset
-0.000000
-aperio.ImageID
-1004486
-aperio.Left
-25.691574
-aperio.LineAreaXOffset
-0.019265
-aperio.LineAreaYOffset - 0.000313
-aperio.LineCameraSkew - 0.000424
-aperio.MPP
-0.4990
-aperio.OriginalHeight
-32914
-aperio.OriginalWidth
-46000
-aperio.Originalheight
-33014
-aperio.Parmset
-USM
-Filter
-aperio.ScanScope
-ID
-CPAPERIOCS
-aperio.StripeWidth
-2040
-aperio.Time
-0
-9: 59:15
-aperio.Top
-23.449873
-aperio.User
-b414003d - 95
-c6 - 48
-b0 - 9369 - 8010
-ed517ba7
-openslide.comment
-Aperio
-Image
-Library
-v11
-.2
-.1
-openslide.level - count
-3
-openslide.level[0].downsample
-1
-openslide.level[0].height
-32893
-openslide.level[0].tile - height
-240
-openslide.level[0].tile - width
-240
-openslide.level[0].width
-46000
-openslide.level[1].downsample
-4.0000608050589808
-openslide.level[1].height
-8223
-openslide.level[1].tile - height
-240
-openslide.level[1].tile - width
-240
-openslide.level[1].width
-11500
-openslide.level[2].downsample
-16.003163017031632
-openslide.level[2].height
-2055
-openslide.level[2].tile - height
-240
-openslide.level[2].tile - width
-240
-openslide.level[2].width
-2875
-openslide.mpp - x
-0.499
-openslide.mpp - y
-0.499
-openslide.objective - power
-20
-openslide.quickhash - 1
-6
-a3d9c6e59cddd6b057b87b21284034b7ef07834730523b17636d60d6da922fd
-openslide.vendor
-aperio
-tiff.ImageDescription
-Aperio
-Image
-Library
-v11
-.2
-.1
-}
+import submodules.utils as utils
+
+
+def map_aperio_features(cfg, wsi):
+    """
+    Update attributes by mapping from vendor specific attributes to DICOM attributes
+    :param cfg:
+    :param wsi:
+    :return:
+    """
+    cfg['BaseAttributes']['Manufacturer'] = wsi.properties.get('openslide.vendor')
+    cfg['BaseAttributes']['SeriesDescription'] = wsi.properties.get('aperio.ImageID')
+    cfg['BaseAttributes']['AcquisitionDateTime'] = utils.make_datetime(wsi.properties.get('aperio.Date'))
+    cfg['SharedFunctionalGroupsSequence']['ContentDate'] = utils.make_date(wsi.properties.get('aperio.Date'))
+    cfg['SharedFunctionalGroupsSequence']['ContentTime'] = utils.make_time(wsi.properties.get('aperio.Time'))
+    cfg['SharedFunctionalGroupsSequence']['StudyTime'] = utils.make_time(wsi.properties.get('aperio.Time'))
+    cfg['SharedFunctionalGroupsSequence']['SeriesTime'] = utils.make_time(wsi.properties.get('aperio.Time'))
+    cfg['SharedFunctionalGroupsSequence']['PixelMeasuresSequence']['PixelSpacing'] = \
+        wsi.properties.get('openslide.mpp-x'), wsi.properties.get('openslide.mpp-y')
+    return cfg
+
+
+def parse_aperio_compression(cfg, wsi):
+    """
+    Find out if it is compressed and how much
+    :param cfg: configuration dictionary
+    :param wsi: openslide object
+    :return:
+    """
+    # ['Aperio Image Library v11.2.1 \r\n46000x32914 [0,0 46000x32893] (240x240) ', 'J2K/KDU Q=30',
+    # ';CMU-1;Aperio Image Library v10.0.51\r\n46920x33014 [0,100 46000x32914] (256x256) JPEG/RGB Q=30|AppMag = 20|
+    # StripeWidth = 2040|ScanScope ID = CPAPERIOCS|Filename = CMU-1|Date = 12/29/09|Time = 09:59:15|
+    # User = b414003d-95c6-48b0-9369-8010ed517ba7|Parmset = USM Filter|MPP = 0.4990|Left = 25.691574|Top = 23.449873|
+    # LineCameraSkew = -0.000424|LineAreaXOffset = 0.019265|LineAreaYOffset = -0.000313|Focus Offset = 0.000000|
+    # ImageID = 1004486|OriginalWidth = 46920|Originalheight = 33014|Filtered = 5|OriginalWidth = 46000|
+    # OriginalHeight = 32914'
+    ImageDescription = wsi.properties.get('tiff.ImageDescription')
+    if re.search("J2K/KDU Q=[0-9]+", ImageDescription):
+        compression = re.search("J2K/KDU Q=[0-9]+", ImageDescription)
+        compression = ImageDescription[compression.span()[0]:compression.span()[1]]
+        compression_ratio = int(compression.split('=')[1])
+        compression_method = compression.split(' Q')[0]
+        cfg['ConditionalAttributes']['LossyImageCompression']['01'] = dict()
+
+        if compression_method.__contains__('J2K'):
+            cfg['ConditionalAttributes']['LossyImageCompression']['01'][
+                'LossyImageCompressionRatio'] = compression_ratio
+            cfg['ConditionalAttributes']['LossyImageCompression']['01']['LossyImageCompressionMethod'] = 'ISO_10918_1'
+        elif compression_method.__contains__('JPEG'):  # TODO Test compression method variable on JPEG compressed file
+            cfg['ConditionalAttributes']['LossyImageCompression']['01'][
+                'LossyImageCompressionRatio'] = compression_ratio
+            cfg['ConditionalAttributes']['LossyImageCompression']['01']['LossyImageCompressionMethod'] = 'ISO_15444_1'
+        else:
+            cfg['ConditionalAttributes']['LossyImageCompression']['00'] = dict()
+            del cfg['ConditionalAttributes']['LossyImageCompression']['01']
+    return cfg, wsi

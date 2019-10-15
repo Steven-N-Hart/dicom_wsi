@@ -1,4 +1,7 @@
+import pprint as pp
+
 import openslide
+import submodules._mapping as mp
 from submodules.input_validation import restricted_inputs
 
 
@@ -19,7 +22,10 @@ def get_wsi(cfg):
 
 def _parse_aperio_svs(cfg):
     wsi = openslide.OpenSlide(cfg['General']['WSIFile'])
-
+    cfg = mp.map_aperio_features(cfg, wsi)
+    cfg, wsi = mp.parse_aperio_compression(cfg, wsi)
+    pp.pprint(cfg)
+    exit()
     return cfg, wsi
 
 

@@ -5,7 +5,6 @@ General:
     OrgUIDRoot: 1.2.840.113713.15
     WSIBrand: aperio_svs
     FrameSize: 500
-
 BaseAttributes:
     AcquisitionDateTime: 0000000000.000000
     BitsAllocated: 8
@@ -58,8 +57,6 @@ BaseAttributes:
     TotalPixelMatrixColumns: NUMBER #Calculated
     TotalPixelMatrixRows: NUMBER #Calculated
     VolumetricProperties: VOLUME
-
-
 SequenceAttributes:
     DimensionIndexSequence[0]:
         DimensionIndexPointer: (0048, 021e)
@@ -67,9 +64,9 @@ SequenceAttributes:
     DimensionIndexSequence[1]:
         DimensionIndexPointer: (0048, 021f)
         FunctionalGroupPointer: (0048, 021a)
-  TotalPixelMatrixOriginSequence:
-    XOffsetInSlideCoordinateSystem: 20
-    YOffsetInSlideCoordinateSystem: 40
+    TotalPixelMatrixOriginSequence:
+        XOffsetInSlideCoordinateSystem: 20
+        YOffsetInSlideCoordinateSystem: 40
     IlluminationTypeCodeSequence:
         OpticalPathSequence:
             IlluminationTypeCodeSequence:
@@ -82,10 +79,9 @@ SequenceAttributes:
                 CodingSchemeDesignator: SRT
                 CodeMeaning: Full Spectrum
                 CodeValue: C-102C0
-
 SharedFunctionalGroupsSequence:
     PixelMeasuresSequence:
-      PixelSpacing: [0.000499, 0.000499]
+        PixelSpacing: [0.000499, 0.000499]
     InstanceNumber: NUMBER #Calculated
     ContentDate: NUMBER #Calculated
     ContentTime:  NUMBER #Calculated
@@ -93,13 +89,11 @@ SharedFunctionalGroupsSequence:
     FrameType: [ORIGINAL, PRIMARY, VOLUME, NONE]
     SliceThickness: 1
     OpticalPathIdentifier: 1
-
 PerFrameFunctionalGroupsSequence:
     XOffsetInSlideCoordinateSystem: NUMBER #Calculated
     YOffsetInSlideCoordinateSystem: NUMBER #Calculated
     ZOffsetInSlideCoordinateSystem: NUMBER #Calculated
     DimensionIndexValues: [NUMBER, NUMBER] #Calculated
-
 ConditionalAttributes:
     LossyImageCompression:
         '01':

@@ -28,6 +28,7 @@ TODO
 --------
 * Add validation for types 1C, 2, and 3
 * Add byte or character size limit validation (see `size_limits` in character_validation.py)
+* Test compression method variable on JPEG compressed file in _mapping.py
 
 Credits
 -------
