@@ -5,16 +5,17 @@ from pydicom.dataset import Dataset, FileDataset
 from utils import uid_maker, make_time, make_date, make_datetime, add_data
 
 
-def build_base(cfg, dict_element='BaseAttributes'):
+def build_base(cfg, dcm=None, dict_element='BaseAttributes'):
     base_dict = cfg[dict_element]
     logging.debug('Beginning {} Module'.format(dict_element))
-    suffix = '.dcm'
-    filename_little_endian = tempfile.NamedTemporaryFile(suffix=suffix).name
+    if dict_element == 'BaseAttributes':
+        suffix = '.dcm'
+        filename_little_endian = tempfile.NamedTemporaryFile(suffix=suffix).name
 
-    file_meta = Dataset()
-    # Create the FileDataset instance (initially no data elements, but file_meta supplied)
-    ds = FileDataset(filename_little_endian, {},
-                     file_meta=file_meta, preamble=b"\0" * 128)
+        file_meta = Dataset()
+        # Create the FileDataset instance (initially no data elements, but file_meta supplied)
+        dcm = FileDataset(filename_little_endian, {},
+                          file_meta=file_meta, preamble=b"\0" * 128)
 
     # For each element in the Patient data, add to the DICOM object
     for k, v in base_dict.items():
@@ -30,7 +31,7 @@ def build_base(cfg, dict_element='BaseAttributes'):
         if v == 'NUMBER':
             v = 1
             cfg[dict_element][k] = 1
-        ds = add_data(ds, k, v)
+        dcm = add_data(dcm, k, v)
 
     logging.debug('Completed {} Module'.format(dict_element))
-    return ds, cfg
+    return dcm, cfg

@@ -7,6 +7,7 @@ logger = logging.getLogger(__name__)
 
 from input_validation import validate_cfg
 from base_attributes import build_base
+from sequence_attributes import build_sequences
 
 """Main module."""
 def create_dicom(cfg):
@@ -21,7 +22,8 @@ def create_dicom(cfg):
 
     # Update config with slide attributes
     cfg, wsi = get_wsi(cfg)
+    # Add the BaseAttributes
     dcm, cfg = build_base(cfg)
-    logger.info('BaseAttributes info is built')
-
+    # Add the SequenceAttributes
+    dcm = build_sequences(dcm, cfg)
     print(dcm)
