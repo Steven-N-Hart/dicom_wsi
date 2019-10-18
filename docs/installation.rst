@@ -2,9 +2,12 @@
 Installation
 ============
 
-.. important:: The PhillipsSDK_ and OpenSlide_ are required, but not available on PyPi. You will need to make sure your environment has these packages available.
+.. important:: The PhillipsSDK_, OpenSlide_, and libvips_ are required, but not available on PyPi. You will need to make sure
+your environment has these packages available.
 .. _PhillipsSDK: https://www.openpathology.philips.com/
 .. _OpenSlide: https://openslide.org/download/
+.. _libvips: https://libvips.github.io/libvips/
+
 Stable release
 --------------
 

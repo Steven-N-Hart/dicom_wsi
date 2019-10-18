@@ -34,4 +34,4 @@ def build_base(cfg, dcm=None, dict_element='BaseAttributes', instance=1):
         dcm = add_data(dcm, k, v)
 
     logging.debug('Completed {} Module'.format(dict_element))
-    return dcm, cfg
+    return dcm, cfg, filename_little_endian

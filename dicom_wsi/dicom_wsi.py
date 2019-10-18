@@ -22,12 +22,14 @@ def create_dicom(cfg):
     logger.info('Beginning validation')
     validate_cfg(cfg)
     logger.info('All inputs are valid')
+    number_of_levels = int(cfg.get('General').get('NumberOfLevels'))
+    frame_size = cfg.get('General').get('FrameSize')
 
-    for instance in range(cfg['General']['NumberOfLevels']):
+    for instance in range(number_of_levels):
         # Update config with slide attributes
         cfg, wsi = get_wsi(cfg)
         # Add the BaseAttributes
-        dcm, cfg = build_base(cfg, instance=instance)
+        dcm, cfg, filename_little_endian = build_base(cfg, instance=instance)
         # Add the SequenceAttributes
         dcm = build_sequences(dcm, cfg)
         # Build functional groups
@@ -38,8 +40,8 @@ def create_dicom(cfg):
         # Add per frame functional groups
         dcm = add_PerFrameFunctionalGroupsSequence(wsi=wsi,
                                                    ds=dcm,
-                                                   tile_size=cfg['General']['FrameSize'],
+                                                   tile_size=frame_size,
                                                    SeriesDownsample=instance)
         # Add Pixel data
-        dcm.PixelData = get_image_pixel_data(wsi=wsi, dcm=dcm, cfg=cfg, SeriesDownsample=instance)
-        print(dcm)
+        dcm = get_image_pixel_data(wsi=wsi, dcm=dcm, cfg=cfg, SeriesDownsample=instance)
+        dcm.save_as(filename_little_endian)

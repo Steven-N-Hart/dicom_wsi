@@ -4,6 +4,7 @@ from pydicom.sequence import Sequence
 def add_PerFrameFunctionalGroupsSequence(wsi=None, ds=None, tile_size=500, SeriesDownsample=1):
     ds.TotalPixelMatrixColumns, ds.TotalPixelMatrixRows = get_wsi_size(wsi=wsi)
     tiles = generate_XY_tiles(ds.TotalPixelMatrixColumns, ds.TotalPixelMatrixRows, tile_size=tile_size)
+    ds.PerFrameFunctionalGroupsSequence = Sequence([])
     for i in tiles:
         x_pos, y_pos, x_tile, y_tile = i
         data_group1 = Dataset()
@@ -26,9 +27,9 @@ def add_PerFrameFunctionalGroupsSequence(wsi=None, ds=None, tile_size=500, Serie
 def generate_XY_tiles(x_max, y_max, tile_size=500):
     x_tile = 0
     y_tile = 0
-    for x in range(1, x_max, tile_size):
+    for x in range(1, int(x_max), int(tile_size)):
         x_tile += 1
-        for y in range(1, y_max, tile_size):
+        for y in range(1, int(y_max), int(tile_size)):
             y_tile += 1
             yield x, y, x_tile, y_tile
 
