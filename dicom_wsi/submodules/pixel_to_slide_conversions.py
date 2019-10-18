@@ -1,12 +1,26 @@
+from pydicom.dataset import Dataset
+from pydicom.sequence import Sequence
+
 def add_PerFrameFunctionalGroupsSequence(wsi=None, ds=None, tile_size=500, SeriesDownsample=1):
     ds.TotalPixelMatrixColumns, ds.TotalPixelMatrixRows = get_wsi_size(wsi=wsi)
     tiles = generate_XY_tiles(ds.TotalPixelMatrixColumns, ds.TotalPixelMatrixRows, tile_size=tile_size)
     for i in tiles:
-        x, y, z = compute_slide_offsets_from_pixel_data(ds=None, Row=None, Col=None, SeriesDownsample=1)
-        ########################################################################
-        # NOT COMPLETE
-        ########################################################################
-        # ds.PerFrameFunctionalGroupsSequence.append()
+        x_pos, y_pos, x_tile, y_tile = i
+        data_group1 = Dataset()
+        dimension_index_values = Dataset()
+        plane_position = Dataset()
+        x, y, z = compute_slide_offsets_from_pixel_data(ds=ds, Row=int(x_tile), Col=int(y_tile),
+                                                        SeriesDownsample=SeriesDownsample)
+        plane_position.XOffsetInSlideCoordinateSystem = x
+        plane_position.YOffsetInSlideCoordinateSystem = y
+        plane_position.ZOffsetInSlideCoordinateSystem = z
+        plane_position.ColumnPositionInTotalImagePixelMatrix = x_pos
+        plane_position.RowPositionInTotalImagePixelMatrix = y_pos
+        dimension_index_values.DimensionIndexValues = [x_tile, y_tile]
+        data_group1.FrameContentSequence = Sequence([dimension_index_values])
+        data_group1.PlanePositionSlideSequence = Sequence([plane_position])
+        ds.PerFrameFunctionalGroupsSequence.append(data_group1)
+    return ds
 
 
 def generate_XY_tiles(x_max, y_max, tile_size=500):
@@ -30,14 +44,12 @@ def compute_slide_offsets_from_pixel_data(ds=None, Row=None, Col=None, SeriesDow
     """
     assert ds is not None, "You must provide a valid DICOM object"
     assert Row is not None, "Row value should not be empty"
-    assert Col is not None
-    "Col value should not be empty"
-
+    assert Col is not None, "Col value should not be empty"
     # BeginningPosition - RocOrColNumber * PixelSpacing * SeriesDownsample
-    x = int(ds.TotalPixelMatrixOriginSequence[0][0x0040, 0x0072a].value) - \
-        (Row * float(ds.SharedFunctionalGroupsSequence[0][0x0028, 0x9110][0][0x0028, 0x0030][1]) * SeriesDownsample)
-    y = int(ds.TotalPixelMatrixOriginSequence[0][0x0040, 0x0073a].value) - \
-        (Col * float(ds.SharedFunctionalGroupsSequence[0][0x0028, 0x9110][0][0x0028, 0x0030][0]) * SeriesDownsample)
+    x = int(ds.TotalPixelMatrixOriginSequence[0][0x0040, 0x0072a].value) - (
+            Row * float(ds.SharedFunctionalGroupsSequence[0][0x0028, 0x9110][0][0x0028, 0x0030][1]) * SeriesDownsample)
+    y = int(ds.TotalPixelMatrixOriginSequence[0][0x0040, 0x0073a].value) - (
+            Col * float(ds.SharedFunctionalGroupsSequence[0][0x0028, 0x9110][0][0x0028, 0x0030][0]) * SeriesDownsample)
     z = 0
     return x, y, z
 

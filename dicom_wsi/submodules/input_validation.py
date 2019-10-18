@@ -21,7 +21,7 @@ restricted_inputs = {
 }
 
 required_fields = {
-    'General': ['WSIFile', 'OutFilePrefix', 'NumberOfLevels', 'OrgUIDRoot', 'WSIBrand'],
+    'General': ['WSIFile', 'OutFilePrefix', 'NumberOfLevels', 'OrgUIDRoot', 'WSIBrand', 'ImageFormat'],
     'BaseAttributes': ['Modality', 'Manufacturer', 'ManufacturerModelName', 'DeviceSerialNumber', 'SoftwareVersions',
                        'SOPClassUID', 'SOPInstanceUID', 'StudyInstanceUID', 'SeriesInstanceUID',
                        'StudyInstanceUID', 'SeriesInstanceUID', 'ContainerIdentifier', 'FrameOfReferenceUID',

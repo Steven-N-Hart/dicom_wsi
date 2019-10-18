@@ -5,11 +5,11 @@ from pydicom.dataset import Dataset, FileDataset
 from utils import uid_maker, make_time, make_date, make_datetime, add_data
 
 
-def build_base(cfg, dcm=None, dict_element='BaseAttributes'):
+def build_base(cfg, dcm=None, dict_element='BaseAttributes', instance=1):
     base_dict = cfg[dict_element]
     logging.debug('Beginning {} Module'.format(dict_element))
     if dict_element == 'BaseAttributes':
-        suffix = '.dcm'
+        suffix = '.' + str(instance) + '.dcm'
         filename_little_endian = tempfile.NamedTemporaryFile(suffix=suffix).name
 
         file_meta = Dataset()

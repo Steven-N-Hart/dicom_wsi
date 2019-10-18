@@ -1,10 +1,12 @@
-General:
+ImageFormat:
     WSIFile: '../tests/CMU-1-JP2K-33005.svs'
     OutFilePrefix: output
     NumberOfLevels: 5
     OrgUIDRoot: 1.2.840.113713.15
     WSIBrand: aperio_svs
     FrameSize: 500
+    ImageFormat: BigTIFF   #Others possible https://pillow.readthedocs.io/en/3.1.x/handbook/image-file-formats.html
+    CompressionAmount: 0    # 0 for no compression, 1-9 the level of ADOBE_DEFLATE compression (for BigTIFF)
 BaseAttributes:
     AcquisitionDateTime: 0000000000.000000
     BitsAllocated: 8
