@@ -15,7 +15,7 @@ dictionary.
 * Note there are two special types of values for these keys:
 
     1. **UID**: `Use this for any key that needs a UID generated`
-    2. **NULL**: `Use this to skip the input validation steps.  Should be set for all SQ types.`
+    2. **SQ**: `Should be set for all SQ types.`
 
 
 .. code-block:: yaml

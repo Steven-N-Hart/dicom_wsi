@@ -5,6 +5,7 @@ __pycache__/
 
 venv2/
 .idea*
+*dcm
 # C extensions
 *.so
 

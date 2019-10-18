@@ -128,3 +128,14 @@ def get_all_keys(d, prefix=False):
             key_list.append(k)
 
     return key_list
+
+
+"""
+for dcm in os.listdir():
+    ds = pydicom.dcmread(dcm)
+    for i in range(ds.PerFrameFunctionalGroupsSequence.__len__()):
+        res = [j for j in ds.PerFrameFunctionalGroupsSequence[i].FrameContentSequence[0]]
+        if str(res[0]).find('[3, 3]') > 0:
+            print('dcm: {}\t {}'.format(dcm, ds.PerFrameFunctionalGroupsSequence[i]))
+
+"""
