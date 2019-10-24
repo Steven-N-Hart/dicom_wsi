@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
+import os
 import sys
 from timeit import default_timer as timer
 
@@ -10,7 +11,7 @@ from base_attributes import build_base
 from sequence_attributes import build_sequences
 from shared_functional_groups import build_functional_groups
 from pixel_to_slide_conversions import add_PerFrameFunctionalGroupsSequence
-from pixel_data_conversion import get_image_pixel_data
+from pixel_data_conversion import get_image_pixel_data, piecewise_pixelator
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +30,6 @@ def create_dicom(cfg):
     logger.info('All inputs are valid')
     number_of_levels = int(cfg.get('General').get('NumberOfLevels'))
     frame_size = cfg.get('General').get('FrameSize')
-    number_of_levels = 1
     for instance in reversed(range(number_of_levels)):
         logger.info('Beginning instance {}.'.format(instance))
         # Update config with slide attributes
@@ -66,19 +66,30 @@ def create_dicom(cfg):
         logger.info('Updating per frame groups took {} seconds.'.format(round(t_get_perframe - t_get_func, 1)))
 
         # Add Pixel data
-        dcm = get_image_pixel_data(dcm=dcm, cfg=cfg, series_downsample=instance)  # TODO: Add tests
+        dcm, img = get_image_pixel_data(dcm=dcm, cfg=cfg, series_downsample=instance)  # TODO: Add tests
         t_get_pixels = timer()
         logger.info('Updating pixels took {} seconds.'.format(round(t_get_pixels - t_get_perframe, 1)))
 
         # Save files
         out_file_prefix = cfg.get('General').get('OutFilePrefix')
-        out_file = out_file_prefix + '.' + str(instance) + '.dcm'
         try:
+            out_file = out_file_prefix + '.' + str(instance) + '.dcm'
             dcm.save_as(out_file)
+            logger.info('Saved {}'.format(out_file))
         except Exception:
+            out_file = out_file_prefix + '.' + str(instance) + '.dcm'
+            if os.path.exists(out_file):
+                os.remove(out_file)
             # Need to write multiple instances because the number of bytes is too large
-            pass
-        logger.info('Saved {}'.format(out_file))
+            logger.warning('Image too large.  Writing to multiple files')
+            fragment = 1
+            for img_part in piecewise_pixelator(img, divisor=4):
+                new_dcm = dcm
+                new_dcm, _ = get_image_pixel_data(dcm=new_dcm, cfg=cfg, img_obj=img_part)
+                out_file = out_file_prefix + '.' + str(instance) + '-' + str(fragment) + '.dcm'
+                new_dcm.save_as(out_file)
+                fragment += 1
+                logger.info('Saved {}'.format(out_file))
         t_save = timer()
         logger.info('Completed instance {} in {} minutes.'.format(instance, round((t_save - t_get_wsi) / 60, 1)))
         logger.info('Total elapsed time: {} minutes.'.format(round((t_save - start) / 60, 3)))
