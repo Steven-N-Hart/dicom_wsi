@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import urllib.request as urllib
+import urllib.request
 import os
 
 """Unit test package for dicom_wsi."""
