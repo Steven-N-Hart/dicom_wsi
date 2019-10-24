@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import urllib
+import os
 
 """Unit test package for dicom_wsi."""
 wsi_url = 'http://openslide.cs.cmu.edu/download/openslide-testdata/Aperio/CMU-1-JP2K-33005.svs'
