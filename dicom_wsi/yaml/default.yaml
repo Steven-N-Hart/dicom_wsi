@@ -43,9 +43,8 @@ BaseAttributes:
     PositionReferenceIndicator: SLIDE_CORNER
     Rows: NUMBER #Calculated
     SamplesPerPixel: 3
-    SamplesPerPixel: 3
     SeriesDate: 20191009
-    SeriesDescription: General description
+    SeriesDescription: General image description
     SeriesInstanceUID: UID
     SeriesNumber: NUMBER #Calculated
     SeriesTime: 000000.000000
@@ -60,12 +59,6 @@ BaseAttributes:
     TotalPixelMatrixRows: NUMBER #Calculated
     VolumetricProperties: VOLUME
 SequenceAttributes:
-    DimensionIndexSequence[0]:
-        DimensionIndexPointer: (0048, 021e)
-        FunctionalGroupPointer: (0048, 021a)
-    DimensionIndexSequence[1]:
-        DimensionIndexPointer: (0048, 021f)
-        FunctionalGroupPointer: (0048, 021a)
     TotalPixelMatrixOriginSequence:
         XOffsetInSlideCoordinateSystem: 20
         YOffsetInSlideCoordinateSystem: 40

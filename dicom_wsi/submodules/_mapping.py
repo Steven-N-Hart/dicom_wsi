@@ -10,8 +10,10 @@ def map_aperio_features(cfg, wsi):
     :param wsi:
     :return:
     """
-    cfg['BaseAttributes']['Manufacturer'] = wsi.properties.get('openslide.vendor')
-    cfg['BaseAttributes']['SeriesDescription'] = wsi.properties.get('aperio.ImageID')
+    if not cfg['BaseAttributes']['Manufacturer']:
+        cfg['BaseAttributes']['Manufacturer'] = wsi.properties.get('openslide.vendor')
+    if not cfg['BaseAttributes']['SeriesDescription']:
+        cfg['BaseAttributes']['SeriesDescription'] = str(wsi.properties.get('aperio.ImageID'))
     _, cfg = utils.make_datetime('AcquisitionDateTime', wsi.properties.get('aperio.Date'), cfg)
     _, cfg = utils.make_date('ContentDate', wsi.properties.get('aperio.Date'), cfg,
                              dict_element='SharedFunctionalGroupsSequence')

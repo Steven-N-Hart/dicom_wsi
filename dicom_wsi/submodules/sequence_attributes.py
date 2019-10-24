@@ -2,16 +2,25 @@
 
 from pydicom.dataset import Dataset
 from pydicom.sequence import Sequence
+from pydicom.tag import Tag
 
 
 def build_sequences(dcm, cfg):
     ds1 = Dataset()
-    ds1.DimensionIndexPointer = cfg['SequenceAttributes']['DimensionIndexSequence[0]']['DimensionIndexPointer']
-    ds1.FunctionalGroupPointer = cfg['SequenceAttributes']['DimensionIndexSequence[0]']['FunctionalGroupPointer']
+    ds1.DimensionOrganizationUID = '1.2.276.0.7230010.3.1.4.8323329.25650.1570640401.346049'
+    # ds1.DimensionIndexPointer = dcm.ColumnPositionInTotalImagePixelMatrix
+    # ds1.FunctionalGroupPointer = dcm.PlanePositionSlideSequence
+    ds1.DimensionIndexPointer = Tag(0x0048021E)
+    ds1.FunctionalGroupPointer = Tag(0x0048021A)
 
     ds2 = Dataset()
-    ds2.DimensionIndexPointer = cfg['SequenceAttributes']['DimensionIndexSequence[1]']['DimensionIndexPointer']
-    ds2.FunctionalGroupPointer = cfg['SequenceAttributes']['DimensionIndexSequence[1]']['FunctionalGroupPointer']
+    ds2.DimensionOrganizationUID = '1.2.276.0.7230010.3.1.4.8323329.25650.1570640401.346049'
+    # ds2.DimensionIndexPointer = dcm.RowPositionInTotalImagePixelMatrix
+    # ds2.FunctionalGroupPointer = dcm.PlanePositionSlideSequence
+    ds2.DimensionIndexPointer = Tag(0x0048021F)
+    ds2.FunctionalGroupPointer = Tag(0x0048021A)
+
+    # Delete the tem storage variable
     dcm.DimensionIndexSequence = Sequence([ds1, ds2])
     del ds1, ds2
 
@@ -28,35 +37,33 @@ def build_sequences(dcm, cfg):
     ds6 = Dataset()
 
     # IlluminationTypeCodeSequence
-    ds4.CodingSchemeDesignator = \
-    cfg['SequenceAttributes']['IlluminationTypeCodeSequence']['OpticalPathSequence']['IlluminationTypeCodeSequence'][
-        'CodingSchemeDesignator']
-    ds4.CodeMeaning = \
-    cfg['SequenceAttributes']['IlluminationTypeCodeSequence']['OpticalPathSequence']['IlluminationTypeCodeSequence'][
-        'CodeMeaning']
-    ds4.CodeValue = \
-    cfg['SequenceAttributes']['IlluminationTypeCodeSequence']['OpticalPathSequence']['IlluminationTypeCodeSequence'][
-        'CodeValue']
+    ds4.CodingSchemeDesignator = cfg.get('SequenceAttributes').get('IlluminationTypeCodeSequence').get(
+        'OpticalPathSequence').get('IlluminationTypeCodeSequence').get('CodingSchemeDesignator')
+    ds4.CodeMeaning = cfg.get('SequenceAttributes').get('IlluminationTypeCodeSequence').get('OpticalPathSequence').get(
+        'IlluminationTypeCodeSequence').get('CodeMeaning')
+    ds4.CodeValue = cfg.get('SequenceAttributes').get('IlluminationTypeCodeSequence').get('OpticalPathSequence').get(
+        'IlluminationTypeCodeSequence').get('CodeValue')
 
     # IlluminationColorCodeSequence
-    ds5.CodingSchemeDesignator = \
-    cfg['SequenceAttributes']['IlluminationTypeCodeSequence']['OpticalPathSequence']['IlluminationColorCodeSequence'][
-        'CodingSchemeDesignator']
-    ds5.CodeMeaning = \
-    cfg['SequenceAttributes']['IlluminationTypeCodeSequence']['OpticalPathSequence']['IlluminationColorCodeSequence'][
-        'CodeMeaning']
-    ds5.CodeValue = \
-    cfg['SequenceAttributes']['IlluminationTypeCodeSequence']['OpticalPathSequence']['IlluminationColorCodeSequence'][
-        'CodeValue']
+    ds5.CodingSchemeDesignator = cfg.get('SequenceAttributes').get('IlluminationTypeCodeSequence').get(
+        'OpticalPathSequence').get(
+        'IlluminationColorCodeSequence').get('CodingSchemeDesignator')
+    ds5.CodeMeaning = cfg.get('SequenceAttributes').get('IlluminationTypeCodeSequence').get('OpticalPathSequence').get(
+        'IlluminationColorCodeSequence').get('CodeMeaning')
+    ds5.CodeValue = cfg.get('SequenceAttributes').get('IlluminationTypeCodeSequence').get('OpticalPathSequence').get(
+        'IlluminationColorCodeSequence').get('CodeValue')
 
     ds7 = Dataset()
     ds7.IlluminationTypeCodeSequence = Sequence([ds4])
+
     ds8 = Dataset()
     ds8.IlluminationColorCodeSequence = Sequence([ds5])
-    ds8.OpticalPathIdentifier = cfg['SequenceAttributes']['IlluminationTypeCodeSequence']['OpticalPathSequence'][
-        'OpticalPathIdentifier']
-    ds8.OpticalPathDescription = cfg['SequenceAttributes']['IlluminationTypeCodeSequence']['OpticalPathSequence'][
-        'OpticalPathDescription']
+    ds8.OpticalPathIdentifier = cfg.get('SequenceAttributes').get('IlluminationTypeCodeSequence').get(
+        'OpticalPathSequence').get(
+        'OpticalPathIdentifier')
+    ds8.OpticalPathDescription = cfg.get('SequenceAttributes').get('IlluminationTypeCodeSequence').get(
+        'OpticalPathSequence').get(
+        'OpticalPathDescription')
 
     ds9 = Dataset()
     ds9.OpticalPathSequence = Sequence([ds8])

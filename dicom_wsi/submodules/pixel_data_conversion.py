@@ -1,18 +1,23 @@
+import logging
+
 import pyvips
 
+logger = logging.getLogger(__name__)
 
-def get_image_pixel_data(wsi=None, dcm=None, cfg=None, SeriesDownsample=1):
+
+def get_image_pixel_data(dcm=None, cfg=None, series_downsample=1):
     """
     get a compressed bitstream of the image
     :param wsi: OpenSlide Object
     :param dcm: DICOM object
     :param cfg: Config dict
-    :param SeriesDownsample: How many times to downsample
+    :param series_downsample: How many times to downsample
     :return: byte string to use as the pixel array
     """
     wsi_fn = cfg.get('General').get('WSIFile')
-    out = pyvips.Image.openslideload(wsi_fn, access="sequential", level=0)
-    resize_level = 1 / max(1, (2 ** SeriesDownsample - 1))
+    out = pyvips.Image.openslideload(wsi_fn, access="sequential", level=0)  # TODO: Make this not rely on OpenSlide
+    resize_level = 1 / max(1, (2 ** series_downsample))
+    logger.info('Resizing to {}'.format(resize_level))
     img = out.resize(resize_level)
 
     compression_value = int(cfg.get('General').get('CompressionAmount'))
@@ -31,22 +36,24 @@ def get_image_pixel_data(wsi=None, dcm=None, cfg=None, SeriesDownsample=1):
     if image_format == 'TIFF':
         if compression_value == 0:
             dcm.LossyImageCompression = '00'
-            img_buffer = img.tiffsave_buffer(compression=compression_amount, bigtiff=True)
+            dcm.PixelData = img.tiffsave_buffer(bigtiff=True,
+                                                tile_width=cfg.get('General').get('FrameSize'),
+                                                tile_height=cfg.get('General').get('FrameSize'))
         else:
             dcm.LossyImageCompression = '01'
             dcm.LossyImageCompressionRatio = compression_amount
             dcm.LossyImageCompressionMethod = 'ISO_15444_1'
-            img_buffer = img.tiffsave_buffer(compression=compression_amount, bigtiff=True)
+            dcm.PixelData = img.tiffsave_buffer(Q=compression_amount, bigtiff=True,
+                                                tile_width=cfg.get('General').get('FrameSize'),
+                                                tile_height=cfg.get('General').get('FrameSize')
+                                                )
 
-
-    if image_format == 'JPEG':
+    elif image_format == 'JPEG':
         dcm.LossyImageCompression = '01'
         dcm.LossyImageCompressionRatio = compression_amount
         dcm.LossyImageCompressionMethod = 'ISO_10918_1'
-        img_buffer = img.write_to_buffer('.jpg', Q=compression_amount)
-
+        dcm.PixelData = img.jpegsave_buffer(Q=compression_amount)
     else:
         raise Exception('{} files are not yet supported.'.format(image_format))
-
-    dcm.PixelData = pyvips.Image.tiffload_buffer(img_buffer, access='sequential')
+    logger.debug('Completed writing image #################################################')
     return dcm

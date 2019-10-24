@@ -63,6 +63,7 @@ size_limits = {
            'SOPInstanceUIDOfConcatenationSource']
 }
 
+
 def validate_cfg(cfg):
     """
     Validate the dictionary to make sure all the required elements are present
@@ -70,9 +71,9 @@ def validate_cfg(cfg):
     :return: 0
     """
 
-    MODULES = ['General', 'BaseAttributes', 'SequenceAttributes', 'ConditionalAttributes',
-               'PerFrameFunctionalGroupsSequence', 'SharedFunctionalGroupsSequence']
-    for m in MODULES:
+    _modules = ['General', 'BaseAttributes', 'SequenceAttributes', 'ConditionalAttributes',
+                'PerFrameFunctionalGroupsSequence', 'SharedFunctionalGroupsSequence']
+    for m in _modules:
         try:
             _validate(m, cfg[m])
             logging.debug('{} data validated'.format(m))
@@ -81,6 +82,7 @@ def validate_cfg(cfg):
             exit(1)
     assert os.path.exists(cfg['General']['WSIFile'])
     logging.debug('All data validated')
+
 
 def _validation_wrapper(provided_keys, sample_dict):
     for k in provided_keys:
@@ -117,6 +119,7 @@ def _validation_wrapper(provided_keys, sample_dict):
                 'You provided {} for {}, but it only allows {}'.format(k2, k, restricted_inputs[k])
         logging.debug('Completed Allowed Values validation for {}'.format(k))
 
+
 def _validate(module, sample_dict):
     required_keys = required_fields[module]
     try:
@@ -127,8 +130,7 @@ def _validate(module, sample_dict):
 
     # Check to make sure an entry exists for all required fields
     for k in required_keys:
-        assert k in provided_keys, 'You are missing the sample field for {} \nin {} \nbut you provided {}'.\
+        assert k in provided_keys, 'You are missing the sample field for {} \nin {} \nbut you provided {}'. \
             format(k, required_keys, provided_keys)
 
     _validation_wrapper(provided_keys, sample_dict)
-
