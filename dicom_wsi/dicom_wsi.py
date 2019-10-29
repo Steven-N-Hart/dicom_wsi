@@ -57,25 +57,26 @@ def create_dicom(cfg):
         dcm.SeriesInstanceUID = dcm.SeriesInstanceUID + '.' + str(instance)
         dcm.InstanceNumber = instance
 
-        # Add per frame functional groups
-        dcm = add_PerFrameFunctionalGroupsSequence(wsi=wsi,
-                                                   ds=dcm,
-                                                   tile_size=frame_size,
-                                                   series_downsample=instance)  # TODO: Add tests
-        t_get_perframe = timer()
-        logger.info('Updating per frame groups took {} seconds.'.format(round(t_get_perframe - t_get_func, 1)))
 
         # Add Pixel data
         dcm, img = get_image_pixel_data(dcm=dcm, cfg=cfg, series_downsample=instance)  # TODO: Add tests
         t_get_pixels = timer()
-        logger.info('Updating pixels took {} seconds.'.format(round(t_get_pixels - t_get_perframe, 1)))
+        logger.info('Updating pixels took {} seconds.'.format(round(t_get_pixels - t_get_func, 1)))
+
+        # Add per frame functional groups
+        dcm = add_PerFrameFunctionalGroupsSequence(img=img,
+                                                   ds=dcm,
+                                                   tile_size=frame_size,
+                                                   series_downsample=instance)  # TODO: Add tests
+        t_get_perframe = timer()
+        logger.info('Updating per frame groups took {} seconds.'.format(round(t_get_perframe - t_get_pixels, 1)))
 
         # Save files
         out_file_prefix = cfg.get('General').get('OutFilePrefix')
         try:
             out_file = out_file_prefix + '.' + str(instance) + '.dcm'
             dcm.save_as(out_file)
-            logger.info('Saved {}'.format(out_file))
+            logger.info('Saved single image {}'.format(out_file))
         except Exception:
             out_file = out_file_prefix + '.' + str(instance) + '.dcm'
             if os.path.exists(out_file):
@@ -93,3 +94,4 @@ def create_dicom(cfg):
         t_save = timer()
         logger.info('Completed instance {} in {} minutes.'.format(instance, round((t_save - t_get_wsi) / 60, 1)))
         logger.info('Total elapsed time: {} minutes.'.format(round((t_save - start) / 60, 3)))
+        exit(1)

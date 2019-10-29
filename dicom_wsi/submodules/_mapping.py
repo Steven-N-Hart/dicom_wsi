@@ -1,7 +1,5 @@
 import re
 
-import submodules.utils as utils
-
 
 def map_aperio_features(cfg, wsi):
     """
@@ -10,25 +8,22 @@ def map_aperio_features(cfg, wsi):
     :param wsi:
     :return:
     """
-    if not cfg['BaseAttributes']['Manufacturer']:
-        cfg['BaseAttributes']['Manufacturer'] = wsi.properties.get('openslide.vendor')
-    if not cfg['BaseAttributes']['SeriesDescription']:
-        cfg['BaseAttributes']['SeriesDescription'] = str(wsi.properties.get('aperio.ImageID'))
-    _, cfg = utils.make_datetime('AcquisitionDateTime', wsi.properties.get('aperio.Date'), cfg)
-    _, cfg = utils.make_date('ContentDate', wsi.properties.get('aperio.Date'), cfg,
-                             dict_element='SharedFunctionalGroupsSequence')
-    _, cfg = utils.make_time('ContentTime', wsi.properties.get('aperio.Time'), cfg,
-                             dict_element='SharedFunctionalGroupsSequence')
-    _, cfg = utils.make_time('StudyTime', wsi.properties.get('aperio.Time'), cfg,
-                             dict_element='SharedFunctionalGroupsSequence')
-    _, cfg = utils.make_time('SeriesTime', wsi.properties.get('aperio.Time'), cfg,
-                             dict_element='SharedFunctionalGroupsSequence')
-    _, cfg = utils.make_time('ContentTime', wsi.properties.get('aperio.Time'), cfg,
-                             dict_element='SharedFunctionalGroupsSequence')
-    cfg['SharedFunctionalGroupsSequence']['PixelMeasuresSequence']['PixelSpacing'] = \
-        wsi.properties.get('openslide.mpp-x'), wsi.properties.get('openslide.mpp-y')
-    cfg['SharedFunctionalGroupsSequence']['InstanceNumber'] = 1
-    cfg['SharedFunctionalGroupsSequence']['NumberofFrames'] = 1
+    # if not cfg['BaseAttributes']['Manufacturer']:
+    #    cfg['BaseAttributes']['Manufacturer'] = wsi.properties.get('openslide.vendor')
+    # if not cfg['BaseAttributes']['SeriesDescription']:
+    #    cfg['BaseAttributes']['SeriesDescription'] = str(wsi.properties.get('aperio.ImageID'))
+    # _, cfg = utils.make_time('ContentTime', wsi.properties.get('aperio.Time'), cfg,
+    #                         dict_element='SharedFunctionalGroupsSequence')
+    # _, cfg = utils.make_time('StudyTime', wsi.properties.get('aperio.Time'), cfg,
+    #                         dict_element='SharedFunctionalGroupsSequence')
+    # _, cfg = utils.make_time('SeriesTime', wsi.properties.get('aperio.Time'), cfg,
+    #                         dict_element='SharedFunctionalGroupsSequence')
+    # _, cfg = utils.make_time('ContentTime', wsi.properties.get('aperio.Time'), cfg,
+    #                         dict_element='SharedFunctionalGroupsSequence')
+    # cfg['SharedFunctionalGroupsSequence']['PixelMeasuresSequence']['PixelSpacing'] = \
+    #    wsi.properties.get('openslide.mpp-x'), wsi.properties.get('openslide.mpp-y')
+    # cfg['SharedFunctionalGroupsSequence']['InstanceNumber'] = 1
+    # cfg['SharedFunctionalGroupsSequence']['NumberofFrames'] = 1
     return cfg
 
 
@@ -52,6 +47,8 @@ def parse_aperio_compression(cfg, wsi):
         compression = ImageDescription[compression.span()[0]:compression.span()[1]]
         compression_ratio = int(compression.split('=')[1])
         compression_method = compression.split(' Q')[0]
+        cfg['ConditionalAttributes'] = dict()
+        cfg['ConditionalAttributes']['LossyImageCompression'] = dict()
         cfg['ConditionalAttributes']['LossyImageCompression']['01'] = dict()
 
         if compression_method.__contains__('J2K'):

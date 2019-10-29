@@ -1,5 +1,6 @@
 import logging
 
+import numpy as np
 import pyvips
 from math import ceil
 
@@ -18,16 +19,34 @@ def get_image_pixel_data(dcm=None, cfg=None, series_downsample=0, img_obj=None):
     """
     if img_obj is None:
         wsi_fn = cfg.get('General').get('WSIFile')
-        out = pyvips.Image.openslideload(wsi_fn, access="sequential", level=0)  # TODO: Make this not rely on OpenSlide
+        out = pyvips.Image.openslideload(wsi_fn, access="sequential", level=0, memory=True, autocrop=True,
+                                         fail=True)  # TODO: Make this not rely on OpenSlide
         resize_level = 1 / max(1, (2 ** series_downsample))
-        logger.info('Resizing to {}'.format(resize_level))
+        logger.debug('Resizing to {}'.format(resize_level))
         img = out.resize(resize_level)
     else:
-        logger.info('Already found image object {}'.format(img_obj))
+        logger.debug('Already found image object {}'.format(img_obj))
         img = img_obj
 
     image_format = cfg.get('General').get('ImageFormat')
     assert image_format is not None
+    return dcm, img
+
+
+"""
+TO REVISIT LATER
+
+    #np_3d = np.ndarray(buffer=img.write_to_memory(),
+    #                   dtype=format_to_dtype[img.format],
+    #                   shape=[img.height, img.width, 3])
+
+    #f = io.BytesIO()
+    #new_img = PIL.Image.fromarray(np_3d).convert('RGB')
+    #new_img.convert('RGB').save(f, format='tiff', save_all=True, compression=None)  # TODO: Fix formats
+    #dcm.PixelData = f
+
+
+
 
     compression_value = int(cfg.get('General').get('CompressionAmount'))
     compression_method = None
@@ -51,16 +70,16 @@ def get_image_pixel_data(dcm=None, cfg=None, series_downsample=0, img_obj=None):
     dcm = save_compression_params(dcm=dcm,
                                   lossy_image_compression_ratio=compression_amount,
                                   lossy_image_compression_method=compression_method)
-    dcm = save_pixels(image_format=image_format, img=img, dcm=dcm, cfg=cfg)
+    #dcm = save_pixels(image_format=image_format, img=img, dcm=dcm, cfg=cfg)
     logger.debug('Completed writing image #################################################')
     return dcm, img
-
+"""
 
 def piecewise_pixelator(img, divisor=4):
     w, h = [int(x) for x in img.__str__().split(' ')[1].split('x')]  # '<pyvips.Image 46000x32893 uchar, 4 bands, rgb>'
     h_buffer = ceil(h / divisor)
     w_buffer = ceil(w / divisor)
-    logger.info('Width {} Height: {} hBuffer: {} wBuffer: {}'.format(w, h, h_buffer, w_buffer))
+    logger.debug('Width {} Height: {} hBuffer: {} wBuffer: {}'.format(w, h, h_buffer, w_buffer))
 
     for iteration in range(divisor):
         h_position = h_buffer * iteration
@@ -73,34 +92,6 @@ def piecewise_pixelator(img, divisor=4):
                                                                    h_position, h_position + h_buffer))
         sub_img = img.extract_area(w_position, h_position, w_buffer, h_buffer)
         yield sub_img
-
-
-def save_pixels(image_format='TIFF', img=None, dcm=None, cfg=None):
-    """
-
-    :param image_format: TIFF or JPEG
-    :param img: image object (pyvips)
-    :param dcm: DICOM Object
-    :param cfg: Configuration dict
-    :return: dcm
-    """
-    if dcm.LossyImageCompression == '00':
-        dcm.PixelData = img.tiffsave_buffer(bigtiff=True,
-                                            tile_width=cfg.get('General').get('FrameSize'),
-                                            tile_height=cfg.get('General').get('FrameSize'))
-    else:
-        # THe images should be compressed
-        if image_format == 'TIFF':
-            dcm.PixelData = img.tiffsave_buffer(Q=dcm.LossyImageCompressionRatio,
-                                                bigtiff=True,
-                                                tile_width=cfg.get('General').get('FrameSize'),
-                                                tile_height=cfg.get('General').get('FrameSize')
-                                                )
-        elif image_format == 'JPEG':
-            dcm.PixelData = img.jpegsave_buffer(Q=dcm.LossyImageCompressionRatio)
-        else:
-            raise Exception('{} files are not yet supported.'.format(image_format))
-    return dcm
 
 
 def save_compression_params(dcm=None,
@@ -118,9 +109,38 @@ def save_compression_params(dcm=None,
     else:
         lossy_image_compression = '01'
 
+    lossy_image_compression = '00'
     dcm.LossyImageCompression = lossy_image_compression
     if lossy_image_compression == '01':
         dcm.LossyImageCompressionRatio = lossy_image_compression_ratio
         dcm.LossyImageCompressionMethod = lossy_image_compression_method
 
     return dcm
+
+
+# https://libvips.github.io/pyvips/intro.html#numpy-and-pil
+format_to_dtype = {
+    'uchar': np.uint8,
+    'char': np.int8,
+    'ushort': np.uint16,
+    'short': np.int16,
+    'uint': np.uint32,
+    'int': np.int32,
+    'float': np.float32,
+    'double': np.float64,
+    'complex': np.complex64,
+    'dpcomplex': np.complex128,
+}
+
+dtype_to_format = {
+    'uint8': 'uchar',
+    'int8': 'char',
+    'uint16': 'ushort',
+    'int16': 'short',
+    'uint32': 'uint',
+    'int32': 'int',
+    'float32': 'float',
+    'float64': 'double',
+    'complex64': 'complex',
+    'complex128': 'dpcomplex',
+}

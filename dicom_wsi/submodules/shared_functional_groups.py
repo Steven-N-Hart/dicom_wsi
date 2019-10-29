@@ -6,15 +6,12 @@ def build_functional_groups(dcm, cfg):
     ds1 = Dataset()
     ds2 = Dataset()
     ds3 = Dataset()
-    ds1.PixelSpacing = [cfg['SharedFunctionalGroupsSequence']['PixelMeasuresSequence']['PixelSpacing'][0],
-                        cfg['SharedFunctionalGroupsSequence']['PixelMeasuresSequence']['PixelSpacing'][1]]
-    ds2.PixelMeasuresSequence = Sequence([ds1])
-    ds3.InstanceNumber = int(cfg['SharedFunctionalGroupsSequence']['InstanceNumber'])
-    ds3.ContentDate = cfg['SharedFunctionalGroupsSequence']['ContentDate']
-    ds3.InstanceNumber = int(cfg['SharedFunctionalGroupsSequence']['NumberofFrames'])
-    ds3.FrameType = cfg['SharedFunctionalGroupsSequence']['FrameType']
-    ds3.SliceThickness = int(cfg['SharedFunctionalGroupsSequence']['SliceThickness'])
-    ds3.OpticalPathIdentifier = cfg['SharedFunctionalGroupsSequence']['OpticalPathIdentifier']
+    ds4 = Dataset()
 
-    dcm.SharedFunctionalGroupsSequence = Sequence([ds2, ds3])
+    ds1.PixelSpacing = ['0.000456024078', '0.000326086971']
+    ds1.SliceThickness = 1
+    ds2.PixelMeasuresSequence = Sequence([ds1])
+    ds3.OpticalPathIdentifier = '1'
+    ds4.OpticalPathSequence = Sequence([ds3])
+    dcm.SharedFunctionalGroupsSequence = Sequence([ds2, ds4])
     return dcm
