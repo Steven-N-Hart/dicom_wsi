@@ -11,8 +11,7 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, tile_size=500, serie
     imlist = []
     x_tile = None
     y_tile = None
-    max_y = 0
-    max_x = 0
+
     np_3d = np.ndarray(buffer=img.write_to_memory(),
                        dtype=format_to_dtype[img.format],
                        shape=[img.height, img.width, 3])
