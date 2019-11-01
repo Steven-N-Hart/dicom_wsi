@@ -1,8 +1,6 @@
-import io
 import logging
 
 import numpy as np
-from PIL import Image
 from pydicom.dataset import Dataset
 from pydicom.sequence import Sequence
 
@@ -13,13 +11,14 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, tile_size=500, serie
     imlist = []
     x_tile = None
     y_tile = None
-
+    max_y = 0
+    max_x = 0
     np_3d = np.ndarray(buffer=img.write_to_memory(),
                        dtype=format_to_dtype[img.format],
                        shape=[img.height, img.width, 3])
 
     # get image size
-    ds.TotalPixelMatrixColumns, ds.TotalPixelMatrixRows = img.height, img.width
+    ds.TotalPixelMatrixColumns, ds.TotalPixelMatrixRows = img.width, img.height
     tiles = generate_XY_tiles(ds.TotalPixelMatrixColumns, ds.TotalPixelMatrixRows, tile_size=tile_size)
     ds.PerFrameFunctionalGroupsSequence = Sequence([])
     for i in tiles:
@@ -50,22 +49,23 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, tile_size=500, serie
         y_next_step = tile_size + y_pos
         tmp = np_3d[x_pos:x_next_step, y_pos:y_next_step, :]
         if tmp.shape == (tile_size, tile_size, 3):
-            imlist.append(Image.fromarray(tmp))
+            imlist.append(tmp)
         else:
             tmp3 = np.zeros((tile_size, tile_size, 3), dtype=int)
             tmp3 = np.uint8(tmp3)
             tmp = np.uint8(tmp)
             a, b, c = [int(x) for x in tmp.shape]
             tmp3[0:a, 0:b, :] = tmp
-            tmp_img = Image.fromarray(tmp3)
-            imlist.append(tmp_img)
+            imlist.append(tmp3)
 
-    f = io.BytesIO()
-    imlist[0].save(f, format='tiff', save_all=True, compression=None, append_images=imlist[1:])  # TODO: Fix formats
-    ds.PixelData = f.getvalue()
-
-    ds.Rows = x_tile
-    ds.Columns = y_tile
+    # stack each of the frames
+    num_frames = imlist.__len__()
+    ds.NumberOfFrames = num_frames
+    image_array = np.zeros((num_frames, tile_size, tile_size, 3), dtype=np.int8)
+    for i in range(num_frames):
+        image_array[i, :, :, :] = imlist[i]
+    ds.PixelData = image_array.tobytes()
+    ds.Columns, ds.Rows = tile_size, tile_size
     return ds
 
 

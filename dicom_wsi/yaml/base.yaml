@@ -9,9 +9,25 @@ General:
     CompressionAmount: 0    # 0 for no compression, 1-9 the level of ADOBE_DEFLATE compression (for BigTIFF)
 
 BaseAttributes:
+    PatientName: Bo^Jangles
+    PatientBirthDate: 20000101
+    PatientSex: M
+    ReferringPhysicianName: UNKNOWN^UNKNOWN
+    AccessionNumber: UNKNOWN
+    Manufacturer: aperio
+    ManufacturerModelName: UNKNOWN
+    DeviceSerialNumber: UNKNOWN
+    SoftwareVersions: UNKNOWN
+    ContainerIdentifier: UNKNOWN
+    ImageType: [ORIGINAL, PRIMARY, VOLUME, NONE]
+    SpecimenLabelInImage: NO
+    BurnedInAnnotation: NO
+    FocusMethod: AUTO
+    ExtendedDepthOfField: NO
     SpecificCharacterSet: ISO_IR 100
-    SOPClassUID: 1.2.276.0.7230010.3.1.4.8323329.17698.1572316882.287667
+    SOPClassUID: 1.2.840.10008.5.1.4.1.1.77.1.6 #http://dicom.nema.org/dicom/2013/output/chtml/part04/sect_B.5.html
     SOPInstanceUID: 1.2.276.0.7230010.3.1.4.8323329.17698.1572316882.287667
+    StudyID: 'Test'
     StudyDate: 20191029
     SeriesDate: 20191029
     ContentDate: 20191029

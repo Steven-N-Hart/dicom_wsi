@@ -6,6 +6,11 @@ from pydicom.tag import Tag
 
 
 def build_sequences(dcm, cfg):
+    ds0 = Dataset()
+    ds0.DimensionOrganizationUID = '1.2.276.0.7230010.3.1.4.8323329.17698.1572316846.287083'
+    dcm.DimensionOrganizationSequence = Sequence([ds0])
+    del ds0
+
     ds1 = Dataset()
     ds1.DimensionOrganizationUID = '1.2.276.0.7230010.3.1.4.8323329.17698.1572316846.287083'
     ds1.DimensionIndexPointer = Tag(0x0048021E)
@@ -46,5 +51,24 @@ def build_sequences(dcm, cfg):
 
     dcm.OpticalPathSequence = Sequence([ds7])
     del ds7, ds5, ds4
+
+    ds0 = Dataset()
+    ds0.OpticalPathIdentifier = '1'
+    dcm.AcquisitionContextSequence = Sequence([ds0])
+    del ds0
+
+    ds0 = Dataset()
+    ds0.LocalNamespaceEntityID = 'UNKNOWN'
+    dcm.IssuerOfTheContainerIdentifierSequence = Sequence([ds0])
+    del ds0
+
+    ds0 = Dataset()
+    ds0.OpticalPathIdentifier = '1'
+    dcm.OpticalPathIdentificationSequence = Sequence([ds0])
+    del ds0
+
+    ds0 = Dataset()
+    ds0.AcquisitionContextDescription = "NONE"
+    dcm.AcquisitionContextSequence = Sequence([ds0])
 
     return dcm

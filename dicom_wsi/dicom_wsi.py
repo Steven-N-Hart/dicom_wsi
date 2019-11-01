@@ -56,6 +56,7 @@ def create_dicom(cfg):
         # Update Series Instance Attribute
         dcm.SeriesInstanceUID = dcm.SeriesInstanceUID + '.' + str(instance)
         dcm.InstanceNumber = instance
+        dcm.SeriesNumber = instance
 
 
         # Add Pixel data
