@@ -3,7 +3,7 @@
 from pydicom.dataset import Dataset
 from pydicom.sequence import Sequence
 from pydicom.tag import Tag
-
+from pydicom.uid import generate_uid
 
 def build_sequences(dcm, cfg):
     ds0 = Dataset()
@@ -39,9 +39,9 @@ def build_sequences(dcm, cfg):
     ds4.CodeValue = '111744'
 
     # IlluminationColorCodeSequence
-    ds5.CodingSchemeDesignator = 'SRT'
-    ds5.CodeMeaning = 'Full Spectrum'
-    ds5.CodeValue = 'R-102C0'
+    ds5.CodingSchemeDesignator = 'DCM'
+    ds5.CodeMeaning = 'No filter'
+    ds5.CodeValue = '111609'
 
     ds7 = Dataset()
     ds7.IlluminationTypeCodeSequence = Sequence([ds4])
@@ -52,23 +52,21 @@ def build_sequences(dcm, cfg):
     dcm.OpticalPathSequence = Sequence([ds7])
     del ds7, ds5, ds4
 
-    ds0 = Dataset()
-    ds0.OpticalPathIdentifier = '1'
-    dcm.AcquisitionContextSequence = Sequence([ds0])
-    del ds0
+    dcm.AcquisitionContextSequence = Sequence([])
 
     ds0 = Dataset()
     ds0.LocalNamespaceEntityID = 'UNKNOWN'
     dcm.IssuerOfTheContainerIdentifierSequence = Sequence([ds0])
     del ds0
 
-    ds0 = Dataset()
-    ds0.OpticalPathIdentifier = '1'
-    dcm.OpticalPathIdentificationSequence = Sequence([ds0])
-    del ds0
 
     ds0 = Dataset()
-    ds0.AcquisitionContextDescription = "NONE"
-    dcm.AcquisitionContextSequence = Sequence([ds0])
 
+    ds0.SpecimenIdentifier = 'Unknown'
+    ds0.SpecimenPreparationSequence = Sequence([])
+    ds0.SpecimenUID = generate_uid(prefix=None)
+    ds0.IssuerOfTheSpecimenIdentifierSequence = Sequence([])
+    dcm.SpecimenDescriptionSequence = Sequence([ds0])
+    dcm.ContainerTypeCodeSequence = Sequence([])
+    dcm.ContainerIdentifier = 'Unknown'
     return dcm

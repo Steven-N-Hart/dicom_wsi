@@ -12,7 +12,6 @@ BaseAttributes:
     BitsStored: 8
     BurnedInAnnotation: NO
     Columns: NUMBER #Calculated
-    ContainerIdentifier: UNKNOWN
     DeviceSerialNumber: UNKNOWN
     DimensionOrganizationType: TILED_FULL
     ExtendedDepthOfField: NO

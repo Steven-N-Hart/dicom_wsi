@@ -18,7 +18,7 @@ BaseAttributes:
     ManufacturerModelName: UNKNOWN
     DeviceSerialNumber: UNKNOWN
     SoftwareVersions: UNKNOWN
-    ContainerIdentifier: UNKNOWN
+    AcquisitionDateTime: 20191029024046.000000
     ImageType: [ORIGINAL, PRIMARY, VOLUME, NONE]
     SpecimenLabelInImage: NO
     BurnedInAnnotation: NO
@@ -31,7 +31,6 @@ BaseAttributes:
     StudyDate: 20191029
     SeriesDate: 20191029
     ContentDate: 20191029
-    AcquisitionDateTime: 20191029024046.000000
     StudyTime: 024046.000000
     SeriesTime: 024046.000000
     ContentTime: 024046.000000
