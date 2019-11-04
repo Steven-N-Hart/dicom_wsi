@@ -11,7 +11,7 @@ from base_attributes import build_base
 from sequence_attributes import build_sequences
 from shared_functional_groups import build_functional_groups
 from pixel_to_slide_conversions import add_PerFrameFunctionalGroupsSequence
-from pixel_data_conversion import get_image_pixel_data, piecewise_pixelator
+from pixel_data_conversion import resize_wsi_image, piecewise_pixelator
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +22,7 @@ def create_dicom(cfg):
     """
     Main function for creating DICOM files
     :param cfg: dictionary containing all required variables
+    :param wsi: whole slide image object
     :return: 0
     """
     start = timer()
@@ -29,7 +30,6 @@ def create_dicom(cfg):
     validate_cfg(cfg)
     logger.info('All inputs are valid')
     number_of_levels = int(cfg.get('General').get('NumberOfLevels'))
-    frame_size = cfg.get('General').get('FrameSize')
     for instance in reversed(range(number_of_levels)):
         logger.info('Beginning instance {}.'.format(instance))
         # Update config with slide attributes
@@ -58,16 +58,15 @@ def create_dicom(cfg):
         dcm.InstanceNumber = instance
         dcm.SeriesNumber = instance
 
-
-        # Add Pixel data
-        dcm, img = get_image_pixel_data(dcm=dcm, cfg=cfg, series_downsample=instance)  # TODO: Add tests
+        # Resize image
+        img = resize_wsi_image(cfg=cfg, wsi=wsi, series_downsample=instance)  # TODO: Add tests
         t_get_pixels = timer()
         logger.info('Updating pixels took {} seconds.'.format(round(t_get_pixels - t_get_func, 1)))
 
         # Add per frame functional groups
         dcm = add_PerFrameFunctionalGroupsSequence(img=img,
                                                    ds=dcm,
-                                                   tile_size=frame_size,
+                                                   tile_size=cfg.get('General').get('FrameSize'),
                                                    series_downsample=instance)  # TODO: Add tests
         t_get_perframe = timer()
         logger.info('Updating per frame groups took {} seconds.'.format(round(t_get_perframe - t_get_pixels, 1)))
@@ -78,7 +77,8 @@ def create_dicom(cfg):
             out_file = out_file_prefix + '.' + str(instance) + '.dcm'
             dcm.save_as(out_file)
             logger.info('Saved single image {}'.format(out_file))
-        except Exception:
+        except Exception:  # TODO: put in a better exception handler here
+            """ If you got this far, that means the image size was too large. This will split it into smaller files"""
             out_file = out_file_prefix + '.' + str(instance) + '.dcm'
             if os.path.exists(out_file):
                 os.remove(out_file)
@@ -87,7 +87,7 @@ def create_dicom(cfg):
             fragment = 1
             for img_part in piecewise_pixelator(img, divisor=4):
                 new_dcm = dcm
-                new_dcm, _ = get_image_pixel_data(dcm=new_dcm, cfg=cfg, img_obj=img_part)
+                new_dcm, _ = resize_wsi_image(cfg=cfg, wsi=img_part)
                 out_file = out_file_prefix + '.' + str(instance) + '-' + str(fragment) + '.dcm'
                 new_dcm.save_as(out_file)
                 fragment += 1

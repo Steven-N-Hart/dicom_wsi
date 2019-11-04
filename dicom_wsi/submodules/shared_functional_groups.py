@@ -5,8 +5,7 @@ from pydicom.sequence import Sequence
 def build_functional_groups(dcm, cfg):
     ds1 = Dataset()
     ds2 = Dataset()
-
-    ds1.PixelSpacing = ['0.000456024078', '0.000326086971']  # TODO: Do not hard-code
+    ds1.PixelSpacing = [float(x) for x in cfg.get('OnTheFly').get('PixelMeasuresSequence')]
     ds1.SliceThickness = 1
     ds2.PixelMeasuresSequence = Sequence([ds1])
 
@@ -15,7 +14,7 @@ def build_functional_groups(dcm, cfg):
     ds2.OpticalPathIdentificationSequence = Sequence([ds3])
 
     ds4 = Dataset()
-    ds4.FrameType = ['ORIGINAL', 'PRIMARY', 'VOLUME', 'NONE']  # TODO: Do not hard-code
+    ds4.FrameType = cfg.get('BaseAttributes').get('ImageType')
     ds2.WholeSlideMicroscopyImageFrameTypeSequence = Sequence([ds4])
     dcm.SharedFunctionalGroupsSequence = Sequence([ds2])
 

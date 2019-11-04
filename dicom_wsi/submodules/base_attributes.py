@@ -27,9 +27,6 @@ def build_base(cfg, dcm=None, dict_element='BaseAttributes', instance=1):
 
     # For each element in the Patient data, add to the DICOM object
     for k, v in base_dict.items():
-        if v == 'NUMBER':
-            cfg[dict_element][k] = 1
-            v = 1
         dcm = add_data(dcm, k, v, cfg, dict_element='BaseAttributes')
     dcm.ContentDate = str(datetime.date.today()).replace('-', '')
     logging.debug('Completed {} Module'.format(dict_element))

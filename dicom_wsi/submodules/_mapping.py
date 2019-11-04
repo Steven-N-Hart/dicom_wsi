@@ -1,5 +1,7 @@
 import re
 
+from submodules import utils
+
 
 def map_aperio_features(cfg, wsi):
     """
@@ -8,23 +10,23 @@ def map_aperio_features(cfg, wsi):
     :param wsi:
     :return:
     """
-    # if not cfg['BaseAttributes']['Manufacturer']:
-    #    cfg['BaseAttributes']['Manufacturer'] = wsi.properties.get('openslide.vendor')
-    # if not cfg['BaseAttributes']['SeriesDescription']:
-    #    cfg['BaseAttributes']['SeriesDescription'] = str(wsi.properties.get('aperio.ImageID'))
-    # _, cfg = utils.make_time('ContentTime', wsi.properties.get('aperio.Time'), cfg,
-    #                         dict_element='SharedFunctionalGroupsSequence')
-    # _, cfg = utils.make_time('StudyTime', wsi.properties.get('aperio.Time'), cfg,
-    #                         dict_element='SharedFunctionalGroupsSequence')
-    # _, cfg = utils.make_time('SeriesTime', wsi.properties.get('aperio.Time'), cfg,
-    #                         dict_element='SharedFunctionalGroupsSequence')
-    # _, cfg = utils.make_time('ContentTime', wsi.properties.get('aperio.Time'), cfg,
-    #                         dict_element='SharedFunctionalGroupsSequence')
-    # cfg['SharedFunctionalGroupsSequence']['PixelMeasuresSequence']['PixelSpacing'] = \
-    #    wsi.properties.get('openslide.mpp-x'), wsi.properties.get('openslide.mpp-y')
-    # cfg['SharedFunctionalGroupsSequence']['InstanceNumber'] = 1
-    # cfg['SharedFunctionalGroupsSequence']['NumberofFrames'] = 1
+    tmp = cfg.get('BaseAttributes').get('Manufacturer')
+    if tmp is None:
+        cfg['BaseAttributes']['Manufacturer'] = None
+    else:
+        cfg['BaseAttributes']['Manufacturer'] = tmp
+    tmp = cfg.get('BaseAttributes').get('SeriesDescription')
+    if tmp is None:
+        cfg['BaseAttributes']['SeriesDescription'] = wsi.get_value('openslide.vendor')
+    _, cfg = utils.make_time('ContentTime', wsi.get_value('aperio.Date'), cfg)
+    _, cfg = utils.make_time('StudyTime', wsi.get_value('aperio.Date'), cfg)
+    _, cfg = utils.make_time('SeriesTime', wsi.get_value('aperio.Date'), cfg)
+    _, cfg = utils.make_time('ContentTime', wsi.get_value('aperio.Date'), cfg)
+    cfg['OnTheFly'] = dict()
+    cfg['OnTheFly']['PixelMeasuresSequence'] = wsi.get_value('openslide.mpp-x'), wsi.get_value('openslide.mpp-y')
+
     return cfg
+
 
 
 def parse_aperio_compression(cfg, wsi):
@@ -41,7 +43,7 @@ def parse_aperio_compression(cfg, wsi):
     # LineCameraSkew = -0.000424|LineAreaXOffset = 0.019265|LineAreaYOffset = -0.000313|Focus Offset = 0.000000|
     # ImageID = 1004486|OriginalWidth = 46920|Originalheight = 33014|Filtered = 5|OriginalWidth = 46000|
     # OriginalHeight = 32914'
-    ImageDescription = wsi.properties.get('tiff.ImageDescription')
+    ImageDescription = wsi.get_value('tiff.ImageDescription')
     if re.search("J2K/KDU Q=[0-9]+", ImageDescription):
         compression = re.search("J2K/KDU Q=[0-9]+", ImageDescription)
         compression = ImageDescription[compression.span()[0]:compression.span()[1]]
