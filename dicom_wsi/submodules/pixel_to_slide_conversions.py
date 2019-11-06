@@ -7,10 +7,13 @@ from pydicom.sequence import Sequence
 logger = logging.getLogger(__name__)
 
 
-def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, tile_size=500, series_downsample=1):
+def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=500, series_downsample=1):
     imlist = []
     x_tile = None
     y_tile = None
+    fragment = 1
+
+    out_file_prefix = cfg.get('General').get('OutFilePrefix')
 
     np_3d = np.ndarray(buffer=img.write_to_memory(),
                        dtype=format_to_dtype[img.format],
@@ -47,6 +50,7 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, tile_size=500, serie
         x_next_step = tile_size + x_pos
         y_next_step = tile_size + y_pos
         tmp = np_3d[x_pos:x_next_step, y_pos:y_next_step, :]
+        # Make sure the frame is square and filled
         if tmp.shape == (tile_size, tile_size, 3):
             imlist.append(tmp)
         else:
@@ -57,6 +61,24 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, tile_size=500, serie
             tmp3[0:a, 0:b, :] = tmp
             imlist.append(tmp3)
 
+        # If the number of frames matches the limit, then save
+        max_frames = 500  # TODO: Do not hardcode
+        if imlist.__len__() == max_frames:
+            num_frames = imlist.__len__()
+            out_file = out_file_prefix + '.' + str(ds.InstanceNumber) + '-' + str(fragment) + '.dcm'
+            ds.NumberOfFrames = max_frames
+            image_array = np.zeros((num_frames, tile_size, tile_size, 3), dtype=np.int8)
+            for i in range(num_frames):
+                image_array[i, :, :, :] = imlist[i]
+            ds.PixelData = image_array.tobytes()
+            ds.Columns, ds.Rows = tile_size, tile_size
+            fragment += 1
+            ds.save_as(out_file)
+            logger.info('Wrote: {}'.format(out_file))
+            # Enpy out contents so they don't get duplicated in eeach file
+            imlist = []
+            ds.PerFrameFunctionalGroupsSequence = None
+
     # stack each of the frames
     num_frames = imlist.__len__()
     ds.NumberOfFrames = num_frames
@@ -65,7 +87,9 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, tile_size=500, serie
         image_array[i, :, :, :] = imlist[i]
     ds.PixelData = image_array.tobytes()
     ds.Columns, ds.Rows = tile_size, tile_size
-    return ds
+    out_file = out_file_prefix + '.' + str(ds.InstanceNumber) + '-' + str(fragment) + '.dcm'
+    ds.save_as(out_file)
+    logger.info('Wrote: {}'.format(out_file))
 
 
 def generate_XY_tiles(x_max, y_max, tile_size=500):

@@ -1,37 +1,25 @@
 import logging
 
 import numpy as np
-import pyvips
 from math import ceil
 
 logger = logging.getLogger(__name__)
 
 
-def get_image_pixel_data(dcm=None, cfg=None, series_downsample=0, img_obj=None):
+def resize_wsi_image(wsi=None, series_downsample=0):
     """
     get a compressed bitstream of the image
-    :param wsi: OpenSlide Object
+    :param wsi: PyVIPS Object
     :param dcm: DICOM object
     :param cfg: Config dict
     :param img_obj: specified only for when using the pixelator
     :param series_downsample: How many times to downsample
     :return: byte string to use as the pixel array
     """
-    if img_obj is None:
-        wsi_fn = cfg.get('General').get('WSIFile')
-        out = pyvips.Image.openslideload(wsi_fn, access="sequential", level=0, memory=True, autocrop=True,
-                                         fail=True)  # TODO: Make this not rely on OpenSlide
-        resize_level = 1 / max(1, (2 ** series_downsample))
-        logger.debug('Resizing to {}'.format(resize_level))
-        img = out.resize(resize_level)
-    else:
-        logger.debug('Already found image object {}'.format(img_obj))
-        img = img_obj
-
-    image_format = cfg.get('General').get('ImageFormat')
-    assert image_format is not None
-    return dcm, img
-
+    resize_level = 1 / max(1, (2 ** series_downsample))
+    logger.debug('Resizing to {}'.format(resize_level))
+    img = wsi.resize(resize_level)
+    return img
 
 """
 TO REVISIT LATER

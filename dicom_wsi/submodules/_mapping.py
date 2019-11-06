@@ -8,6 +8,7 @@ def map_aperio_features(cfg, wsi):
     :param wsi:
     :return:
     """
+    # TODO: Add this back in
     # if not cfg['BaseAttributes']['Manufacturer']:
     #    cfg['BaseAttributes']['Manufacturer'] = wsi.properties.get('openslide.vendor')
     # if not cfg['BaseAttributes']['SeriesDescription']:
@@ -41,7 +42,7 @@ def parse_aperio_compression(cfg, wsi):
     # LineCameraSkew = -0.000424|LineAreaXOffset = 0.019265|LineAreaYOffset = -0.000313|Focus Offset = 0.000000|
     # ImageID = 1004486|OriginalWidth = 46920|Originalheight = 33014|Filtered = 5|OriginalWidth = 46000|
     # OriginalHeight = 32914'
-    ImageDescription = wsi.properties.get('tiff.ImageDescription')
+    ImageDescription = wsi.get('tiff.ImageDescription')
     if re.search("J2K/KDU Q=[0-9]+", ImageDescription):
         compression = re.search("J2K/KDU Q=[0-9]+", ImageDescription)
         compression = ImageDescription[compression.span()[0]:compression.span()[1]]
