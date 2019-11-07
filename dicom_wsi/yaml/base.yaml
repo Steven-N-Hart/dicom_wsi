@@ -5,6 +5,7 @@ General:
     OrgUIDRoot: 1.2.840.113713.15
     WSIBrand: aperio_svs
     FrameSize: 500
+    MaxFrames: 500
     ImageFormat: TIFF
     CompressionAmount: 0    # 0 for no compression, 1-9 the level of ADOBE_DEFLATE compression (for BigTIFF)
 

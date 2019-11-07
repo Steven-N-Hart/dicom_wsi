@@ -29,8 +29,8 @@ def create_dicom(cfg):
     validate_cfg(cfg)
     logger.info('All inputs are valid')
     number_of_levels = int(cfg.get('General').get('NumberOfLevels'))
-    # for instance in reversed(range(number_of_levels)):
-    for instance in range(number_of_levels):
+    for instance in reversed(range(number_of_levels)):
+        # for instance in range(number_of_levels):
 
         logger.info('Beginning instance {}.'.format(instance))
         # Update config with slide attributes
@@ -60,7 +60,7 @@ def create_dicom(cfg):
         dcm.SeriesNumber = instance
 
         # Resize image
-        img = resize_wsi_image(wsi=wsi, series_downsample=0)
+        img = resize_wsi_image(wsi=wsi, series_downsample=instance)
         t_get_pixels = timer()
         logger.debug('Updating pixels took {} seconds.'.format(round(t_get_pixels - t_get_func, 1)))
 

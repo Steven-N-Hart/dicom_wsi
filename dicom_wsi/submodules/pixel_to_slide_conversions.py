@@ -62,7 +62,7 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
             imlist.append(tmp3)
 
         # If the number of frames matches the limit, then save
-        max_frames = 500  # TODO: Do not hardcode
+        max_frames = int(cfg.get('General').get('MaxFrames'))
         if imlist.__len__() == max_frames:
             num_frames = imlist.__len__()
             out_file = out_file_prefix + '.' + str(ds.InstanceNumber) + '-' + str(fragment) + '.dcm'
@@ -75,7 +75,7 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
             fragment += 1
             ds.save_as(out_file)
             logger.info('Wrote: {}'.format(out_file))
-            # Enpy out contents so they don't get duplicated in eeach file
+            # Empty out contents so they don't get duplicated in each file
             imlist = []
             ds.PerFrameFunctionalGroupsSequence = None
 
