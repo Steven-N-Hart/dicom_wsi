@@ -99,6 +99,10 @@ def make_time(k, time_var, cfg, dict_element='BaseAttributes'):
         h, m, s = time_var.split(':')
         t = datetime.time(int(h), int(m), int(s))
         time_var = t.strftime("%H%M%S.%f")
+    elif re.match('\d\d/\d\d/\d\d', str(time_var)):
+        h, m, s = time_var.split('/')
+        t = datetime.time(int(h), int(m), int(s))
+        time_var = t.strftime("%H%M%S.%f")
     else:
         raise ValueError('I do not know how to parse this format: {}'.format(time_var))
     time_var = pydicom.valuerep.TM(time_var)
