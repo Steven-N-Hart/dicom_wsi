@@ -1,6 +1,8 @@
+import io
 import logging
 
 import numpy as np
+from PIL import Image
 from pydicom.dataset import Dataset
 from pydicom.sequence import Sequence
 
@@ -70,6 +72,7 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
             image_array = np.zeros((num_frames, tile_size, tile_size, 3), dtype=np.int8)
             for i in range(num_frames):
                 image_array[i, :, :, :] = imlist[i]
+
             ds.PixelData = image_array.tobytes()
             ds.Columns, ds.Rows = tile_size, tile_size
             fragment += 1
@@ -83,9 +86,15 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
     num_frames = imlist.__len__()
     ds.NumberOfFrames = num_frames
     image_array = np.zeros((num_frames, tile_size, tile_size, 3), dtype=np.int8)
+    tmp = []  # Only used fro compression
     for i in range(num_frames):
         image_array[i, :, :, :] = imlist[i]
-    ds.PixelData = image_array.tobytes()
+        tmp.append(Image.fromarray(imlist[i]))
+
+    f = io.BytesIO()
+    tmp[0].save(f, format="jpeg", append_images=tmp[1:])
+    ds.PixelData = f.getvalue()
+    # ds.PixelData = image_array.tobytes()
     ds.Columns, ds.Rows = tile_size, tile_size
     out_file = out_file_prefix + '.' + str(ds.InstanceNumber) + '-' + str(fragment) + '.dcm'
     ds.save_as(out_file)
