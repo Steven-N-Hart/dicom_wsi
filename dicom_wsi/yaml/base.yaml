@@ -1,6 +1,6 @@
 General:
     WSIFile: '../tests/CMU-1-JP2K-33005.svs'
-    OutFilePrefix: output.jpeg
+    OutFilePrefix: output
     NumberOfLevels: 7
     OrgUIDRoot: 1.2.840.113713.15
     WSIBrand: aperio_svs

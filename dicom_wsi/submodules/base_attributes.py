@@ -14,11 +14,14 @@ def build_base(cfg, dcm=None, dict_element='BaseAttributes', instance=1):
         filename_little_endian = tempfile.NamedTemporaryFile(suffix=suffix).name
 
         file_meta = Dataset()
-        # file_meta.TransferSyntaxUID = '1.2.840.10008.1.2' # uncompressed
-        file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.50'  # JPEG Baseline(Process 1)
+        file_meta.TransferSyntaxUID = '1.2.840.10008.1.2'  # uncompressed
+        file_meta.MediaStorageSOPInstanceUID = '1.2.276.0.7230010.3.1.4.8323329.17698.1572316882.287667'  # uncompressed
+        # file_meta.MediaStorageSOPInstanceUID = '1.2.276.0.7230010.3.1.4.8323329.20175.1573232572.237464'  # compressed
+        # file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.50'  # JPEG Baseline(Process 1)
+        # file_meta.is_implicit_VR = True    # Set if JPEG
+        # file_meta.is_little_endian = True   # Set if JPEG
         file_meta.MediaStorageSOPClassUID = '1.2.840.10008.5.1.4.1.1.77.1.6'
-        # file_meta.MediaStorageSOPInstanceUID = '1.2.276.0.7230010.3.1.4.8323329.17698.1572316882.287667'   # uncompressed
-        file_meta.MediaStorageSOPInstanceUID = '1.2.276.0.7230010.3.1.4.8323329.20175.1573232572.237464'  # compressed
+
         file_meta.FileMetaInformationVersion = b'\x00\x01'
         file_meta.ImplementationClassUID = '1.2.276.0.7230010.3.0.3.6.2'
         file_meta.ImplementationVersionName = 'OFFIS_DCMTK_362'

@@ -73,4 +73,5 @@ def create_dicom(cfg):
         t_save = timer()
 
         logger.info('Total elapsed time: {} minutes.'.format(round((t_save - start) / 60, 3)))
-        exit(1)
+        if instance == 5:
+            exit(1)

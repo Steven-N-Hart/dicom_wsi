@@ -1,4 +1,3 @@
-import io
 import logging
 
 import numpy as np
@@ -14,36 +13,41 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
     x_tile = None
     y_tile = None
     fragment = 1
-
+    tile_size = int(tile_size)
     out_file_prefix = cfg.get('General').get('OutFilePrefix')
-
     np_3d = np.ndarray(buffer=img.write_to_memory(),
                        dtype=format_to_dtype[img.format],
-                       shape=[img.height, img.width, 3])
+                       shape=[img.height, img.width, 4])
 
+    np_3d = np_3d[:, :, :3]  # Remove the alpha channel if there is one
+
+    # Image.fromarray(np_3d).show()
     # get image size
     ds.TotalPixelMatrixColumns, ds.TotalPixelMatrixRows = img.width, img.height
     tiles = generate_XY_tiles(ds.TotalPixelMatrixColumns, ds.TotalPixelMatrixRows, tile_size=tile_size)
+
     ds.PerFrameFunctionalGroupsSequence = Sequence([])
     for i in tiles:
         x_pos, y_pos, x_tile, y_tile = i
+        #y_pos, x_pos, y_tile, x_tile = i
         x_pos = int(x_pos)
         y_pos = int(y_pos)
         x_tile = int(x_tile)
         y_tile = int(y_tile)
-        tile_size = int(tile_size)
 
         data_group1 = Dataset()
         dimension_index_values = Dataset()
         plane_position = Dataset()
-        x, y, z = compute_slide_offsets_from_pixel_data(ds=ds, row=x_tile, col=y_tile,
+        x, y, z = compute_slide_offsets_from_pixel_data(ds=ds, row=y_tile, col=x_tile,
                                                         series_downsample=series_downsample)
+
         plane_position.XOffsetInSlideCoordinateSystem = round(x, 5)
         plane_position.YOffsetInSlideCoordinateSystem = round(y, 5)
         plane_position.ZOffsetInSlideCoordinateSystem = round(z, 5)
         plane_position.ColumnPositionInTotalImagePixelMatrix = x_pos
         plane_position.RowPositionInTotalImagePixelMatrix = y_pos
         dimension_index_values.DimensionIndexValues = [x_tile, y_tile]
+
         data_group1.FrameContentSequence = Sequence([dimension_index_values])
         data_group1.PlanePositionSlideSequence = Sequence([plane_position])
         ds.PerFrameFunctionalGroupsSequence.append(data_group1)
@@ -51,17 +55,21 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
         # Get pixel data
         x_next_step = tile_size + x_pos
         y_next_step = tile_size + y_pos
-        tmp = np_3d[x_pos:x_next_step, y_pos:y_next_step, :]
+        tmp = np_3d[y_pos:y_next_step, x_pos:x_next_step, :]
         # Make sure the frame is square and filled
         if tmp.shape == (tile_size, tile_size, 3):
             imlist.append(tmp)
+            #Image.fromarray(tmp).show()
         else:
             tmp3 = np.zeros((tile_size, tile_size, 3), dtype=int)
             tmp3 = np.uint8(tmp3)
             tmp = np.uint8(tmp)
             a, b, c = [int(x) for x in tmp.shape]
-            tmp3[0:a, 0:b, :] = tmp
+            tmp3[0:a, 0:b, 0:c] = tmp
             imlist.append(tmp3)
+            # Image.fromarray(tmp3).show()
+
+        #Image.fromarray(tmp).show()
 
         # If the number of frames matches the limit, then save
         max_frames = int(cfg.get('General').get('MaxFrames'))
@@ -84,17 +92,25 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
 
     # stack each of the frames
     num_frames = imlist.__len__()
-    ds.NumberOfFrames = num_frames
+    ds.NumberOfFrames = int(num_frames)
+
+
     image_array = np.zeros((num_frames, tile_size, tile_size, 3), dtype=np.int8)
-    tmp = []  # Only used fro compression
+    tmp = []  # Only used for compression
     for i in range(num_frames):
         image_array[i, :, :, :] = imlist[i]
         tmp.append(Image.fromarray(imlist[i]))
 
+    """
+    # TODO Compression
+    # Work on this for compressing image data
+    
     f = io.BytesIO()
     tmp[0].save(f, format="jpeg", append_images=tmp[1:])
-    ds.PixelData = f.getvalue()
-    # ds.PixelData = image_array.tobytes()
+    ds.PixelData = pydicom.encaps.encapsulate(f.getvalue())
+    """
+
+    ds.PixelData = image_array.tobytes()
     ds.Columns, ds.Rows = tile_size, tile_size
     out_file = out_file_prefix + '.' + str(ds.InstanceNumber) + '-' + str(fragment) + '.dcm'
     ds.save_as(out_file)
@@ -103,14 +119,26 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
 
 def generate_XY_tiles(x_max, y_max, tile_size=500):
     x_tile = 0
-    for x in range(1, int(x_max), int(tile_size)):
+    tile_size = int(tile_size)
+    for x in range(1, int(x_max), tile_size):
         x_tile += 1
         y_tile = 0
-        for y in range(1, int(y_max), int(tile_size)):
+        for y in range(1, int(y_max), tile_size):
             y_tile += 1
             logging.debug('x:{} y:{} x_tile:{} y_tile:{}'.format(x, y, x_tile, y_tile))
             yield x, y, x_tile, y_tile
 
+
+def generate_XY_tiles2(x_max, y_max, tile_size=500):
+    y_tile = 0
+    tile_size = int(tile_size)
+    for y in range(1, int(y_max), tile_size):
+        y_tile += 1
+        x_tile = 0
+        for x in range(1, int(x_max), tile_size):
+            x_tile += 1
+            logging.debug('x:{} y:{} x_tile:{} y_tile:{}'.format(x, y, x_tile, y_tile))
+            yield x, y, x_tile, y_tile
 
 def compute_slide_offsets_from_pixel_data(ds=None, row=None, col=None, series_downsample=1):
     """
@@ -126,9 +154,9 @@ def compute_slide_offsets_from_pixel_data(ds=None, row=None, col=None, series_do
     assert col is not None, "Col value should not be empty"
     # BeginningPosition - RocOrColNumber * PixelSpacing * series_downsample
     # 10-25-2019 changed from - to +
-    x = int(ds.TotalPixelMatrixOriginSequence[0][0x0040, 0x0072a].value) + (
+    x = int(ds.TotalPixelMatrixOriginSequence[0][0x0040, 0x0072a].value) - (
         row * float(ds.SharedFunctionalGroupsSequence[0][0x0028, 0x9110][0][0x0028, 0x0030][1]) * series_downsample)
-    y = int(ds.TotalPixelMatrixOriginSequence[0][0x0040, 0x0073a].value) + (
+    y = int(ds.TotalPixelMatrixOriginSequence[0][0x0040, 0x0073a].value) - (
         col * float(ds.SharedFunctionalGroupsSequence[0][0x0028, 0x9110][0][0x0028, 0x0030][0]) * series_downsample)
     z = 0
     return x, y, z
