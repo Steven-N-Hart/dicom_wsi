@@ -1,0 +1,57 @@
+General:
+    WSIFile: '../tests/CMU-1-JP2K-33005.svs'
+    OutFilePrefix: output
+    NumberOfLevels: 7
+    OrgUIDRoot: 1.2.840.113713.15
+    WSIBrand: aperio_svs
+    FrameSize: 500
+    MaxFrames: 500
+    ImageFormat: TIFF
+    CompressionAmount: 0    # 0 for no compression, 1-9 the level of ADOBE_DEFLATE compression (for BigTIFF)
+
+BaseAttributes:
+    PatientName: Bo^Jangles
+    PatientBirthDate: 20000101
+    PatientSex: M
+    ReferringPhysicianName: UNKNOWN^UNKNOWN
+    AccessionNumber: UNKNOWN
+    Manufacturer: aperio
+    ManufacturerModelName: UNKNOWN
+    DeviceSerialNumber: UNKNOWN
+    SoftwareVersions: UNKNOWN
+    AcquisitionDateTime: 20191029024046.000000
+    ImageType: [ORIGINAL, PRIMARY, VOLUME, NONE]
+    SpecimenLabelInImage: NO
+    BurnedInAnnotation: NO
+    FocusMethod: AUTO
+    ExtendedDepthOfField: NO
+    SpecificCharacterSet: ISO_IR 100
+    SOPClassUID: 1.2.840.10008.5.1.4.1.1.77.1.6 #http://dicom.nema.org/dicom/2013/output/chtml/part04/sect_B.5.html
+    SOPInstanceUID: 1.2.276.0.7230010.3.1.4.8323329.17698.1572316882.287667
+    StudyID: 'Test'
+    StudyDate: 20191029
+    SeriesDate: 20191029
+    ContentDate: 20191029
+    StudyTime: 024046.000000
+    SeriesTime: 024046.000000
+    ContentTime: 024046.000000
+    Modality: SM
+    VolumetricProperties: VOLUME
+    PatientID: 53a5145d-f8b4-4963-bb5c-37de8cbc21ee
+    StudyInstanceUID: 1.2.276.0.7230010.3.1.2.8323329.17698.1572316846.287080
+    SeriesInstanceUID: 1.2.276.0.7230010.3.1.3.8323329.17698.1572316846.287081
+    PatientOrientation: ''
+    SamplesPerPixel: 3
+    PhotometricInterpretation: RGB
+    PlanarConfiguration: 0
+    BitsAllocated: 8
+    BitsStored: 8
+    HighBit: 7
+    PixelRepresentation: 0
+    LossyImageCompression: '00'
+    ImagedVolumeWidth: 15
+    ImagedVolumeHeight: 15
+    ImagedVolumeDepth: 1
+    ImageOrientationSlide: [0, -1, 0, -1, 0, 0]
+    DimensionOrganizationType: TILED_FULL
+

@@ -3,18 +3,23 @@ from pydicom.sequence import Sequence
 
 
 def build_functional_groups(dcm, cfg):
+    """ all values are hard coded to ensure they are present in the final file """
     ds1 = Dataset()
     ds2 = Dataset()
-    ds3 = Dataset()
-    ds1.PixelSpacing = [cfg['SharedFunctionalGroupsSequence']['PixelMeasuresSequence']['PixelSpacing'][0],
-                        cfg['SharedFunctionalGroupsSequence']['PixelMeasuresSequence']['PixelSpacing'][1]]
-    ds2.PixelMeasuresSequence = Sequence([ds1])
-    ds3.InstanceNumber = int(cfg['SharedFunctionalGroupsSequence']['InstanceNumber'])
-    ds3.ContentDate = cfg['SharedFunctionalGroupsSequence']['ContentDate']
-    ds3.InstanceNumber = int(cfg['SharedFunctionalGroupsSequence']['NumberofFrames'])
-    ds3.FrameType = cfg['SharedFunctionalGroupsSequence']['FrameType']
-    ds3.SliceThickness = int(cfg['SharedFunctionalGroupsSequence']['SliceThickness'])
-    ds3.OpticalPathIdentifier = cfg['SharedFunctionalGroupsSequence']['OpticalPathIdentifier']
 
-    dcm.SharedFunctionalGroupsSequence = Sequence([ds2, ds3])
+    pv = cfg.get('OnTheFly').get('PixelSpacing')
+    ds1.PixelSpacing = [float(x) for x in pv]
+    ds1.SliceThickness = 1
+    ds2.PixelMeasuresSequence = Sequence([ds1])
+
+    ds3 = Dataset()
+    ds3.OpticalPathIdentifier = '1'
+    ds2.OpticalPathIdentificationSequence = Sequence([ds3])
+
+    ds4 = Dataset()
+    ds4.FrameType = ['ORIGINAL', 'PRIMARY', 'VOLUME', 'NONE']  # TODO: Do not hard-code
+    ds2.WholeSlideMicroscopyImageFrameTypeSequence = Sequence([ds4])
+    dcm.SharedFunctionalGroupsSequence = Sequence([ds2])
+
+    del ds1, ds2, ds3
     return dcm

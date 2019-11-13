@@ -17,26 +17,23 @@ restricted_inputs = {
     'PositionReferenceIndicator': ['SLIDE_CORNER'],
     'ImageType': ['ORIGINAL, PRIMARY, VOLUME, NONE', 'DERIVED, PRIMARY, VOLUME, RESAMPLED',
                   'DERIVED, PRIMARY, LOCALIZER, RESAMPLED', 'ORIGINAL, PRIMARY, LABEL, NONE'],
-    'SamplesPerPixel': ['1', '3']
+    'SamplesPerPixel': ['1', '3'],
+    'PatientOrientation': ['L', 'R', 'A', 'P', 'H', 'F']
 }
-
+# 'AcquisitionDateTime',
 required_fields = {
     'General': ['WSIFile', 'OutFilePrefix', 'NumberOfLevels', 'OrgUIDRoot', 'WSIBrand', 'ImageFormat'],
-    'BaseAttributes': ['Modality', 'Manufacturer', 'ManufacturerModelName', 'DeviceSerialNumber', 'SoftwareVersions',
-                       'SOPClassUID', 'SOPInstanceUID', 'StudyInstanceUID', 'SeriesInstanceUID',
-                       'StudyInstanceUID', 'SeriesInstanceUID', 'ContainerIdentifier', 'FrameOfReferenceUID',
-                       'ImageType', 'ImagedVolumeWidth', 'ImagedVolumeHeight', 'ImagedVolumeDepth',
-                       'ImageOrientationSlide',
-                       'AcquisitionDateTime', 'VolumetricProperties', 'SpecimenLabelInImage', 'BurnedInAnnotation',
-                       'FocusMethod', 'ExtendedDepthOfField', 'SeriesInstanceUID', 'Modality', 'PixelData',
-                       'SamplesPerPixel', 'PhotometricInterpretation', 'BitsAllocated',
-                       'BitsStored', 'HighBit', 'PixelRepresentation', 'SamplesPerPixel'],
-    'SequenceAttributes': ['TotalPixelMatrixOriginSequence', 'XOffsetInSlideCoordinateSystem',
-                           'YOffsetInSlideCoordinateSystem'],
-    'ConditionalAttributes': ['LossyImageCompression'],
-    'SharedFunctionalGroupsSequence': ['PixelMeasuresSequence', 'PixelSpacing', 'SliceThickness'],
-    'PerFrameFunctionalGroupsSequence': ['XOffsetInSlideCoordinateSystem', 'YOffsetInSlideCoordinateSystem',
-                                         'ZOffsetInSlideCoordinateSystem']
+    'BaseAttributes': ['PatientName', 'PatientBirthDate', 'PatientSex', 'ReferringPhysicianName', 'AccessionNumber',
+                       'Manufacturer', 'ManufacturerModelName', 'DeviceSerialNumber', 'SoftwareVersions',
+                       'AcquisitionDateTime', 'ImageType', 'SpecimenLabelInImage', 'BurnedInAnnotation',
+                       'FocusMethod', 'ExtendedDepthOfField', 'SpecificCharacterSet', 'SOPClassUID', 'SOPInstanceUID',
+                       'StudyID', 'StudyDate', 'SeriesDate', 'ContentDate', 'StudyTime', 'SeriesTime', 'ContentTime',
+                       'Modality', 'VolumetricProperties', 'PatientID', 'StudyInstanceUID', 'SeriesInstanceUID',
+                       'PatientOrientation', 'SamplesPerPixel', 'PhotometricInterpretation',
+                       'PlanarConfiguration', 'BitsAllocated', 'BitsStored', 'HighBit', 'PixelRepresentation',
+                       'LossyImageCompression', 'ImagedVolumeWidth', 'ImagedVolumeHeight', 'ImagedVolumeDepth',
+                       'ImageOrientationSlide', 'DimensionOrganizationType']
+
 
 }
 size_limits = {
@@ -71,8 +68,7 @@ def validate_cfg(cfg):
     :return: 0
     """
 
-    _modules = ['General', 'BaseAttributes', 'SequenceAttributes', 'ConditionalAttributes',
-                'PerFrameFunctionalGroupsSequence', 'SharedFunctionalGroupsSequence']
+    _modules = ['General']
     for m in _modules:
         try:
             _validate(m, cfg[m])

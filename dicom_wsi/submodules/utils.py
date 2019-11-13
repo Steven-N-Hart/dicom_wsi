@@ -1,69 +1,78 @@
 import datetime
 import logging
 import random
-
 import re
+
+import pydicom
+from pydicom.tag import Tag
 
 logger = logging.getLogger(__name__)
 
 
-def add_data(ds, k, v):
+def add_data(ds, k, v, cfg, dict_element=None):
     """
     :param ds: DICOM dataset
     :param k: DICOM keyword
     :param v: Value to set keyword
+    :param cfg: config dict
+    :param dict_element: which part of processing is this coming from
     :return:
     """
     logging.debug('Attempting to add ' + 'ds.' + str(k) + '=' + str(v))
-
-    if isinstance(v, list):
-        # Check to see if it is a string float or int
-        try:
-            tmp_var = str(int(v[0]))
-            if v[0] == str(int(v[0])):
-                # list_type = 'int'
-                logger.debug('INT LIST: ds.' + k + ' = [' + ', '.join(x for x in v) + ']')
-                exec('ds.' + k + ' = [' + ', '.join(x for x in v) + ']')
-            else:
-                # list_type = 'float'
-                logger.debug('FLOAT LIST: ds.' + k + ' = [' + ', '.join(v) + ']')
-                exec('ds.' + k + ' = [' + ', '.join(float(x) for x in v) + ']')
-        except ValueError:
-            # This is a string
-            logger.debug('STR LIST: ds.' + k + ' = [' + ', '.join("'" + x + "'" for x in v) + ']')
-            exec('ds.' + k + ' = [' + ', '.join("'" + x + "'" for x in v) + ']')
+    vr, vm = get_info_from_keyword(k)
+    if vm > 1:
+        if vr in ['DS', 'OF', 'FL', 'FD', 'OD']:
+            v = [float(x) for x in v]
+        elif vr in ['UL', 'US', 'SL', 'SS', 'IS']:
+            v = [int(x) for x in v]
     else:
         logger.debug('V is not a list: {}\t{}'.format(k, v))
-        cfg = None
-        if re.match(re.compile("[a-zA-Z]"), str(v)):
-            logger.debug('STR : ds.' + k + ' = ' + str(v))
-            exec('ds.' + k + ' = ' + '\"' + str(v) + '\"')
-        elif k.endswith('Date'):
+        if vr == 'DA':
             logger.debug('Date : ds.' + k + ' = ' + str(v))
-            v = make_date(k, v, cfg, dict_element='utils')
-            exec('ds.' + k + ' = ' + '\"' + str(v) + '\"')
-        elif k.endswith('DateTime'):
+            v, _ = make_date(k, v, cfg, dict_element=dict_element)
+            ds.add_new(Tag(k), vr, v)
+        elif vr == 'DT':
             logger.debug('DATETIME : ds.' + k + ' = ' + str(v))
-            v = make_datetime(k, v, cfg, dict_element='utils')
-            exec('ds.' + k + ' = ' + '\"' + str(v) + '\"')
-        elif k.endswith('Time') and not k.endswith('DateTime'):
+            v, _ = make_datetime(k, v, cfg, dict_element=dict_element)
+        elif vr == 'TM':
             logger.debug('TIME : ds.' + k + ' = ' + str(v))
-            v = make_time(k, v, cfg, dict_element='utils')
-            exec('ds.' + k + ' = ' + '\"' + str(v) + '\"')
+            v, _ = make_time(k, v, cfg, dict_element=dict_element)
         # Account for UIDs
-        elif k.endswith('UID'):
+        elif vr == 'UI':
             logger.debug('UID: ds.' + k + ' = ' + str(v))
-            exec('ds.' + k + ' = ' + '\"' + str(v) + '\"')
-        elif v == int(v):
+            v, _ = uid_maker(k, v, cfg, dict_element=dict_element)
+        elif vr in ['UL', 'US', 'SL', 'SS', 'IS']:
             # list_type = 'int'
+            v = int(v)
             logger.debug('INT: ds.' + k + ' = ' + str(v))
-            exec('ds.' + k + ' = ' + str(v))
-        else:
-            # list_type = 'float'
+        elif vr in ['DS', 'OF', 'FL', 'FD', 'OD']:
+            v = float(v)
             logger.debug('FLOAT: ds.' + k + ' = ' + str(v))
-            exec('ds.' + k + ' = ' + str(v))
+        elif vr in ['LO', 'LT', 'SH', 'ST', 'UT']:
+            logger.debug('STR : ds.' + k + ' = ' + str(v))
+        elif vr == 'PN':
+            v = v.encode()
+
+    ds.add_new(Tag(k), vr, v)
+
     return ds
 
+
+def get_info_from_keyword(kw):
+    """
+    Get Value data from Keywords
+    :param kw: KeyWOrd
+    :return:    VR, VM, NAME, ISRETIRED, KW
+
+    pydicom.datadict.get_entry('StudyDate')
+    ('DA', '1', 'Study Date', '', 'StudyDate')
+    """
+    vr, vm, name, is_retired, ky_word = pydicom.datadict.get_entry(kw)
+    try:
+        vm = int(vm)
+    except ValueError:
+        vm = 2  # Change to > 1 so I can store multiple variables
+    return vr, vm
 
 def uid_maker(k, v, cfg, dict_element='BaseAttributes'):
     if k == 'SOPClassUID' or k == 'SOPInstanceUID' or k == 'DimensionOrganizationUID':
@@ -80,7 +89,9 @@ def uid_maker(k, v, cfg, dict_element='BaseAttributes'):
 
 def make_time(k, time_var, cfg, dict_element='BaseAttributes'):
     # Need to make sure it return the format HHMMSS.FFFFFF, or return a new one
-    if re.match('\d\d\d\d\d\d\.\d\d\d\d\d\d', str(time_var)):
+    if isinstance(time_var, datetime.time):
+        pass
+    elif re.match('\d\d\d\d\d\d\.\d\d\d\d\d\d', str(time_var)):
         # Already formatted properly
         t = datetime.time(int(time_var[:2]), int(time_var[2:4]), int(time_var[4:6]), int(time_var[8:]))
         time_var = t.strftime("%H%M%S.%f")
@@ -88,9 +99,13 @@ def make_time(k, time_var, cfg, dict_element='BaseAttributes'):
         h, m, s = time_var.split(':')
         t = datetime.time(int(h), int(m), int(s))
         time_var = t.strftime("%H%M%S.%f")
+    elif re.match('\d\d/\d\d/\d\d', str(time_var)):
+        h, m, s = time_var.split('/')
+        t = datetime.time(int(h), int(m), int(s))
+        time_var = t.strftime("%H%M%S.%f")
     else:
         raise ValueError('I do not know how to parse this format: {}'.format(time_var))
-
+    time_var = pydicom.valuerep.TM(time_var)
     if dict_element == 'utils':
         return time_var
     cfg[dict_element][k] = time_var
@@ -99,7 +114,9 @@ def make_time(k, time_var, cfg, dict_element='BaseAttributes'):
 
 def make_datetime(k, datetime_var, cfg, dict_element='BaseAttributes'):
     # Need to make sure it return the format YYYYMMDDHHMMSS.FFFFFF, or return a new one
-    if re.match('\d\d\d\d\d\d\d\d\d\d\d\d\d\d\.\d\d\d\d\d\d', str(datetime_var)):
+    if isinstance(datetime_var, datetime.datetime):
+        pass
+    elif re.match('\d\d\d\d\d\d\d\d\d\d\d\d\d\d\.\d\d\d\d\d\d', str(datetime_var)):
         # Already formatted properly
         y = int(datetime_var[:4])
         m = int(datetime_var[4:6])
@@ -110,16 +127,19 @@ def make_datetime(k, datetime_var, cfg, dict_element='BaseAttributes'):
         F = int(datetime_var[16:])
         t = datetime.datetime(y, m, d, H, M, S, F)
         datetime_var = t.strftime("%Y%m%d%H%M%S.%f")
+        datetime_var = pydicom.valuerep.DT(datetime_var)
         logger.debug('FULL datetime_var: {}'.format(type(datetime_var)))
     elif re.match('\d\d:\d\d:\d\d', str(datetime_var)):
         h, m, s = datetime_var.split(':')
         t = datetime.time(int(h), int(m), int(s))
         datetime_var = t.strftime("%Y%m%d%H%M%S.%f")
+        datetime_var = pydicom.valuerep.DT(datetime_var)
         logger.debug('COLON datetime_var: {}'.format(type(datetime_var)))
     elif re.match('\d\d/\d\d/\d\d', str(datetime_var)):
         m, d, y = datetime_var.split('/')
         t = datetime.datetime(int(y), int(m), int(d))
         datetime_var = t.strftime("%Y%m%d%H%M%S.%f")
+        datetime_var = pydicom.valuerep.DT(datetime_var)
         logger.debug('SLASH datetime_var: {}'.format(type(datetime_var)))
     else:
         raise ValueError('I do not know how to parse this format: {}'.format(datetime_var))
@@ -130,19 +150,25 @@ def make_datetime(k, datetime_var, cfg, dict_element='BaseAttributes'):
 
 
 def make_date(k, date_var, cfg, dict_element='BaseAttributes'):
+    if isinstance(date_var, datetime.date):
+        pass
+
     # Need to ensure date format returns properly, or return a new one
-    if re.match('\d\d\d\d\d\d\d\d', str(date_var)):
+    elif re.match('\d\d\d\d\d\d\d\d', str(date_var)):
         # Already formatted correctly
         date_var = datetime.datetime(int(date_var[0:4]), int(date_var[4:6]), int(date_var[7:])).strftime("%Y%m%d")
+        date_var = pydicom.valuerep.DA(date_var)
     elif re.match('\d\d/\d\d/\d\d', str(date_var)):
         m, d, y = date_var.split('/')
         date_var = datetime.datetime(int(y), int(m), int(d)).strftime("%Y%m%d")
+        date_var = pydicom.valuerep.DA(date_var)
     elif date_var is None or date_var == '000000.000000' or date_var == 'NUMBER':
         date_var = datetime.datetime.now().strftime("%Y%m%d")
+
     else:
         raise ValueError('I do not know how to parse this format: {}'.format(date_var))
     # Convert to string, since otherwise this crashes when writing DCM file
-    date_var = str(date_var)
+    date_var = pydicom.valuerep.DA(date_var)
     if dict_element == 'utils':
         return date_var
     cfg[dict_element][k] = date_var
