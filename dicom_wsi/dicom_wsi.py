@@ -16,7 +16,6 @@ logger = logging.getLogger(__name__)
 
 """Main module."""
 
-
 def create_dicom(cfg):
     """
     Main function for creating DICOM files
@@ -34,12 +33,11 @@ def create_dicom(cfg):
 
         logger.info('Beginning instance {}.'.format(instance))
         # Update config with slide attributes
-        cfg, wsi = get_wsi(cfg)  # TODO: Handle non OpenSlide files as well
-        # TODO: Add tests
+        cfg, wsi = get_wsi(cfg)  # TODO: Add tests
         t_get_wsi = timer()
         logger.debug('Updating config with slide attributes took {} seconds.'.format(round(t_get_wsi - start, 1)))
 
-        # Add the BaseAttributes
+        # Add the BaseAttributes and set the file metadata
         dcm, cfg = build_base(cfg, instance=instance)  # TODO: Add tests
         t_get_base = timer()
         logger.debug('Updating base attributes took {} seconds.'.format(round(t_get_base - t_get_wsi, 1)))
@@ -73,5 +71,3 @@ def create_dicom(cfg):
         t_save = timer()
 
         logger.info('Total elapsed time: {} minutes.'.format(round((t_save - start) / 60, 3)))
-        if instance == 5:
-            exit(1)

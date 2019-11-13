@@ -9,6 +9,16 @@ logger = logging.getLogger(__name__)
 
 
 def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=500, series_downsample=1):
+    """
+    Calcualte the PerFrame Functional Groups
+
+    :param img: VIPS image object
+    :param ds: DICOM Object
+    :param cfg: Config dictionary
+    :param tile_size: how big should each sub image be?
+    :param series_downsample: Factor to translate between inches and pixels
+    :return:
+    """
     imlist = []
     x_tile = None
     y_tile = None
@@ -17,19 +27,17 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
     out_file_prefix = cfg.get('General').get('OutFilePrefix')
     np_3d = np.ndarray(buffer=img.write_to_memory(),
                        dtype=format_to_dtype[img.format],
-                       shape=[img.height, img.width, 4])
+                       shape=[img.height, img.width, img.bands])
 
     np_3d = np_3d[:, :, :3]  # Remove the alpha channel if there is one
 
-    # Image.fromarray(np_3d).show()
     # get image size
     ds.TotalPixelMatrixColumns, ds.TotalPixelMatrixRows = img.width, img.height
-    tiles = generate_XY_tiles(ds.TotalPixelMatrixColumns, ds.TotalPixelMatrixRows, tile_size=tile_size)
-
     ds.PerFrameFunctionalGroupsSequence = Sequence([])
+
+    tiles = generate_XY_tiles(ds.TotalPixelMatrixColumns, ds.TotalPixelMatrixRows, tile_size=tile_size)
     for i in tiles:
         x_pos, y_pos, x_tile, y_tile = i
-        #y_pos, x_pos, y_tile, x_tile = i
         x_pos = int(x_pos)
         y_pos = int(y_pos)
         x_tile = int(x_tile)
@@ -47,19 +55,18 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
         plane_position.ColumnPositionInTotalImagePixelMatrix = x_pos
         plane_position.RowPositionInTotalImagePixelMatrix = y_pos
         dimension_index_values.DimensionIndexValues = [x_tile, y_tile]
-
         data_group1.FrameContentSequence = Sequence([dimension_index_values])
         data_group1.PlanePositionSlideSequence = Sequence([plane_position])
         ds.PerFrameFunctionalGroupsSequence.append(data_group1)
 
-        # Get pixel data
+        # Get pixel data for the frame
         x_next_step = tile_size + x_pos
         y_next_step = tile_size + y_pos
         tmp = np_3d[y_pos:y_next_step, x_pos:x_next_step, :]
+
         # Make sure the frame is square and filled
         if tmp.shape == (tile_size, tile_size, 3):
             imlist.append(tmp)
-            #Image.fromarray(tmp).show()
         else:
             tmp3 = np.zeros((tile_size, tile_size, 3), dtype=int)
             tmp3 = np.uint8(tmp3)
@@ -67,11 +74,8 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
             a, b, c = [int(x) for x in tmp.shape]
             tmp3[0:a, 0:b, 0:c] = tmp
             imlist.append(tmp3)
-            # Image.fromarray(tmp3).show()
 
-        #Image.fromarray(tmp).show()
-
-        # If the number of frames matches the limit, then save
+        # If the number of frames matches the limit, then save so the file doesn't get too big
         max_frames = int(cfg.get('General').get('MaxFrames'))
         if imlist.__len__() == max_frames:
             num_frames = imlist.__len__()
@@ -86,7 +90,7 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
             fragment += 1
             ds.save_as(out_file)
             logger.info('Wrote: {}'.format(out_file))
-            # Empty out contents so they don't get duplicated in each file
+            # Empty out contents so they don't get duplicated frames in each file
             imlist = []
             ds.PerFrameFunctionalGroupsSequence = None
 
@@ -101,8 +105,9 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
         image_array[i, :, :, :] = imlist[i]
         tmp.append(Image.fromarray(imlist[i]))
 
-    """
     # TODO Compression
+    """
+    
     # Work on this for compressing image data
     
     f = io.BytesIO()
@@ -118,6 +123,13 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
 
 
 def generate_XY_tiles(x_max, y_max, tile_size=500):
+    """
+    Iterate through the slide with a step size of `tile_size`
+    :param x_max:
+    :param y_max:
+    :param tile_size:
+    :return:
+    """
     x_tile = 0
     tile_size = int(tile_size)
     for x in range(1, int(x_max), tile_size):
@@ -125,18 +137,6 @@ def generate_XY_tiles(x_max, y_max, tile_size=500):
         y_tile = 0
         for y in range(1, int(y_max), tile_size):
             y_tile += 1
-            logging.debug('x:{} y:{} x_tile:{} y_tile:{}'.format(x, y, x_tile, y_tile))
-            yield x, y, x_tile, y_tile
-
-
-def generate_XY_tiles2(x_max, y_max, tile_size=500):
-    y_tile = 0
-    tile_size = int(tile_size)
-    for y in range(1, int(y_max), tile_size):
-        y_tile += 1
-        x_tile = 0
-        for x in range(1, int(x_max), tile_size):
-            x_tile += 1
             logging.debug('x:{} y:{} x_tile:{} y_tile:{}'.format(x, y, x_tile, y_tile))
             yield x, y, x_tile, y_tile
 
@@ -153,7 +153,6 @@ def compute_slide_offsets_from_pixel_data(ds=None, row=None, col=None, series_do
     assert row is not None, "Row value should not be empty"
     assert col is not None, "Col value should not be empty"
     # BeginningPosition - RocOrColNumber * PixelSpacing * series_downsample
-    # 10-25-2019 changed from - to +
     x = int(ds.TotalPixelMatrixOriginSequence[0][0x0040, 0x0072a].value) - (
         row * float(ds.SharedFunctionalGroupsSequence[0][0x0028, 0x9110][0][0x0028, 0x0030][1]) * series_downsample)
     y = int(ds.TotalPixelMatrixOriginSequence[0][0x0040, 0x0073a].value) - (

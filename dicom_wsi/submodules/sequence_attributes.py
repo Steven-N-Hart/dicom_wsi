@@ -6,6 +6,7 @@ from pydicom.tag import Tag
 from pydicom.uid import generate_uid
 
 def build_sequences(dcm, cfg):
+    """ all values are hard coded to ensure they are present in the final file """
     ds0 = Dataset()
     ds0.DimensionOrganizationUID = '1.2.276.0.7230010.3.1.4.8323329.17698.1572316846.287083'
     dcm.DimensionOrganizationSequence = Sequence([ds0])

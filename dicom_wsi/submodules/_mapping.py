@@ -11,7 +11,7 @@ def map_aperio_features(cfg, wsi):
     :return:
     """
     # TODO: Verify these are all getting added somewhere
-    cfg['SharedFunctionalGroupsSequence'] = dict()
+    cfg['SharedFunctionalGroupsSequence'] = dict()  # TODO: not actually using this anywhere
     cfg['OnTheFly'] = dict()
     if not cfg.get('BaseAttributes').get('Manufacturer'):
         cfg['BaseAttributes']['Manufacturer'] = wsi.get('openslide.vendor')
@@ -41,8 +41,7 @@ def map_aperio_features(cfg, wsi):
 
     pv = wsi.get('openslide.mpp-x'), wsi.get('openslide.mpp-y')
     cfg['OnTheFly']['PixelSpacing'] = [float(x) for x in pv]
-    cfg['SharedFunctionalGroupsSequence']['InstanceNumber'] = 1
-    cfg['SharedFunctionalGroupsSequence']['NumberofFrames'] = 1
+
     return cfg
 
 

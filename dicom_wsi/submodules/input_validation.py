@@ -23,20 +23,17 @@ restricted_inputs = {
 # 'AcquisitionDateTime',
 required_fields = {
     'General': ['WSIFile', 'OutFilePrefix', 'NumberOfLevels', 'OrgUIDRoot', 'WSIBrand', 'ImageFormat'],
-    # 'BaseAttributes': ['Modality', 'Manufacturer', 'ManufacturerModelName', 'DeviceSerialNumber', 'SoftwareVersions',
-    #                   'SOPClassUID', 'SOPInstanceUID', 'StudyInstanceUID', 'SeriesInstanceUID',
-    #                   'StudyInstanceUID', 'SeriesInstanceUID', 'ContainerIdentifier', 'FrameOfReferenceUID',
-    #                   'ImageType', 'ImagedVolumeWidth', 'ImagedVolumeHeight', 'ImagedVolumeDepth',
-    #                   'ImageOrientationSlide', 'VolumetricProperties', 'SpecimenLabelInImage', 'BurnedInAnnotation',
-    #                   'FocusMethod', 'ExtendedDepthOfField', 'SeriesInstanceUID', 'Modality', 'PixelData',
-    #                   'SamplesPerPixel', 'PhotometricInterpretation', 'BitsAllocated',
-    #                   'BitsStored', 'HighBit', 'PixelRepresentation', 'SamplesPerPixel'],
-    # 'SequenceAttributes': ['TotalPixelMatrixOriginSequence', 'XOffsetInSlideCoordinateSystem',
-    #                      'YOffsetInSlideCoordinateSystem'],
-    # 'ConditionalAttributes': ['LossyImageCompression'],
-    # 'SharedFunctionalGroupsSequence': ['PixelMeasuresSequence', 'PixelSpacing', 'SliceThickness'],
-    # 'PerFrameFunctionalGroupsSequence': ['XOffsetInSlideCoordinateSystem', 'YOffsetInSlideCoordinateSystem',
-    #                                     'ZOffsetInSlideCoordinateSystem']
+    'BaseAttributes': ['PatientName', 'PatientBirthDate', 'PatientSex', 'ReferringPhysicianName', 'AccessionNumber',
+                       'Manufacturer', 'ManufacturerModelName', 'DeviceSerialNumber', 'SoftwareVersions',
+                       'AcquisitionDateTime', 'ImageType', 'SpecimenLabelInImage', 'BurnedInAnnotation',
+                       'FocusMethod', 'ExtendedDepthOfField', 'SpecificCharacterSet', 'SOPClassUID', 'SOPInstanceUID',
+                       'StudyID', 'StudyDate', 'SeriesDate', 'ContentDate', 'StudyTime', 'SeriesTime', 'ContentTime',
+                       'Modality', 'VolumetricProperties', 'PatientID', 'StudyInstanceUID', 'SeriesInstanceUID',
+                       'PatientOrientation', 'SamplesPerPixel', 'PhotometricInterpretation',
+                       'PlanarConfiguration', 'BitsAllocated', 'BitsStored', 'HighBit', 'PixelRepresentation',
+                       'LossyImageCompression', 'ImagedVolumeWidth', 'ImagedVolumeHeight', 'ImagedVolumeDepth',
+                       'ImageOrientationSlide', 'DimensionOrganizationType']
+
 
 }
 size_limits = {

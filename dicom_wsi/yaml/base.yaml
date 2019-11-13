@@ -53,4 +53,5 @@ BaseAttributes:
     ImagedVolumeHeight: 15
     ImagedVolumeDepth: 1
     ImageOrientationSlide: [0, -1, 0, -1, 0, 0]
+    DimensionOrganizationType: TILED_FULL
 

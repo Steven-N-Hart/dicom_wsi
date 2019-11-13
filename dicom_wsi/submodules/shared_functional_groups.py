@@ -3,6 +3,7 @@ from pydicom.sequence import Sequence
 
 
 def build_functional_groups(dcm, cfg):
+    """ all values are hard coded to ensure they are present in the final file """
     ds1 = Dataset()
     ds2 = Dataset()
 
