@@ -7,7 +7,8 @@ Welcome to dicom-wsi's documentation!
 
    readme
    installation
-   usage
+   tldr
+   gettingstarted
    modules
    contributing
    authors
