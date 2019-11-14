@@ -1,5 +1,6 @@
 import logging
 import os
+import re
 
 import submodules.character_validations as cv
 from submodules.utils import get_all_keys
@@ -18,7 +19,8 @@ restricted_inputs = {
     'ImageType': ['ORIGINAL, PRIMARY, VOLUME, NONE', 'DERIVED, PRIMARY, VOLUME, RESAMPLED',
                   'DERIVED, PRIMARY, LOCALIZER, RESAMPLED', 'ORIGINAL, PRIMARY, LABEL, NONE'],
     'SamplesPerPixel': ['1', '3'],
-    'PatientOrientation': ['L', 'R', 'A', 'P', 'H', 'F']
+    'PatientOrientation': ['L', 'R', 'A', 'P', 'H', 'F'],
+    'OrgUIDRoot': []
 }
 # 'AcquisitionDateTime',
 required_fields = {
@@ -103,8 +105,13 @@ def _validation_wrapper(provided_keys, sample_dict):
             logging.debug('k {} is found in {}'.format(sample_dict[k], restricted_inputs[k]))
             logging.debug('{}'.format(sample_dict))
 
+            if k == 'OrgUIDRoot':
+                RE_VALID_UID_PREFIX = r'^(0|[1-9][0-9]*)(\.(0|[1-9][0-9]*))*\.$'
+                assert re.match(RE_VALID_UID_PREFIX, sample_dict[k]), "OutFilePrefix must match: {}".format(
+                    RE_VALID_UID_PREFIX)
+                break
             # takes care of the arrays like ImageType
-            if isinstance(sample_dict[k], list):
+            elif isinstance(sample_dict[k], list):
                 k2 = ', '.join(sample_dict[k])
             # Skip nested dictionaries
             elif isinstance(sample_dict[k], dict):

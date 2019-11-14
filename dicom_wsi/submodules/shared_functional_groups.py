@@ -17,7 +17,7 @@ def build_functional_groups(dcm, cfg):
     ds2.OpticalPathIdentificationSequence = Sequence([ds3])
 
     ds4 = Dataset()
-    ds4.FrameType = ['ORIGINAL', 'PRIMARY', 'VOLUME', 'NONE']  # TODO: Do not hard-code
+    ds4.FrameType = cfg['BaseAttributes']['ImageType']
     ds2.WholeSlideMicroscopyImageFrameTypeSequence = Sequence([ds4])
     dcm.SharedFunctionalGroupsSequence = Sequence([ds2])
 

@@ -1,6 +1,5 @@
 import datetime
 import logging
-import random
 import re
 
 import pydicom
@@ -61,7 +60,7 @@ def add_data(ds, k, v, cfg, dict_element=None):
 def get_info_from_keyword(kw):
     """
     Get Value data from Keywords
-    :param kw: KeyWOrd
+    :param kw: KeyWord
     :return:    VR, VM, NAME, ISRETIRED, KW
 
     pydicom.datadict.get_entry('StudyDate')
@@ -79,11 +78,10 @@ def uid_maker(k, v, cfg, dict_element='BaseAttributes'):
         # These are all fixed values
         pass
     elif v.startswith('1.2'):
-        # If user has already specificed a UID, use that
+        # If user has already specified a UID, use that
         pass
     else:
-        r = random.randint(1, 100000)
-        cfg[dict_element][k] = cfg['General']['OrgUIDRoot'] + '.' + str(r)
+        cfg[dict_element][k] = pydicom.uid.generate_uid(prefix=cfg['General']['OrgUIDRoot'])
     return cfg[dict_element][k], cfg
 
 

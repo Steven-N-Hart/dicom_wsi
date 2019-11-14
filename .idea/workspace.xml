@@ -6,16 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="1b600bea-d078-4d05-8606-dabdc12cd059" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dicom_wsi/dicom_wsi.py" beforeDir="false" afterPath="$PROJECT_DIR$/dicom_wsi/dicom_wsi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dicom_wsi/submodules/_mapping.py" beforeDir="false" afterPath="$PROJECT_DIR$/dicom_wsi/submodules/_mapping.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dicom_wsi/submodules/base_attributes.py" beforeDir="false" afterPath="$PROJECT_DIR$/dicom_wsi/submodules/base_attributes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dicom_wsi/cli.py" beforeDir="false" afterPath="$PROJECT_DIR$/dicom_wsi/cli.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dicom_wsi/submodules/input_validation.py" beforeDir="false" afterPath="$PROJECT_DIR$/dicom_wsi/submodules/input_validation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dicom_wsi/submodules/pixel_data_conversion.py" beforeDir="false" afterPath="$PROJECT_DIR$/dicom_wsi/submodules/pixel_data_conversion.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dicom_wsi/submodules/pixel_to_slide_conversions.py" beforeDir="false" afterPath="$PROJECT_DIR$/dicom_wsi/submodules/pixel_to_slide_conversions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dicom_wsi/submodules/sequence_attributes.py" beforeDir="false" afterPath="$PROJECT_DIR$/dicom_wsi/submodules/sequence_attributes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dicom_wsi/submodules/shared_functional_groups.py" beforeDir="false" afterPath="$PROJECT_DIR$/dicom_wsi/submodules/shared_functional_groups.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dicom_wsi/submodules/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/dicom_wsi/submodules/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dicom_wsi/yaml/base.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/dicom_wsi/yaml/base.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dicom_wsi/yaml/default.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/gettingstarted.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/gettingstarted.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/installation.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/installation.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/usage.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/usage.rst" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,8 +26,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dicom_wsi/dicom_wsi.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-235">
-              <caret line="16" column="18" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
+            <state relative-caret-position="527">
+              <caret line="31" column="50" lean-forward="true" selection-start-line="31" selection-start-column="50" selection-end-line="31" selection-end-column="50" />
               <folding>
                 <element signature="e#24#38#0" expanded="true" />
               </folding>
@@ -37,49 +35,13 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/parse_wsi.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="26" column="4" selection-start-line="26" selection-start-column="4" selection-end-line="26" selection-end-column="65" />
-              <folding>
-                <element signature="e#0#16#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/_mapping.py">
+        <entry file="file://$PROJECT_DIR$/dicom_wsi/cli.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="43" selection-start-line="43" selection-end-line="43" />
+            <state relative-caret-position="595">
+              <caret line="35" column="4" lean-forward="true" selection-start-line="35" selection-start-column="4" selection-end-line="37" selection-end-column="21" />
               <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/shared_functional_groups.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="59" lean-forward="true" selection-start-line="16" selection-start-column="59" selection-end-line="16" selection-end-column="59" />
-              <folding>
-                <element signature="e#0#35#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/pixel_to_slide_conversions.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="267">
-              <caret line="117" selection-start-line="117" selection-end-line="117" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
+                <element signature="e#62#77#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -88,34 +50,15 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dicom_wsi/yaml/base.yaml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="31" column="23" lean-forward="true" selection-start-line="31" selection-start-column="23" selection-end-line="31" selection-end-column="23" />
+            <state relative-caret-position="323">
+              <caret line="23" column="28" lean-forward="true" selection-start-line="12" selection-end-line="55" selection-end-column="41" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/base_attributes.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="73" lean-forward="true" selection-start-line="16" selection-start-column="73" selection-end-line="16" selection-end-column="73" />
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/input_validation.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="25" column="35" selection-start-line="25" selection-start-column="35" selection-end-line="25" selection-end-column="35" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/docs/usage.rst">
+          <provider selected="true" editor-type-id="restructured-text-editor" />
         </entry>
       </file>
     </leaf>
@@ -174,35 +117,36 @@
         <option value="$PROJECT_DIR$/README.rst" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/requirements_dev.txt" />
-        <option value="$PROJECT_DIR$/docs/installation.rst" />
         <option value="$PROJECT_DIR$/venv/Lib/site-packages/pydicom/tag.py" />
         <option value="$PROJECT_DIR$/venv/Lib/site-packages/pydicom/filewriter.py" />
         <option value="$PROJECT_DIR$/dicom_wsi/submodules/character_validations.py" />
-        <option value="$PROJECT_DIR$/dicom_wsi/submodules/utils.py" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.txt" />
         <option value="$PROJECT_DIR$/dicom_wsi/yaml/default.yaml" />
         <option value="$PROJECT_DIR$/tests/__init__.py" />
         <option value="$PROJECT_DIR$/dicom_wsi/parse_wsi.py" />
-        <option value="$PROJECT_DIR$/dicom_wsi/cli.py" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.py" />
         <option value="$PROJECT_DIR$/dicom_wsi/submodules/base_attributes.py" />
         <option value="$PROJECT_DIR$/dicom_wsi/submodules/pixel_to_slide_conversions.py" />
         <option value="$PROJECT_DIR$/dicom_wsi/submodules/sequence_attributes.py" />
-        <option value="$PROJECT_DIR$/dicom_wsi/submodules/shared_functional_groups.py" />
         <option value="$PROJECT_DIR$/dicom_wsi/submodules/pixel_data_conversion.py" />
         <option value="$PROJECT_DIR$/dicom_wsi/dicom_wsi.py" />
-        <option value="$PROJECT_DIR$/dicom_wsi/yaml/base.yaml" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.yml" />
-        <option value="$PROJECT_DIR$/dicom_wsi/submodules/input_validation.py" />
         <option value="$PROJECT_DIR$/dicom_wsi/submodules/_mapping.py" />
+        <option value="$PROJECT_DIR$/dicom_wsi/submodules/shared_functional_groups.py" />
+        <option value="$PROJECT_DIR$/dicom_wsi/submodules/utils.py" />
+        <option value="$PROJECT_DIR$/dicom_wsi/yaml/base.yaml" />
+        <option value="$PROJECT_DIR$/dicom_wsi/submodules/input_validation.py" />
+        <option value="$PROJECT_DIR$/docs/installation.rst" />
+        <option value="$PROJECT_DIR$/docs/gettingstarted.rst" />
+        <option value="$PROJECT_DIR$/dicom_wsi/cli.py" />
+        <option value="$PROJECT_DIR$/docs/usage.rst" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-111" />
-    <option name="y" value="-8" />
-    <option name="width" value="864" />
-    <option name="height" value="848" />
+    <option name="x" value="-7" />
+    <option name="width" value="1296" />
+    <option name="height" value="867" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -229,13 +173,12 @@
               <item name="dicom_wsi" type="b2602c69:ProjectViewProjectNode" />
               <item name="dicom_wsi" type="462c0819:PsiDirectoryNode" />
               <item name="dicom_wsi" type="462c0819:PsiDirectoryNode" />
-              <item name="submodules" type="462c0819:PsiDirectoryNode" />
+              <item name="yaml" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="dicom_wsi" type="b2602c69:ProjectViewProjectNode" />
               <item name="dicom_wsi" type="462c0819:PsiDirectoryNode" />
-              <item name="dicom_wsi" type="462c0819:PsiDirectoryNode" />
-              <item name="yaml" type="462c0819:PsiDirectoryNode" />
+              <item name="docs" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="dicom_wsi" type="b2602c69:ProjectViewProjectNode" />
@@ -380,7 +323,9 @@
       <workItem from="1571401141293" duration="300492000" />
       <workItem from="1571934289625" duration="87211000" />
       <workItem from="1572543581101" duration="256408000" />
-      <workItem from="1573491753916" duration="27030000" />
+      <workItem from="1573491753916" duration="27289000" />
+      <workItem from="1573671594723" duration="1222000" />
+      <workItem from="1573747861277" duration="8286000" />
     </task>
     <task id="LOCAL-00001" summary="Added VR character validation">
       <created>1570222395313</created>
@@ -543,7 +488,14 @@
       <option name="project" value="LOCAL" />
       <updated>1573661849180</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="removed some dead code">
+      <created>1573670333364</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1573670333364</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -579,7 +531,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="715320000" />
+    <option name="totallyTimeSpent" value="725087000" />
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -594,22 +546,22 @@
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4989775" visible="true" weight="0.15372169" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4989775" visible="true" weight="0.15857606" />
       <window_info id="Structure" order="1" sideWeight="0.5010225" side_tool="true" weight="0.13395415" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32967034" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49856734" weight="0.25490198" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49856734" weight="0.4475202" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49856734" visible="true" weight="0.14302191" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32981783" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.23394056" />
+      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49838188" weight="0.23298731" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50143266" side_tool="true" weight="0.34185734" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50161815" side_tool="true" weight="0.23298731" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.32641292" />
-      <window_info active="true" anchor="bottom" id="Python Console" order="12" visible="true" weight="0.054209918" />
+      <window_info anchor="bottom" id="Python Console" order="12" weight="0.21284756" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -647,6 +599,46 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_NEW_TODO" value="false" />
@@ -671,7 +663,8 @@
     <MESSAGE value="Removed hardcoded fields" />
     <MESSAGE value="decreased more hard codes" />
     <MESSAGE value="Verify image in Orthanc" />
-    <option name="LAST_COMMIT_MESSAGE" value="Verify image in Orthanc" />
+    <MESSAGE value="removed some dead code" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed some dead code" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -689,6 +682,11 @@
           <line>117</line>
           <option name="timeStamp" value="171" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/dicom_wsi/dicom_wsi.py</url>
+          <line>72</line>
+          <option name="timeStamp" value="172" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
@@ -699,7 +697,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/dicom_wsi$pytest_in_test_character_validations_py.coverage" NAME="pytest in test_character_validations.py Coverage Results" MODIFIED="1573666625639" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/dicom_wsi$cli.coverage" NAME="cli Coverage Results" MODIFIED="1573668362827" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dicom_wsi" />
+    <SUITE FILE_PATH="coverage/dicom_wsi$cli.coverage" NAME="cli Coverage Results" MODIFIED="1573749351767" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dicom_wsi" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
@@ -711,25 +709,7 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/Desktop/openslide-win64-20171122/openslide-win64-20171122/bin/libopenslide-0.dll" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/ctypes/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
-          <caret line="433" selection-start-line="433" selection-end-line="433" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/history.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv2/Lib/site-packages/pydicom/valuerep.py" />
-    <entry file="file://$PROJECT_DIR$/docs/readme.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/gettingstarted.rst">
       <provider selected="true" editor-type-id="restructured-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/pyvips/vimage.py">
@@ -738,9 +718,6 @@
           <caret line="148" selection-start-line="148" selection-end-line="148" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/installation.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/pydicom/filewriter.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -864,13 +841,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/pydicom/uid.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="291" selection-start-line="291" selection-end-line="291" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.txt" />
     <entry file="file://$PROJECT_DIR$/tests/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -890,16 +860,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="153" column="24" selection-start-line="153" selection-start-column="24" selection-end-line="153" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/pydicom/encaps.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1789">
@@ -914,9 +874,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dicom_wsi/test.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/dicom_wsi/test.png" />
     <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/sequence_attributes.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -934,23 +892,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dicom_wsi/yaml/default.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="4" lean-forward="true" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dicom_wsi/cli.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="36" column="4" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="4" />
-          <folding>
-            <element signature="e#62#77#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/dicom_wsi/yaml/default.yaml" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
@@ -961,60 +903,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/base_attributes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="73" lean-forward="true" selection-start-line="16" selection-start-column="73" selection-end-line="16" selection-end-column="73" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.yml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/input_validation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="25" column="35" selection-start-line="25" selection-start-column="35" selection-end-line="25" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dicom_wsi/dicom_wsi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-235">
-          <caret line="16" column="18" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
-          <folding>
-            <element signature="e#24#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dicom_wsi/yaml/base.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="31" column="23" lean-forward="true" selection-start-line="31" selection-start-column="23" selection-end-line="31" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/pixel_to_slide_conversions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="117" selection-start-line="117" selection-end-line="117" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/shared_functional_groups.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="59" lean-forward="true" selection-start-line="16" selection-start-column="59" selection-end-line="16" selection-end-column="59" />
+        <state relative-caret-position="425">
+          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
@@ -1023,23 +918,114 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/_mapping.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="43" selection-start-line="43" selection-end-line="43" />
+        <state relative-caret-position="382">
+          <caret line="66" column="55" lean-forward="true" selection-start-line="66" selection-start-column="55" selection-end-line="66" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-459">
+          <caret line="51" column="24" lean-forward="true" selection-start-line="51" selection-start-column="24" selection-end-line="51" selection-end-column="24" />
           <folding>
-            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/pydicom/uid.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="290" column="48" selection-start-line="290" selection-start-column="11" selection-end-line="290" selection-end-column="48" />
+          <folding>
+            <element signature="e#131#140#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/input_validation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="278">
+          <caret line="108" selection-start-line="108" selection-end-line="108" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/pixel_to_slide_conversions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="117" selection-start-line="117" selection-end-line="117" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/authors.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/parse_wsi.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="4" selection-start-line="26" selection-start-column="4" selection-end-line="26" selection-end-column="65" />
+        <state relative-caret-position="238">
+          <caret line="14" column="43" selection-start-line="14" selection-start-column="43" selection-end-line="14" selection-end-column="43" />
           <folding>
             <element signature="e#0#16#0" expanded="true" />
           </folding>
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dicom_wsi/submodules/base_attributes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="16" column="73" selection-start-line="16" selection-start-column="73" selection-end-line="16" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/make.bat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-189" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/Makefile">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/installation.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/readme.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dicom_wsi/dicom_wsi.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="31" column="50" lean-forward="true" selection-start-line="31" selection-start-column="50" selection-end-line="31" selection-end-column="50" />
+          <folding>
+            <element signature="e#24#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/gettingstarted.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dicom_wsi/yaml/base.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="23" column="28" lean-forward="true" selection-start-line="12" selection-end-line="55" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dicom_wsi/cli.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="35" column="4" lean-forward="true" selection-start-line="35" selection-start-column="4" selection-end-line="37" selection-end-column="21" />
+          <folding>
+            <element signature="e#62#77#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/usage.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
     </entry>
   </component>
 </project>
