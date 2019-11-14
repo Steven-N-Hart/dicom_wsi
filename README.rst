@@ -26,9 +26,11 @@ Features
 
 TODO
 --------
-* Add validation for types 1C, 2, and 3
-* Add byte or character size limit validation (see `size_limits` in character_validation.py)
-* Test compression method variable on JPEG compressed file in _mapping.py
+* Verify `SharedFunctionalGroupsSequence` are actually getting added or ignored
+* Build Compression options
+* Add more file options (currently only svs is supported)
+* Find out how to determine what `FileMetaInformationGroupLength` should be
+* Add more tests
 
 Credits
 -------
