@@ -82,8 +82,8 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
             out_file = out_file_prefix + '.' + str(ds.InstanceNumber) + '-' + str(fragment) + '.dcm'
             ds.NumberOfFrames = max_frames
             image_array = np.zeros((num_frames, tile_size, tile_size, 3), dtype=np.int8)
-            for i in range(num_frames):
-                image_array[i, :, :, :] = imlist[i]
+            for q in range(num_frames):
+                image_array[q, :, :, :] = imlist[q]
 
             ds.PixelData = image_array.tobytes()
             ds.Columns, ds.Rows = tile_size, tile_size

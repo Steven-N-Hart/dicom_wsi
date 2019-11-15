@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 import logging
-import sys
 from timeit import default_timer as timer
 
-sys.path.insert(0, 'submodules')
-from parse_wsi import get_wsi
-from input_validation import validate_cfg
-from base_attributes import build_base
-from sequence_attributes import build_sequences
-from shared_functional_groups import build_functional_groups
-from pixel_to_slide_conversions import add_PerFrameFunctionalGroupsSequence
-from pixel_data_conversion import resize_wsi_image
+from submodules.base_attributes import build_base
+from submodules.input_validation import validate_cfg
+from submodules.parse_wsi import get_wsi
+from submodules.pixel_data_conversion import resize_wsi_image
+from submodules.pixel_to_slide_conversions import add_PerFrameFunctionalGroupsSequence
+from submodules.sequence_attributes import build_sequences
+from submodules.shared_functional_groups import build_functional_groups
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +18,6 @@ def create_dicom(cfg):
     """
     Main function for creating DICOM files
     :param cfg: dictionary containing all required variables
-    :param wsi: whole slide image object
     :return: 0
     """
     start = timer()
@@ -71,3 +68,4 @@ def create_dicom(cfg):
         t_save = timer()
 
         logger.info('Total elapsed time: {} minutes.'.format(round((t_save - start) / 60, 3)))
+        exit(1)

@@ -3,7 +3,7 @@ import logging
 import tempfile
 
 from pydicom.dataset import Dataset, FileDataset
-from utils import add_data
+from submodules.utils import add_data
 
 
 def build_base(cfg, dcm=None, dict_element='BaseAttributes', instance=1):

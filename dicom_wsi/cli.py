@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 
 """Console script for dicom_wsi."""
-
 import argparse
 import logging
 import sys
 
-sys.path.insert(0, 'submodules')
-
-from parse_wsi import get_wsi
+from submodules.parse_wsi import get_wsi
 from yaml import load, BaseLoader
+
 from dicom_wsi import create_dicom
 
 

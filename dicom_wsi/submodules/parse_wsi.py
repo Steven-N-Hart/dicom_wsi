@@ -1,6 +1,8 @@
 import openslide
 import pyvips
+# noinspection PyUnresolvedReferences
 import submodules._mapping as mp
+# noinspection PyUnresolvedReferences
 from submodules.input_validation import restricted_inputs
 
 
@@ -21,6 +23,7 @@ def get_wsi(cfg):
     else:
         raise ValueError('Only acceptable files are: {}'.format(', '.join(restricted_inputs['WSIBrand'])))
     return cfg, wsi
+
 
 def _parse_aperio_svs(cfg):
     wsi_fn = cfg.get('General').get('WSIFile')

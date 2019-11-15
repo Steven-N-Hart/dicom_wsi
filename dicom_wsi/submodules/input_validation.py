@@ -22,7 +22,7 @@ restricted_inputs = {
     'PatientOrientation': ['L', 'R', 'A', 'P', 'H', 'F'],
     'OrgUIDRoot': []
 }
-# 'AcquisitionDateTime',
+
 required_fields = {
     'General': ['WSIFile', 'OutFilePrefix', 'NumberOfLevels', 'OrgUIDRoot', 'WSIBrand', 'ImageFormat'],
     'BaseAttributes': ['PatientName', 'PatientBirthDate', 'PatientSex', 'ReferringPhysicianName', 'AccessionNumber',
@@ -38,6 +38,7 @@ required_fields = {
 
 
 }
+# TODO: Add size validation
 size_limits = {
     '2': ['PixelPaddingValue', 'BitsAllocated', 'BitsStored', 'Columns', 'HighBit', 'PixelRepresentation', 'Rows',
           'SamplesPerPixel', 'PlanarConfiguration', 'InConcatenationNumber'],

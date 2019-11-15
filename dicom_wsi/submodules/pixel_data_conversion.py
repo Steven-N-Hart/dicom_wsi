@@ -7,9 +7,6 @@ def resize_wsi_image(wsi=None, series_downsample=0):
     reshape the pyvips oject to the desired size based on series downsample
 
     :param wsi: PyVIPS Object
-    :param dcm: DICOM object
-    :param cfg: Config dict
-    :param img_obj: specified only for when using the pixelator
     :param series_downsample: How many times to downsample
     :return: byte string to use as the pixel array
     """

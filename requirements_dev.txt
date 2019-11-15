@@ -1,3 +1,4 @@
+PIL
 numpy
 pyvips
 openslide-python
