@@ -1,16 +1,17 @@
 import logging
 
 import numpy as np
-from PIL import Image
 from pydicom.dataset import Dataset
+from pydicom.filewriter import dcmwrite
 from pydicom.sequence import Sequence
+from submodules.compression import numpy_to_compressed
 
 logger = logging.getLogger(__name__)
 
 
 def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=500, series_downsample=1):
     """
-    Calcualte the PerFrame Functional Groups
+    Calculate the PerFrame Functional Groups
 
     :param img: VIPS image object
     :param ds: DICOM Object
@@ -75,17 +76,25 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
             tmp3[0:a, 0:b, 0:c] = tmp
             imlist.append(tmp3)
 
+        compression_type = cfg.get('General').get('ImageFormat')
+        logger.debug('compression_type: {}'.format(compression_type))
+
         # If the number of frames matches the limit, then save so the file doesn't get too big
         max_frames = int(cfg.get('General').get('MaxFrames'))
         if imlist.__len__() == max_frames:
+            logger.debug('imlist.__len__() {} == max_frames {}'.format(imlist.__len__(), max_frames))
             num_frames = imlist.__len__()
             out_file = out_file_prefix + '.' + str(ds.InstanceNumber) + '-' + str(fragment) + '.dcm'
             ds.NumberOfFrames = max_frames
             image_array = np.zeros((num_frames, tile_size, tile_size, 3), dtype=np.int8)
             for q in range(num_frames):
                 image_array[q, :, :, :] = imlist[q]
+            logger.debug('image_array is {}'.format(image_array))
+            if compression_type == 'None':
+                ds.PixelData = image_array.tobytes()
+            else:
+                ds = numpy_to_compressed(image_array, ds, compression=compression_type)
 
-            ds.PixelData = image_array.tobytes()
             ds.Columns, ds.Rows = tile_size, tile_size
             fragment += 1
             ds.save_as(out_file)
@@ -97,28 +106,22 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
     # stack each of the frames
     num_frames = imlist.__len__()
     ds.NumberOfFrames = int(num_frames)
+    image_array = np.zeros((num_frames, tile_size, tile_size, 3), dtype=np.uint8)
+    for q in range(num_frames):
+        tmp = imlist[q]
+        image_array[q, :, :, :] = imlist[q]
 
+    if compression_type == 'None':
+        ds.PixelData = image_array.tobytes()
+    else:
+        ds = numpy_to_compressed(image_array, ds, compression=compression_type)
 
-    image_array = np.zeros((num_frames, tile_size, tile_size, 3), dtype=np.int8)
-    tmp = []  # Only used for compression
-    for i in range(num_frames):
-        image_array[i, :, :, :] = imlist[i]
-        tmp.append(Image.fromarray(imlist[i]))
-
-    # TODO Compression
-    """
-    
-    # Work on this for compressing image data
-    
-    f = io.BytesIO()
-    tmp[0].save(f, format="jpeg", append_images=tmp[1:])
-    ds.PixelData = pydicom.encaps.encapsulate(f.getvalue())
-    """
-
-    ds.PixelData = image_array.tobytes()
-    ds.Columns, ds.Rows = tile_size, tile_size
+    ds.Columns, ds.Rows = tile_size, tile_size  # used to calculate expected size
+    #   PixelData has incorrect value length - expected 0 dec - got ...
     out_file = out_file_prefix + '.' + str(ds.InstanceNumber) + '-' + str(fragment) + '.dcm'
-    ds.save_as(out_file)
+
+    # ds.save_as(out_file)
+    dcmwrite(out_file, ds, write_like_original=False)
     logger.info('Wrote: {}'.format(out_file))
 
 
