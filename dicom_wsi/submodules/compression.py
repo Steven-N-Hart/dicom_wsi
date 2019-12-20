@@ -27,20 +27,22 @@ def _compress(img_arr, compression):
         img.save(f, 'JPEG2000')
         return f.getvalue()
     else:
-        allowed_formats = ['j2k', 'jpg', 'None']
+        from input_validation import restricted_inputs
+        allowed_formats = restricted_inputs['ImageFormat']
         raise TypeError("Must provide one of: [{}]".format(allowed_formats))
 
 
 def numpy_to_compressed(ndarray, dcm, compression=None):
     """ Convert a numpy array of [N, H, W, C] to a compressed bytestring list
+    :param ndarray:
+    :param dcm: dicom object
+    :param compression:
+    :return: a DICOM object with PixelData
+
     N = Number of frames
     H = Height
     W = Width
     C = Number of channels
-    :param ndarray:
-    :param dcm: dicom object
-    :param compression:
-    :return: a bytelist of compressed vectors
     """
     tile_size = ndarray.shape[1]
     num_frames = ndarray.shape[0]
@@ -49,7 +51,8 @@ def numpy_to_compressed(ndarray, dcm, compression=None):
 
     for i in range(num_frames):
         img = ndarray[i, :, :, :]
-        tmp_image = tmp_image + encode_frame_item(_compress(img, compression))
+        compressed_image = encode_frame_item(_compress(img, compression))
+        tmp_image = tmp_image + compressed_image
     tmp_image = tmp_image + encode_delimiter_item()
     dcm.PixelData = tmp_image
     return dcm

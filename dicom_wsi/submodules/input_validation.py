@@ -11,6 +11,7 @@ restricted_inputs = {
     'WSIBrand': ['aperio_svs', 'phillips_tiff'],
     'PatientSex': ['M', 'F', 'O'],
     'Modality': ['SM'],
+    'ImageFormat': ['.jpg', 'None', '.j2k'],
     'BurnedInAnnotation': ['YES', 'NO'],
     'LossyImageCompression': ['00', '01'],
     'PhotometricInterpretation': ['MONOCHROME1', 'RGB', 'YBR_FULL_422', 'YBR_ICT', 'YBR_RCT'],

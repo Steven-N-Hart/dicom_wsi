@@ -21,26 +21,23 @@ BaseAttributes:
     ManufacturerModelName: UNKNOWN
     DeviceSerialNumber: UNKNOWN
     SoftwareVersions: UNKNOWN
-    AcquisitionDateTime: 20191029024046.000000
+    AcquisitionDateTime: 20191108170224.000000
     ImageType: [ORIGINAL, PRIMARY, VOLUME, NONE]
     SpecimenLabelInImage: NO
     BurnedInAnnotation: NO
     FocusMethod: AUTO
     ExtendedDepthOfField: NO
     SpecificCharacterSet: ISO_IR 100
-    SOPClassUID: 1.2.840.10008.5.1.4.1.1.77.1.6 #http://dicom.nema.org/dicom/2013/output/chtml/part04/sect_B.5.html
-    #SOPInstanceUID: 1.2.276.0.7230010.3.1.4.8323329.17698.1572316882.287667   # Uncompressed
-    SOPInstanceUID: 1.2.276.0.7230010.3.1.4.8323329.20175.1573232572.237464    # JPEG compressed
-    StudyID: 'Test'
-    StudyDate: 20191029
-    SeriesDate: 20191029
-    ContentDate: 20191029
-    StudyTime: 024046.000000
-    SeriesTime: 024046.000000
-    ContentTime: 024046.000000
+    StudyID: Test
+    StudyDate: 20191108
+    SeriesDate: 20191108
+    ContentDate: 20191108
+    StudyTime: 170224.000000
+    SeriesTime: 170224.000000
+    ContentTime: 170224.000000
     Modality: SM
     VolumetricProperties: VOLUME
-    PatientID: 53a5145d-f8b4-4963-bb5c-37de8cbc21ee
+    PatientID: 13081967-68e1-48a2-8da5-e2844cd90e71
     StudyInstanceUID: None
     SeriesInstanceUID: None
     PatientOrientation: ''

@@ -153,16 +153,13 @@ def make_datetime(k, datetime_var, cfg, dict_element='BaseAttributes'):
 def make_date(k, date_var, cfg, dict_element='BaseAttributes'):
     if isinstance(date_var, datetime.date):
         pass
-
     # Need to ensure date format returns properly, or return a new one
     elif re.match('\d\d\d\d\d\d\d\d', str(date_var)):
         # Already formatted correctly
         date_var = datetime.datetime(int(date_var[0:4]), int(date_var[4:6]), int(date_var[7:])).strftime("%Y%m%d")
-        date_var = pydicom.valuerep.DA(date_var)
     elif re.match('\d\d/\d\d/\d\d', str(date_var)):
         m, d, y = date_var.split('/')
         date_var = datetime.datetime(int(y), int(m), int(d)).strftime("%Y%m%d")
-        date_var = pydicom.valuerep.DA(date_var)
     elif date_var is None or date_var == '000000.000000' or date_var == 'NUMBER':
         date_var = datetime.datetime.now().strftime("%Y%m%d")
 

@@ -18,7 +18,7 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
     :param cfg: Config dictionary
     :param tile_size: how big should each sub image be?
     :param series_downsample: Factor to translate between inches and pixels
-    :return:
+    :return: None
     """
     imlist = []
     x_tile = None

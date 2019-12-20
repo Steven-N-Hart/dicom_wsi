@@ -19,6 +19,7 @@ def build_functional_groups(dcm, cfg):
     ds4 = Dataset()
     ds4.FrameType = cfg['BaseAttributes']['ImageType']
     ds2.WholeSlideMicroscopyImageFrameTypeSequence = Sequence([ds4])
+
     dcm.SharedFunctionalGroupsSequence = Sequence([ds2])
 
     del ds1, ds2, ds3
