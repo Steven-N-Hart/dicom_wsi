@@ -7,7 +7,7 @@ General:
     FrameSize: 500
     MaxFrames: 500
     ImageFormat: .jpg      # None, .j2k, .jpg
-    CompressionAmount: 0    # 0 for no compression, 1-9 the level of ADOBE_DEFLATE compression (for BigTIFF)
+    CompressionAmount: 75    # 0 for no compression,
 
 BaseAttributes:
     PatientName: Bo^Jangles

@@ -5,7 +5,7 @@ import pydicom
 from PIL import Image
 
 
-def _compress(img_arr, compression):
+def _compress(img_arr, compression, quality):
     # JPEG Baseline (Process 1)	1.2.840.10008.1.2.4.50
     # JPEG Extended (Process 2 and 4)	1.2.840.10008.1.2.4.51
     # JPEG Lossless (Process 14)	1.2.840.10008.1.2.4.57
@@ -19,7 +19,7 @@ def _compress(img_arr, compression):
     elif compression == '.jpg':
         img = Image.fromarray(img_arr)
         f = BytesIO()
-        img.save(f, 'JPEG')
+        img.save(f, 'JPEG', quality=int(quality))
         return f.getvalue()
     elif compression == '.j2k':
         img = Image.fromarray(img_arr)
@@ -32,11 +32,13 @@ def _compress(img_arr, compression):
         raise TypeError("Must provide one of: [{}]".format(allowed_formats))
 
 
-def numpy_to_compressed(ndarray, dcm, compression=None):
+def numpy_to_compressed(ndarray, dcm, compression=None, quality=75):
     """ Convert a numpy array of [N, H, W, C] to a compressed bytestring list
     :param ndarray:
     :param dcm: dicom object
     :param compression:
+    :param quality: Value for compression (JPEG only)
+    # https://pillow.readthedocs.io/en/5.1.x/handbook/image-file-formats.html#jpeg
     :return: a DICOM object with PixelData
 
     N = Number of frames
@@ -51,10 +53,16 @@ def numpy_to_compressed(ndarray, dcm, compression=None):
 
     for i in range(num_frames):
         img = ndarray[i, :, :, :]
-        compressed_image = encode_frame_item(_compress(img, compression))
+        compressed_image = encode_frame_item(_compress(img, compression, quality))
         tmp_image = tmp_image + compressed_image
     tmp_image = tmp_image + encode_delimiter_item()
     dcm.PixelData = tmp_image
+    dcm.LossyImageCompressionRatio = int(3)  # TODO: Do not hard-code this
+    dcm.LossyImageCompression = '01'
+    if compression == '.jpg':
+        dcm.LossyImageCompressionMethod = 'ISO_10918_1'  # JPEG Lossy Compression
+    elif compression == '.j2k':
+        dcm.LossyImageCompressionMethod = 'ISO_14495_1'  # JPEG-LS Near-lossless Compression
     return dcm
 
 

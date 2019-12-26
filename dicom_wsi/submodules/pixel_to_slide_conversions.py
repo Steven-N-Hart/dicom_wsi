@@ -77,6 +77,7 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
             imlist.append(tmp3)
 
         compression_type = cfg.get('General').get('ImageFormat')
+        compression_quality = cfg.get('General').get('CompressionAmount')
         logger.debug('compression_type: {}'.format(compression_type))
 
         # If the number of frames matches the limit, then save so the file doesn't get too big
@@ -93,7 +94,7 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
             if compression_type == 'None':
                 ds.PixelData = image_array.tobytes()
             else:
-                ds = numpy_to_compressed(image_array, ds, compression=compression_type)
+                ds = numpy_to_compressed(image_array, ds, compression=compression_type, quality=compression_quality)
 
             ds.Columns, ds.Rows = tile_size, tile_size
             fragment += 1
@@ -114,7 +115,7 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
     if compression_type == 'None':
         ds.PixelData = image_array.tobytes()
     else:
-        ds = numpy_to_compressed(image_array, ds, compression=compression_type)
+        ds = numpy_to_compressed(image_array, ds, compression=compression_type, quality=compression_quality)
 
     ds.Columns, ds.Rows = tile_size, tile_size  # used to calculate expected size
     #   PixelData has incorrect value length - expected 0 dec - got ...
