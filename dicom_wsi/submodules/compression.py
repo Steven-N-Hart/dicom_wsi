@@ -3,6 +3,7 @@ from io import BytesIO
 import numpy as np
 import pydicom
 from PIL import Image
+from pydicom.encaps import encapsulate
 
 
 def _compress(img_arr, compression, quality):
@@ -49,20 +50,27 @@ def numpy_to_compressed(ndarray, dcm, compression=None, quality=75):
     tile_size = ndarray.shape[1]
     num_frames = ndarray.shape[0]
     frame_offsets = range(0, num_frames, tile_size)
-    tmp_image = encode_pixel_data_element_header(frame_offsets)
+    tmp_image = [encode_pixel_data_element_header(frame_offsets)]
 
     for i in range(num_frames):
         img = ndarray[i, :, :, :]
         compressed_image = encode_frame_item(_compress(img, compression, quality))
-        tmp_image = tmp_image + compressed_image
-    tmp_image = tmp_image + encode_delimiter_item()
-    dcm.PixelData = tmp_image
+        tmp_image.append(ensure_even(compressed_image))
+    tmp_image.append(encode_delimiter_item())
+    tmp_image = b''.join(t for t in tmp_image)
+
+    dcm.PixelData = encapsulate([tmp_image])
     dcm.LossyImageCompressionRatio = int(3)  # TODO: Do not hard-code this
-    dcm.LossyImageCompression = '01'
     if compression == '.jpg':
         dcm.LossyImageCompressionMethod = 'ISO_10918_1'  # JPEG Lossy Compression
+        dcm.is_implicit_VR = False
+        dcm['PixelData'].is_undefined_length = True
+        dcm.LossyImageCompression = '01'
     elif compression == '.j2k':
         dcm.LossyImageCompressionMethod = 'ISO_14495_1'  # JPEG-LS Near-lossless Compression
+        dcm.is_implicit_VR = False
+        dcm['PixelData'].is_undefined_length = True
+        dcm.LossyImageCompression = '01'
     return dcm
 
 
@@ -153,3 +161,10 @@ def encode_delimiter_item(IS_LITTLE_ENDIAN=True, IS_IMPLICIT_VR=False):
         # Length of Sequence Delimiter item
         fp.write_UL(0)
         return fp.getvalue()
+
+
+def ensure_even(stream):
+    # Very important for some viewers
+    if len(stream) % 2:
+        return stream + b"\x00"
+    return stream

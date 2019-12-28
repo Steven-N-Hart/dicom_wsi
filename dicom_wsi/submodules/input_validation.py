@@ -13,7 +13,6 @@ restricted_inputs = {
     'Modality': ['SM'],
     'ImageFormat': ['.jpg', 'None', '.j2k'],
     'BurnedInAnnotation': ['YES', 'NO'],
-    'LossyImageCompression': ['00', '01'],
     'PhotometricInterpretation': ['MONOCHROME1', 'RGB', 'YBR_FULL_422', 'YBR_ICT', 'YBR_RCT'],
     'VolumetricProperties': ['VOLUME', 'MIXED', 'SAMPLED', 'DISTORTED'],
     'PositionReferenceIndicator': ['SLIDE_CORNER'],
@@ -34,7 +33,7 @@ required_fields = {
                        'Modality', 'VolumetricProperties', 'PatientID', 'StudyInstanceUID', 'SeriesInstanceUID',
                        'PatientOrientation', 'SamplesPerPixel', 'PhotometricInterpretation',
                        'PlanarConfiguration', 'BitsAllocated', 'BitsStored', 'HighBit', 'PixelRepresentation',
-                       'LossyImageCompression', 'ImagedVolumeWidth', 'ImagedVolumeHeight', 'ImagedVolumeDepth',
+                       'ImagedVolumeWidth', 'ImagedVolumeHeight', 'ImagedVolumeDepth',
                        'ImageOrientationSlide', 'DimensionOrganizationType']
 
 

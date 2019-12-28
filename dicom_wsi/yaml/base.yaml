@@ -7,7 +7,7 @@ General:
     FrameSize: 500
     MaxFrames: 500
     ImageFormat: .jpg      # None, .j2k, .jpg
-    CompressionAmount: 75    # 0 for no compression,
+    CompressionAmount: 90    # 0 for no compression,
 
 BaseAttributes:
     PatientName: Bo^Jangles
@@ -48,7 +48,6 @@ BaseAttributes:
     BitsStored: 8
     HighBit: 7
     PixelRepresentation: 0
-    LossyImageCompression: '00'
     ImagedVolumeWidth: 15
     ImagedVolumeHeight: 15
     ImagedVolumeDepth: 1

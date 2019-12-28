@@ -1,7 +1,9 @@
 import logging
 
 import numpy as np
+from PIL import Image
 from pydicom.dataset import Dataset
+from pydicom.encaps import encapsulate
 from pydicom.filewriter import dcmwrite
 from pydicom.sequence import Sequence
 from submodules.compression import numpy_to_compressed
@@ -67,14 +69,16 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
 
         # Make sure the frame is square and filled
         if tmp.shape == (tile_size, tile_size, 3):
-            imlist.append(tmp)
+            tmp_img = Image.fromarray(tmp)
+            imlist.append(tmp_img)
         else:
             tmp3 = np.zeros((tile_size, tile_size, 3), dtype=int)
             tmp3 = np.uint8(tmp3)
             tmp = np.uint8(tmp)
             a, b, c = [int(x) for x in tmp.shape]
             tmp3[0:a, 0:b, 0:c] = tmp
-            imlist.append(tmp3)
+            tmp_img = Image.fromarray(tmp3)
+            imlist.append(tmp_img)
 
         compression_type = cfg.get('General').get('ImageFormat')
         compression_quality = cfg.get('General').get('CompressionAmount')
@@ -93,12 +97,15 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
             logger.debug('image_array is {}'.format(image_array))
             if compression_type == 'None':
                 ds.PixelData = image_array.tobytes()
+                ds.LossyImageCompression = '00'
             else:
                 ds = numpy_to_compressed(image_array, ds, compression=compression_type, quality=compression_quality)
+                ds.LossyImageCompression = '01'
 
             ds.Columns, ds.Rows = tile_size, tile_size
             fragment += 1
-            ds.save_as(out_file)
+            # ds.save_as(out_file)
+            dcmwrite(out_file, ds, write_like_original=False)
             logger.info('Wrote: {}'.format(out_file))
             # Empty out contents so they don't get duplicated frames in each file
             imlist = []
@@ -108,22 +115,43 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
     num_frames = imlist.__len__()
     ds.NumberOfFrames = int(num_frames)
     image_array = np.zeros((num_frames, tile_size, tile_size, 3), dtype=np.uint8)
+
     for q in range(num_frames):
-        tmp = imlist[q]
         image_array[q, :, :, :] = imlist[q]
 
     if compression_type == 'None':
         ds.PixelData = image_array.tobytes()
+        ds.LossyImageCompression = '00'
     else:
-        ds = numpy_to_compressed(image_array, ds, compression=compression_type, quality=compression_quality)
+        # ds = numpy_to_compressed(image_array, ds, compression=compression_type, quality=compression_quality)
+        # imlist[0].save(f, format='tiff', append_images=imlist[1:], save_all=True, compression='jpeg')
+        import tiffile
+        with tiffile.TiffWriter('out.tiff') as tiff:
+            for img in imlist:
+                tiff.save(PIL2array(img), compress=6)
+
+        img = Image.open('out.tiff')
+        ds.PixelData = encapsulate([ensure_even(img.tobytes())])
+
+        ds['PixelData'].is_undefined_length = True
+        ds.is_implicit_VR = False
+        ds.LossyImageCompression = '01'
+        ds.LossyImageCompressionRatio = 3
+        ds.LossyImageCompressionMethod = 'ISO_10918_1'
+        ds.file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.51'
 
     ds.Columns, ds.Rows = tile_size, tile_size  # used to calculate expected size
-    #   PixelData has incorrect value length - expected 0 dec - got ...
     out_file = out_file_prefix + '.' + str(ds.InstanceNumber) + '-' + str(fragment) + '.dcm'
 
-    # ds.save_as(out_file)
+    #ds.save_as(out_file)
     dcmwrite(out_file, ds, write_like_original=False)
     logger.info('Wrote: {}'.format(out_file))
+
+
+def PIL2array(img):
+    """ Convert a PIL/Pillow image to a numpy array """
+    return np.array(img.getdata(),
+                    np.uint8).reshape(img.size[1], img.size[0], 3)
 
 
 def generate_XY_tiles(x_max, y_max, tile_size=500):
@@ -191,3 +219,10 @@ dtype_to_format = {
     'complex64': 'complex',
     'complex128': 'dpcomplex',
 }
+
+
+def ensure_even(stream):
+    # Very important for some viewers
+    if len(stream) % 2:
+        return stream + b"\x00"
+    return stream
