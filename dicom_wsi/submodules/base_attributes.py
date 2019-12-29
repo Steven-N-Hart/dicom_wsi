@@ -18,7 +18,9 @@ def build_base(cfg, dcm=None, dict_element='BaseAttributes', instance=1):
     # http://dicom.nema.org/dicom/2013/output/chtml/part04/sect_B.5.html
     compression_type = cfg.get('General').get('ImageFormat')
 
-    media_storage_sop_instance_uid = '1.2.276.0.7230010.3.1.4.8323329.20175.1573232572.237464'
+    # media_storage_sop_instance_uid = '1.2.276.0.7230010.3.1.4.8323329.20175.1573232572.237464'
+    media_storage_sop_instance_uid = '1.2.840.10008.5.1.4.1.1.77.1.6'
+
     media_storage_sop_class_uid = '1.2.840.10008.5.1.4.1.1.77.1.6'  # VL Whole Slide Microscopy Image Storage
     implementation_class_uid = '1.2.276.0.7230010.3.0.3.6.2'
 
@@ -38,7 +40,8 @@ def build_base(cfg, dcm=None, dict_element='BaseAttributes', instance=1):
                 1]  # Implicit VR Endian: Default Transfer Syntax for DICOM
         elif compression_type == '.jpg':
             # noinspection PyUnresolvedReferences
-            file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.51'  # JPEG Extended (Process 2 and 4)
+            file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.50'  # JPEGBaseline
+            #file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.51'  # JPEG Extended (Process 2 and 4)
             file_meta.is_implicit_VR = False
         elif compression_type == '.j2k':
             file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.80'  # JPEG-LS Lossless Image Compression

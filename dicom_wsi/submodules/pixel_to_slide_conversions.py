@@ -1,12 +1,12 @@
 import logging
-
+import os
+import io
 import numpy as np
 from PIL import Image
 from pydicom.dataset import Dataset
 from pydicom.encaps import encapsulate
 from pydicom.filewriter import dcmwrite
 from pydicom.sequence import Sequence
-from submodules.compression import numpy_to_compressed
 
 logger = logging.getLogger(__name__)
 
@@ -99,8 +99,29 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
                 ds.PixelData = image_array.tobytes()
                 ds.LossyImageCompression = '00'
             else:
-                ds = numpy_to_compressed(image_array, ds, compression=compression_type, quality=compression_quality)
+                f = io.BytesIO()
+                imlist[0].save(f, format='tiff', append_images=imlist[1:], save_all=True, compression='jpeg')
+                # The BytesIO object cursor is at the end of the object, so I need to tell it to go back to the front
+                f.seek(0)
+                img = Image.open(f)
+                img_byte_list = []
+                # Get each one of the frames converted to even numbered bytes
+                for i in range(num_frames):
+                    try:
+                        img.seek(i)
+                        with io.BytesIO() as output:
+                            img.save(output, format='jpeg')
+                            img_byte_list.append(output.getvalue())
+                    except EOFError:
+                        # Not enough frames in img
+                        break
+
+                ds.PixelData = encapsulate(img_byte_list)
+                ds['PixelData'].is_undefined_length = True
+                ds.is_implicit_VR = False
                 ds.LossyImageCompression = '01'
+                ds.LossyImageCompressionRatio = 10
+                ds.LossyImageCompressionMethod = 'ISO_10918_1'
 
             ds.Columns, ds.Rows = tile_size, tile_size
             fragment += 1
@@ -124,26 +145,33 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
         ds.LossyImageCompression = '00'
     else:
         # ds = numpy_to_compressed(image_array, ds, compression=compression_type, quality=compression_quality)
-        # imlist[0].save(f, format='tiff', append_images=imlist[1:], save_all=True, compression='jpeg')
-        import tiffile
-        with tiffile.TiffWriter('out.tiff') as tiff:
-            for img in imlist:
-                tiff.save(PIL2array(img), compress=6)
+        f = io.BytesIO()
+        imlist[0].save(f, format='tiff', append_images=imlist[1:], save_all=True, compression='jpeg')
+        # The BytesIO object cursor is at the end of the object, so I need to tell it to go back to the front
+        f.seek(0)
+        img = Image.open(f)
+        img_byte_list = []
+        # Get each one of the frames converted to even numbered bytes
+        for i in range(num_frames):
+            try:
+                img.seek(i)
+                with io.BytesIO() as output:
+                    img.save(output, format='jpeg')
+                    img_byte_list.append(output.getvalue())
+            except EOFError:
+                # Not enough frames in img
+                break
 
-        img = Image.open('out.tiff')
-        ds.PixelData = encapsulate([ensure_even(img.tobytes())])
-
+        ds.PixelData = encapsulate(img_byte_list)
         ds['PixelData'].is_undefined_length = True
         ds.is_implicit_VR = False
         ds.LossyImageCompression = '01'
-        ds.LossyImageCompressionRatio = 3
+        ds.LossyImageCompressionRatio = 10
         ds.LossyImageCompressionMethod = 'ISO_10918_1'
-        ds.file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.51'
 
     ds.Columns, ds.Rows = tile_size, tile_size  # used to calculate expected size
     out_file = out_file_prefix + '.' + str(ds.InstanceNumber) + '-' + str(fragment) + '.dcm'
 
-    #ds.save_as(out_file)
     dcmwrite(out_file, ds, write_like_original=False)
     logger.info('Wrote: {}'.format(out_file))
 
