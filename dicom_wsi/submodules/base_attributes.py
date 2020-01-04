@@ -18,8 +18,7 @@ def build_base(cfg, dcm=None, dict_element='BaseAttributes', instance=1):
     # http://dicom.nema.org/dicom/2013/output/chtml/part04/sect_B.5.html
     compression_type = cfg.get('General').get('ImageFormat')
 
-    # media_storage_sop_instance_uid = '1.2.276.0.7230010.3.1.4.8323329.20175.1573232572.237464'
-    media_storage_sop_instance_uid = '1.2.840.10008.5.1.4.1.1.77.1.6'
+    media_storage_sop_instance_uid = '1.2.276.0.7230010.3.1.4.0.23267.1577648534.965883'
 
     media_storage_sop_class_uid = '1.2.840.10008.5.1.4.1.1.77.1.6'  # VL Whole Slide Microscopy Image Storage
     implementation_class_uid = '1.2.276.0.7230010.3.0.3.6.2'

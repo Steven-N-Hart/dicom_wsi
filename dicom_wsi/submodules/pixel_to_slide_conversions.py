@@ -1,6 +1,6 @@
-import logging
-import os
 import io
+import logging
+
 import numpy as np
 from PIL import Image
 from pydicom.dataset import Dataset
@@ -82,7 +82,7 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
 
         compression_type = cfg.get('General').get('ImageFormat')
         compression_quality = cfg.get('General').get('CompressionAmount')
-        logger.debug('compression_type: {}'.format(compression_type))
+        # logger.debug('compression_type: {}'.format(compression_type))
 
         # If the number of frames matches the limit, then save so the file doesn't get too big
         max_frames = int(cfg.get('General').get('MaxFrames'))
@@ -94,7 +94,7 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
             image_array = np.zeros((num_frames, tile_size, tile_size, 3), dtype=np.int8)
             for q in range(num_frames):
                 image_array[q, :, :, :] = imlist[q]
-            logger.debug('image_array is {}'.format(image_array))
+            #logger.debug('image_array is {}'.format(image_array))
             if compression_type == 'None':
                 ds.PixelData = image_array.tobytes()
                 ds.LossyImageCompression = '00'
@@ -176,11 +176,6 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
     logger.info('Wrote: {}'.format(out_file))
 
 
-def PIL2array(img):
-    """ Convert a PIL/Pillow image to a numpy array """
-    return np.array(img.getdata(),
-                    np.uint8).reshape(img.size[1], img.size[0], 3)
-
 
 def generate_XY_tiles(x_max, y_max, tile_size=500):
     """
@@ -248,9 +243,3 @@ dtype_to_format = {
     'complex128': 'dpcomplex',
 }
 
-
-def ensure_even(stream):
-    # Very important for some viewers
-    if len(stream) % 2:
-        return stream + b"\x00"
-    return stream
