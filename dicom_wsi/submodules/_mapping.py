@@ -23,7 +23,7 @@ def map_aperio_features(cfg, wsi):
                                  dict_element='SharedFunctionalGroupsSequence')
     else:
         cfg['SharedFunctionalGroupsSequence']['ContentTime'] = cfg['BaseAttributes']['ContentTime']
-        del cfg['BaseAttributes']['ContentTime']
+        # del cfg['BaseAttributes']['ContentTime']
 
     if not cfg.get('BaseAttributes').get('SeriesTime'):
         _, cfg = utils.make_time('SeriesTime', wsi.get('aperio.Time'), cfg,
@@ -37,7 +37,7 @@ def map_aperio_features(cfg, wsi):
                                  dict_element='SharedFunctionalGroupsSequence')
     else:
         cfg['SharedFunctionalGroupsSequence']['StudyTime'] = cfg['BaseAttributes']['StudyTime']
-        del cfg['BaseAttributes']['StudyTime']
+        #del cfg['BaseAttributes']['StudyTime']
 
     pv = wsi.get('openslide.mpp-x'), wsi.get('openslide.mpp-y')
     cfg['OnTheFly']['PixelSpacing'] = [float(x) for x in pv]

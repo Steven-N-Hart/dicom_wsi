@@ -7,18 +7,19 @@ from pydicom.uid import generate_uid
 
 def build_sequences(dcm, cfg):
     """ all values are hard coded to ensure they are present in the final file """
+    dimension_organization_uid = '1.2.276.0.7230010.3.1.4.8323329.20175.1573232544.237437'
     ds0 = Dataset()
-    ds0.DimensionOrganizationUID = '1.2.276.0.7230010.3.1.4.8323329.17698.1572316846.287083'
+    ds0.DimensionOrganizationUID = dimension_organization_uid
     dcm.DimensionOrganizationSequence = Sequence([ds0])
     del ds0
 
     ds1 = Dataset()
-    ds1.DimensionOrganizationUID = '1.2.276.0.7230010.3.1.4.8323329.17698.1572316846.287083'
+    ds1.DimensionOrganizationUID = dimension_organization_uid
     ds1.DimensionIndexPointer = Tag(0x0048021E)
     ds1.FunctionalGroupPointer = Tag(0x0048021A)
 
     ds2 = Dataset()
-    ds2.DimensionOrganizationUID = '1.2.276.0.7230010.3.1.4.8323329.17698.1572316846.287083'
+    ds2.DimensionOrganizationUID = dimension_organization_uid
     ds2.DimensionIndexPointer = Tag(0x0048021F)
     ds2.FunctionalGroupPointer = Tag(0x0048021A)
 
@@ -64,11 +65,11 @@ def build_sequences(dcm, cfg):
 
     ds0 = Dataset()
 
-    ds0.SpecimenIdentifier = 'Unknown'
+    ds0.SpecimenIdentifier = 'UNKNOWN'
     ds0.SpecimenPreparationSequence = Sequence([])
     ds0.SpecimenUID = generate_uid(prefix=None)
     ds0.IssuerOfTheSpecimenIdentifierSequence = Sequence([])
     dcm.SpecimenDescriptionSequence = Sequence([ds0])
     dcm.ContainerTypeCodeSequence = Sequence([])
-    dcm.ContainerIdentifier = 'Unknown'
+    dcm.ContainerIdentifier = 'UNKNOWN'
     return dcm

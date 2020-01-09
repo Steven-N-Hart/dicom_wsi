@@ -59,6 +59,8 @@ def create_dicom(cfg):
         t_get_pixels = timer()
         logger.debug('Updating pixels took {} seconds.'.format(round(t_get_pixels - t_get_func, 1)))
 
+        logger.debug('file_meta: {}'.format(dcm.file_meta))
+
         # Add per frame functional groups
         add_PerFrameFunctionalGroupsSequence(img=img,
                                              ds=dcm,
@@ -68,4 +70,6 @@ def create_dicom(cfg):
         t_save = timer()
 
         logger.info('Total elapsed time: {} minutes.'.format(round((t_save - start) / 60, 3)))
-        exit(1)
+        # logger.debug('file_meta: {}'.format(dcm.file_meta))
+        # logger.debug('file_contents: {}'.format(dcm))
+        # exit(1)

@@ -1,8 +1,11 @@
+import io
 import logging
 
 import numpy as np
 from PIL import Image
 from pydicom.dataset import Dataset
+from pydicom.encaps import encapsulate
+from pydicom.filewriter import dcmwrite
 from pydicom.sequence import Sequence
 
 logger = logging.getLogger(__name__)
@@ -10,14 +13,14 @@ logger = logging.getLogger(__name__)
 
 def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=500, series_downsample=1):
     """
-    Calcualte the PerFrame Functional Groups
+    Calculate the PerFrame Functional Groups
 
     :param img: VIPS image object
     :param ds: DICOM Object
     :param cfg: Config dictionary
     :param tile_size: how big should each sub image be?
     :param series_downsample: Factor to translate between inches and pixels
-    :return:
+    :return: None
     """
     imlist = []
     x_tile = None
@@ -66,29 +69,64 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
 
         # Make sure the frame is square and filled
         if tmp.shape == (tile_size, tile_size, 3):
-            imlist.append(tmp)
+            tmp_img = Image.fromarray(tmp)
+            imlist.append(tmp_img)
         else:
             tmp3 = np.zeros((tile_size, tile_size, 3), dtype=int)
             tmp3 = np.uint8(tmp3)
             tmp = np.uint8(tmp)
             a, b, c = [int(x) for x in tmp.shape]
             tmp3[0:a, 0:b, 0:c] = tmp
-            imlist.append(tmp3)
+            tmp_img = Image.fromarray(tmp3)
+            imlist.append(tmp_img)
+
+        compression_type = cfg.get('General').get('ImageFormat')
+        compression_quality = cfg.get('General').get('CompressionAmount')
+        # logger.debug('compression_type: {}'.format(compression_type))
 
         # If the number of frames matches the limit, then save so the file doesn't get too big
         max_frames = int(cfg.get('General').get('MaxFrames'))
         if imlist.__len__() == max_frames:
+            logger.debug('imlist.__len__() {} == max_frames {}'.format(imlist.__len__(), max_frames))
             num_frames = imlist.__len__()
             out_file = out_file_prefix + '.' + str(ds.InstanceNumber) + '-' + str(fragment) + '.dcm'
             ds.NumberOfFrames = max_frames
             image_array = np.zeros((num_frames, tile_size, tile_size, 3), dtype=np.int8)
             for q in range(num_frames):
                 image_array[q, :, :, :] = imlist[q]
+            #logger.debug('image_array is {}'.format(image_array))
+            if compression_type == 'None':
+                ds.PixelData = image_array.tobytes()
+                ds.LossyImageCompression = '00'
+            else:
+                f = io.BytesIO()
+                imlist[0].save(f, format='tiff', append_images=imlist[1:], save_all=True, compression='jpeg')
+                # The BytesIO object cursor is at the end of the object, so I need to tell it to go back to the front
+                f.seek(0)
+                img = Image.open(f)
+                img_byte_list = []
+                # Get each one of the frames converted to even numbered bytes
+                for i in range(num_frames):
+                    try:
+                        img.seek(i)
+                        with io.BytesIO() as output:
+                            img.save(output, format='jpeg')
+                            img_byte_list.append(output.getvalue())
+                    except EOFError:
+                        # Not enough frames in img
+                        break
 
-            ds.PixelData = image_array.tobytes()
+                ds.PixelData = encapsulate(img_byte_list)
+                ds['PixelData'].is_undefined_length = True
+                ds.is_implicit_VR = False
+                ds.LossyImageCompression = '01'
+                ds.LossyImageCompressionRatio = 10
+                ds.LossyImageCompressionMethod = 'ISO_10918_1'
+
             ds.Columns, ds.Rows = tile_size, tile_size
             fragment += 1
-            ds.save_as(out_file)
+            # ds.save_as(out_file)
+            dcmwrite(out_file, ds, write_like_original=False)
             logger.info('Wrote: {}'.format(out_file))
             # Empty out contents so they don't get duplicated frames in each file
             imlist = []
@@ -97,29 +135,46 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
     # stack each of the frames
     num_frames = imlist.__len__()
     ds.NumberOfFrames = int(num_frames)
+    image_array = np.zeros((num_frames, tile_size, tile_size, 3), dtype=np.uint8)
 
+    for q in range(num_frames):
+        image_array[q, :, :, :] = imlist[q]
 
-    image_array = np.zeros((num_frames, tile_size, tile_size, 3), dtype=np.int8)
-    tmp = []  # Only used for compression
-    for i in range(num_frames):
-        image_array[i, :, :, :] = imlist[i]
-        tmp.append(Image.fromarray(imlist[i]))
+    if compression_type == 'None':
+        ds.PixelData = image_array.tobytes()
+        ds.LossyImageCompression = '00'
+    else:
+        # ds = numpy_to_compressed(image_array, ds, compression=compression_type, quality=compression_quality)
+        f = io.BytesIO()
+        imlist[0].save(f, format='tiff', append_images=imlist[1:], save_all=True, compression='jpeg')
+        # The BytesIO object cursor is at the end of the object, so I need to tell it to go back to the front
+        f.seek(0)
+        img = Image.open(f)
+        img_byte_list = []
+        # Get each one of the frames converted to even numbered bytes
+        for i in range(num_frames):
+            try:
+                img.seek(i)
+                with io.BytesIO() as output:
+                    img.save(output, format='jpeg')
+                    img_byte_list.append(output.getvalue())
+            except EOFError:
+                # Not enough frames in img
+                break
 
-    # TODO Compression
-    """
-    
-    # Work on this for compressing image data
-    
-    f = io.BytesIO()
-    tmp[0].save(f, format="jpeg", append_images=tmp[1:])
-    ds.PixelData = pydicom.encaps.encapsulate(f.getvalue())
-    """
+        ds.PixelData = encapsulate(img_byte_list)
+        ds['PixelData'].is_undefined_length = True
+        ds.is_implicit_VR = False
+        ds.LossyImageCompression = '01'
+        ds.LossyImageCompressionRatio = 10
+        ds.LossyImageCompressionMethod = 'ISO_10918_1'
 
-    ds.PixelData = image_array.tobytes()
-    ds.Columns, ds.Rows = tile_size, tile_size
+    ds.Columns, ds.Rows = tile_size, tile_size  # used to calculate expected size
     out_file = out_file_prefix + '.' + str(ds.InstanceNumber) + '-' + str(fragment) + '.dcm'
-    ds.save_as(out_file)
+
+    dcmwrite(out_file, ds, write_like_original=False)
     logger.info('Wrote: {}'.format(out_file))
+
 
 
 def generate_XY_tiles(x_max, y_max, tile_size=500):
@@ -187,3 +242,4 @@ dtype_to_format = {
     'complex64': 'complex',
     'complex128': 'dpcomplex',
 }
+
