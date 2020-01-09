@@ -20,7 +20,7 @@ install:
     - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION pyvips openslide openjpeg libtiff
     - conda activate test-environment
     - pip install -U tox-travis
-    - python setup.py install
+    - pip install -U -r requirements_dev.txt
 
 # Command to run tests, e.g. python setup.py test
 script: tox
