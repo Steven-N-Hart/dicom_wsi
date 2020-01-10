@@ -28,6 +28,7 @@ def create_pixel_data(img_list, compression_type, q):
             encoded_framed_items.append(t)
         return encoded_framed_items
 
+
 def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=500, series_downsample=1):
     """
     Calculate the PerFrame Functional Groups
@@ -124,97 +125,6 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
 
             dcmwrite(out_file, ds, write_like_original=False)
             logger.info('Wrote: {}'.format(out_file))
-
-    #
-    #         self.dcm_instance.file_meta = file_meta
-    #         self.dcm_instance.save_as(filename, write_like_original=False)
-    #         self.instance_cnt += 1
-    #
-    #
-    #         image_array = np.zeros((num_frames, tile_size, tile_size, 3), dtype=np.int8)
-    #         for q in range(num_frames):
-    #             image_array[q, :, :, :] = imlist[q]
-    #         #logger.debug('image_array is {}'.format(image_array))
-    #         if compression_type == 'None':
-    #             ds.PixelData = image_array.tobytes()
-    #             ds.LossyImageCompression = '00'
-    #         else:
-    #             f = io.BytesIO()
-    #             imlist[0].save(f, format='tiff', append_images=imlist[1:], save_all=True, compression='jpeg')
-    #             # The BytesIO object cursor is at the end of the object, so I need to tell it to go back to the front
-    #             f.seek(0)
-    #             img = Image.open(f)
-    #             img_byte_list = []
-    #             # Get each one of the frames converted to even numbered bytes
-    #             for i in range(num_frames):
-    #                 try:
-    #                     img.seek(i)
-    #                     with io.BytesIO() as output:
-    #                         img.save(output, format='jpeg')
-    #                         img_byte_list.append(output.getvalue())
-    #                 except EOFError:
-    #                     # Not enough frames in img
-    #                     break
-    #
-    #             ds.PixelData = encapsulate(img_byte_list)
-    #             ds['PixelData'].is_undefined_length = True
-    #             ds.is_implicit_VR = False
-    #             ds.LossyImageCompression = '01'
-    #             ds.LossyImageCompressionRatio = 10
-    #             ds.LossyImageCompressionMethod = 'ISO_10918_1'
-    #
-    #         ds.Columns, ds.Rows = tile_size, tile_size
-    #         fragment += 1
-    #         # ds.save_as(out_file)
-    #         dcmwrite(out_file, ds, write_like_original=False)
-    #         logger.info('Wrote: {}'.format(out_file))
-    #         # Empty out contents so they don't get duplicated frames in each file
-    #         imlist = []
-    #         ds.PerFrameFunctionalGroupsSequence = None
-    #
-    # # stack each of the frames
-    # num_frames = imlist.__len__()
-    # ds.NumberOfFrames = int(num_frames)
-    # image_array = np.zeros((num_frames, tile_size, tile_size, 3), dtype=np.uint8)
-    #
-    # for q in range(num_frames):
-    #     image_array[q, :, :, :] = imlist[q]
-    #
-    # if compression_type == 'None':
-    #     ds.PixelData = image_array.tobytes()
-    #     ds.LossyImageCompression = '00'
-    # else:
-    #     # ds = numpy_to_compressed(image_array, ds, compression=compression_type, quality=compression_quality)
-    #     f = io.BytesIO()
-    #     imlist[0].save(f, format='tiff', append_images=imlist[1:], save_all=True, compression='jpeg')
-    #     # The BytesIO object cursor is at the end of the object, so I need to tell it to go back to the front
-    #     f.seek(0)
-    #     img = Image.open(f)
-    #     img_byte_list = []
-    #     # Get each one of the frames converted to even numbered bytes
-    #     for i in range(num_frames):
-    #         try:
-    #             img.seek(i)
-    #             with io.BytesIO() as output:
-    #                 img.save(output, format='jpeg')
-    #                 img_byte_list.append(output.getvalue())
-    #         except EOFError:
-    #             # Not enough frames in img
-    #             break
-    #
-    #     ds.PixelData = encapsulate(img_byte_list)
-    #     ds['PixelData'].is_undefined_length = True
-    #     ds.is_implicit_VR = False
-    #     ds.LossyImageCompression = '01'
-    #     ds.LossyImageCompressionRatio = 10
-    #     ds.LossyImageCompressionMethod = 'ISO_10918_1'
-    #
-    # ds.Columns, ds.Rows = tile_size, tile_size  # used to calculate expected size
-    # out_file = out_file_prefix + '.' + str(ds.InstanceNumber) + '-' + str(fragment) + '.dcm'
-    #
-    # dcmwrite(out_file, ds, write_like_original=False)
-    # logger.info('Wrote: {}'.format(out_file))
-
 
 
 def generate_XY_tiles(x_max, y_max, tile_size=500):
