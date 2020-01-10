@@ -62,6 +62,7 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
 
     # If the number of frames matches the limit, then save so the file doesn't get too big
     max_frames = int(cfg.get('General').get('MaxFrames'))
+    ds.Columns, ds.Rows = tile_size, tile_size  # used to calculate expected size
 
     tiles = generate_XY_tiles(ds.TotalPixelMatrixColumns, ds.TotalPixelMatrixRows, tile_size=tile_size)
     for i in tiles:
@@ -110,21 +111,33 @@ def add_PerFrameFunctionalGroupsSequence(img=None, ds=None, cfg=None, tile_size=
             ds.NumberOfFrames = max_frames
 
             encoded_pixel_data = create_pixel_data(imlist, compression_type, compression_quality)
-
+            imlist = []  # erase the images in the list
             if compression_type == 'None':
-                data_elem_tag = pydicom.tag.TupleTag((0x7FE0, 0x0010))
                 enc_frames = encapsulate(encoded_pixel_data, has_bot=True)
+                data_elem_tag = pydicom.tag.TupleTag((0x7FE0, 0x0010))
                 pd_ele = DataElement(data_elem_tag, 'OB', enc_frames, is_undefined_length=True)
                 ds.add(pd_ele)
-
             else:
                 ds.PixelData = encoded_pixel_data
-
-            ds.Columns, ds.Rows = tile_size, tile_size  # used to calculate expected size
+            ds.InstanceNumber += 1
             out_file = out_file_prefix + '.' + str(ds.InstanceNumber) + '-' + str(fragment) + '.dcm'
-
             dcmwrite(out_file, ds, write_like_original=False)
             logger.info('Wrote: {}'.format(out_file))
+
+    # append the image data that not exceed the max_frames
+    if imlist.__len__() > 0:
+        ds.InstanceNumber += 1
+        encoded_pixel_data = create_pixel_data(imlist, compression_type, compression_quality)
+        imlist = []  # erase the images in the list
+        if compression_type == 'None':
+            enc_frames = encapsulate(encoded_pixel_data, has_bot=True)
+            data_elem_tag = pydicom.tag.TupleTag((0x7FE0, 0x0010))
+            pd_ele = DataElement(data_elem_tag, 'OB', enc_frames, is_undefined_length=True)
+            ds.add(pd_ele)
+        else:
+            ds.PixelData = encoded_pixel_data
+        out_file = out_file_prefix + '.' + str(ds.InstanceNumber) + '-' + str(fragment) + '.dcm'
+        dcmwrite(out_file, ds, write_like_original=False)
 
 
 def generate_XY_tiles(x_max, y_max, tile_size=500):
