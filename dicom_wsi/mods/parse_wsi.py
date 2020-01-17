@@ -15,15 +15,8 @@ def get_wsi(cfg):
     :param cfg:
     :return: cfg, wsi_object
     """
-    brand = cfg.get('General').get('WSIBrand')
-    assert brand is not None, "Must specify a WSIBrand, you specified {}".format(brand)
-    if brand == 'aperio_svs':
-        cfg, wsi = _parse_aperio_svs(cfg)
-    elif brand == 'phillips_tiff':
-        cfg, wsi = _parse_phillips_tiff(cfg)
-    else:
-        raise ValueError('Only acceptable files are: {}'.format(', '.join(restricted_inputs['WSIBrand'])))
-    return cfg, wsi
+    wsi = pyvips.Image.new_from_file(wsi_fn, access='sequential')
+    return wsi
 
 
 def _parse_aperio_svs(cfg):

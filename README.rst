@@ -26,9 +26,6 @@ Features
 
 TODO
 --------
-* Verify `SharedFunctionalGroupsSequence` are actually getting added or ignored
-* Build Compression options
-* Add more file options (currently only svs is supported)
 * Find out how to determine what `FileMetaInformationGroupLength` should be
 * Add more tests
 
