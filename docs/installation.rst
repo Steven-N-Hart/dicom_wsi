@@ -52,3 +52,8 @@ Once you have a copy of the source, you can install it with:
 
 .. _Github repo: https://github.com/Steven-N-Hart/dicom_wsi
 .. _tarball: https://github.com/Steven-N-Hart/dicom_wsi/tarball/master
+
+
+Development with PyCharm
+------------
+If you are going to do some development work with PyCharm, you will need to copy the binary files into your venv.

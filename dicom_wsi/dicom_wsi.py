@@ -2,13 +2,13 @@
 import logging
 from timeit import default_timer as timer
 
-from submodules.base_attributes import build_base
-from submodules.input_validation import validate_cfg
-from submodules.parse_wsi import get_wsi
-from submodules.pixel_data_conversion import resize_wsi_image
-from submodules.pixel_to_slide_conversions import add_PerFrameFunctionalGroupsSequence
-from submodules.sequence_attributes import build_sequences
-from submodules.shared_functional_groups import build_functional_groups
+from base_attributes import build_base
+from input_validation import validate_cfg
+from parse_wsi import get_wsi
+from pixel_data_conversion import resize_wsi_image
+from pixel_to_slide_conversions import add_per_frame_functional_groups_sequence
+from sequence_attributes import build_sequences
+from shared_functional_groups import build_functional_groups
 
 logger = logging.getLogger(__name__)
 
@@ -40,7 +40,7 @@ def create_dicom(cfg):
         logger.debug('Updating base attributes took {} seconds.'.format(round(t_get_base - t_get_wsi, 1)))
 
         # Add the SequenceAttributes
-        dcm = build_sequences(dcm, cfg)  # TODO: Add tests
+        dcm = build_sequences(dcm)  # TODO: Add tests
         t_get_seq = timer()
         logger.debug('Updating sequence attributes took {} seconds.'.format(round(t_get_seq - t_get_base, 1)))
 
@@ -62,7 +62,7 @@ def create_dicom(cfg):
         logger.debug('file_meta: {}'.format(dcm.file_meta))
 
         # Add per frame functional groups
-        add_PerFrameFunctionalGroupsSequence(img=img,
+        add_per_frame_functional_groups_sequence(img=img,
                                              ds=dcm,
                                              cfg=cfg,
                                              tile_size=cfg.get('General').get('FrameSize'),

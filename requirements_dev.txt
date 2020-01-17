@@ -8,7 +8,7 @@ bump2version==0.5.11
 certifi==2019.9.11
 cffi==1.13.0
 chardet==3.0.4
-colorama==0.4.1
+colorama==0.4.3
 coverage==4.5.4
 docutils==0.15.2
 entrypoints==0.3

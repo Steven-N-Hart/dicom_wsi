@@ -5,7 +5,7 @@
 
 import pytest
 
-from ..dicom_wsi.submodules import character_validations as cv
+from ..dicom_wsi.mods import character_validations as cv
 
 
 def test_cs():
