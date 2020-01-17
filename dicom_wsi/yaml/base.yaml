@@ -5,9 +5,9 @@ General:
     OrgUIDRoot: 1.2.840.113713.15.
     WSIBrand: aperio_svs
     FrameSize: 500
-    MaxFrames: 500000
-    ImageFormat: .jpg      # None, .j2k, .jpg
-    CompressionAmount: 90    # 0 for no compression,
+    MaxFrames: 500
+    ImageFormat: .jpg      # None, .jpg
+    CompressionAmount: 90    # 0 for no compression, [0-99]
 
 BaseAttributes:
     PatientName: Bo^Jangles

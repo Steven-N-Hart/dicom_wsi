@@ -2,7 +2,9 @@ import re
 
 INT_LIST = ['DA', 'UL', 'US']
 TIME_LIST = ['TM']
+# noinspection SpellCheckingInspection
 SIGNEDINT_LIST = ['US or SS']
+# noinspection SpellCheckingInspection
 INTSTRING_LIST = ['IS']
 DT_LIST = ['DT']
 DS_LIST = ['DS']
@@ -19,6 +21,7 @@ def int_validator(key, value):
         "{} must only contain 0-9, but your provided {}".format(key, value)
 
 
+# noinspection SpellCheckingInspection
 def signedint_validator(key, value):
     assert re.sub('[0-9-]', '', str(value)).__len__() == 0, \
         "{} must only contain 0-9 and -, but your provided {}".format(key, value)
@@ -44,6 +47,7 @@ def ds_validator(key, value):
         "{} must only contain 0-9, +, -, e, and E, but your provided {}".format(key, value)
 
 
+# noinspection SpellCheckingInspection
 def intstring_validator(key, value):
     assert re.sub('[0-9+-]', '', str(value)).__len__() == 0, \
         "{} must only contain 0-9, +, and - but your provided {}".format(key, value)

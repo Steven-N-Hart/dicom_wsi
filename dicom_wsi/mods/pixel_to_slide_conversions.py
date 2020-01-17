@@ -99,8 +99,7 @@ def add_per_frame_functional_groups_sequence(img=None, ds=None, cfg=None, tile_s
                 ds.LossyImageCompression = '00'
             else:
                 f = io.BytesIO()
-                imlist[0].save(f, format='tiff', append_images=imlist[1:], save_all=True, compression='None',
-                               bigtiff=True)
+                imlist[0].save(f, format='tiff', append_images=imlist[1:], save_all=True, compression='None')
                 # The BytesIO object cursor is at the end of the object, so I need to tell it to go back to the front
                 f.seek(0)
                 img = Image.open(f)
@@ -146,7 +145,7 @@ def add_per_frame_functional_groups_sequence(img=None, ds=None, cfg=None, tile_s
         ds.LossyImageCompression = '00'
     else:
         f = io.BytesIO()
-        imlist[0].save(f, format='tiff', append_images=imlist[1:], save_all=True, compression='None', bigtiff=True)
+        imlist[0].save(f, format='tiff', append_images=imlist[1:], save_all=True, compression='None')
         # The BytesIO object cursor is at the end of the object, so I need to tell it to go back to the front
         f.seek(0)
         img = Image.open(f)

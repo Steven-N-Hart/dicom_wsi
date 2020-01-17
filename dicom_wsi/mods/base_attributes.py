@@ -24,6 +24,7 @@ def build_base(cfg, dcm=None, dict_element='BaseAttributes', instance=1):
     implementation_class_uid = '1.2.276.0.7230010.3.0.3.6.2'
 
     file_meta_information_version = b'\x00\x01'
+    # noinspection SpellCheckingInspection,SpellCheckingInspection
     implementation_version_name = 'OFFIS_DCMTK_362'
     file_meta_information_group_length = 206  # TODO: Not sure what this should be exactly
 
@@ -43,6 +44,7 @@ def build_base(cfg, dcm=None, dict_element='BaseAttributes', instance=1):
             # file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.51'  # JPEG Extended (Process 2 and 4)
             file_meta.is_implicit_VR = False
         elif compression_type == '.j2k':
+            # noinspection SpellCheckingInspection
             file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.80'  # JPEG-LS Lossless Image Compression
         else:
             raise ValueError('Compression type {} is not yet supported'.format(compression_type))

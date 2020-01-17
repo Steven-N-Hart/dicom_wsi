@@ -7,6 +7,7 @@ from input_validation import restricted_inputs
 
 logger = logging.getLogger(__name__)
 
+
 def get_wsi(cfg):
     """
     Update the YAML defaults with image-specific attributes
@@ -29,7 +30,6 @@ def _parse_aperio_svs(cfg):
     wsi_fn = cfg.get('General').get('WSIFile')
     wsi = pyvips.Image.new_from_file(wsi_fn, access='sequential')
     cfg = mp.map_aperio_features(cfg, wsi)
-    cfg, wsi = mp.parse_aperio_compression(cfg, wsi)
     return cfg, wsi
 
 

@@ -5,9 +5,11 @@ import argparse
 import logging
 import sys
 
+import dicom_wsi
+from mods import parse_wsi
+
 from yaml import load, BaseLoader
-from .dicom_wsi import create_dicom
-from .mods import parse_wsi
+
 
 def main():
     """Console script for dicom_wsi."""
@@ -31,7 +33,7 @@ def main():
     logger.setLevel(args.logLevel)
     cfg = load(open(args.yaml), Loader=BaseLoader)
     cfg, wsi = parse_wsi.get_wsi(cfg)
-    create_dicom(cfg)
+    dicom_wsi.create_dicom(cfg)
     return 0
 
 

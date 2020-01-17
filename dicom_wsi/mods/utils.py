@@ -58,14 +58,15 @@ def add_data(ds, k, v, cfg, dict_element=None):
 
 
 def get_info_from_keyword(kw):
+    # noinspection SpellCheckingInspection
     """
-    Get Value data from Keywords
-    :param kw: KeyWord
-    :return:    VR, VM, NAME, ISRETIRED, KW
+        Get Value data from Keywords
+        :param kw: KeyWord
+        :return:    VR, VM, NAME, ISRETIRED, KW
 
-    pydicom.datadict.get_entry('StudyDate')
-    ('DA', '1', 'Study Date', '', 'StudyDate')
-    """
+        pydicom.datadict.get_entry('StudyDate')
+        ('DA', '1', 'Study Date', '', 'StudyDate')
+        """
     vr, vm, name, is_retired, ky_word = pydicom.datadict.get_entry(kw)
     try:
         vm = int(vm)
@@ -73,12 +74,14 @@ def get_info_from_keyword(kw):
         vm = 2  # Change to > 1 so I can store multiple variables
     return vr, vm
 
+
+# noinspection PyUnresolvedReferences
 def uid_maker(k, v, cfg, dict_element='BaseAttributes'):
     if k == 'SOPClassUID' or k == 'SOPInstanceUID' or k == 'DimensionOrganizationUID':
         # These are all fixed values
         pass
     elif k == 'SeriesInstanceUID':
-        # Need to decrease the lenght of this UID because I append the series number to it
+        # Need to decrease the length of this UID because I append the series number to it
         cfg[dict_element][k] = pydicom.uid.generate_uid(prefix=cfg['General']['OrgUIDRoot'])[:60]
     elif v.startswith('1.2'):
         # If user has already specified a UID, use that
@@ -88,6 +91,7 @@ def uid_maker(k, v, cfg, dict_element='BaseAttributes'):
     return cfg[dict_element][k], cfg
 
 
+# noinspection PyPep8,SpellCheckingInspection
 def make_time(k, time_var, cfg, dict_element='BaseAttributes'):
     # Need to make sure it return the format HHMMSS.FFFFFF, or return a new one
     if isinstance(time_var, datetime.time):
@@ -113,6 +117,7 @@ def make_time(k, time_var, cfg, dict_element='BaseAttributes'):
     return time_var, cfg
 
 
+# noinspection PyPep8Naming,PyPep8,SpellCheckingInspection
 def make_datetime(k, datetime_var, cfg, dict_element='BaseAttributes'):
     # Need to make sure it return the format YYYYMMDDHHMMSS.FFFFFF, or return a new one
     if isinstance(datetime_var, datetime.datetime):
@@ -122,6 +127,7 @@ def make_datetime(k, datetime_var, cfg, dict_element='BaseAttributes'):
         y = int(datetime_var[:4])
         m = int(datetime_var[4:6])
         d = int(datetime_var[6:8])
+        # noinspection PyPep8Naming
         H = int(datetime_var[8:10])
         M = int(datetime_var[10:12])
         S = int(datetime_var[12:14])
@@ -150,6 +156,7 @@ def make_datetime(k, datetime_var, cfg, dict_element='BaseAttributes'):
     return datetime_var, cfg
 
 
+# noinspection PyPep8
 def make_date(k, date_var, cfg, dict_element='BaseAttributes'):
     if isinstance(date_var, datetime.date):
         pass

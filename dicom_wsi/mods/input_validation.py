@@ -12,7 +12,7 @@ restricted_inputs = {
     'WSIBrand': ['aperio_svs', 'phillips_tiff'],
     'PatientSex': ['M', 'F', 'O'],
     'Modality': ['SM'],
-    'ImageFormat': ['.jpg', 'None', '.j2k'],
+    'ImageFormat': ['.jpg', 'None'],
     'BurnedInAnnotation': ['YES', 'NO'],
     'PhotometricInterpretation': ['MONOCHROME1', 'RGB', 'YBR_FULL_422', 'YBR_ICT', 'YBR_RCT'],
     'VolumetricProperties': ['VOLUME', 'MIXED', 'SAMPLED', 'DISTORTED'],
@@ -108,9 +108,9 @@ def _validation_wrapper(provided_keys, sample_dict):
             logging.debug('{}'.format(sample_dict))
 
             if k == 'OrgUIDRoot':
-                RE_VALID_UID_PREFIX = r'^(0|[1-9][0-9]*)(\.(0|[1-9][0-9]*))*\.$'
-                assert re.match(RE_VALID_UID_PREFIX, sample_dict[k]), "OutFilePrefix must match: {}".format(
-                    RE_VALID_UID_PREFIX)
+                re_valid_uid_prefix = r'^(0|[1-9][0-9]*)(\.(0|[1-9][0-9]*))*\.$'
+                assert re.match(re_valid_uid_prefix, sample_dict[k]), "OutFilePrefix must match: {}".format(
+                    re_valid_uid_prefix)
                 break
             # takes care of the arrays like ImageType
             elif isinstance(sample_dict[k], list):
