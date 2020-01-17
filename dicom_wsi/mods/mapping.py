@@ -1,6 +1,6 @@
 import re
 
-import submodules.utils as utils
+import utils
 
 
 def map_aperio_features(cfg, wsi):
