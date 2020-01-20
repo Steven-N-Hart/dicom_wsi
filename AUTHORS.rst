@@ -5,9 +5,9 @@ Credits
 Development Lead
 ----------------
 
-* Steven N. Hart <steven.n.hart@gmail.com>
+* Steven N. Hart, Ph.D. https://github.com/Steven-N-Hart
 
 Contributors
 ------------
 
-None yet. Why not be the first?
+* Jin Jiang, Ph.D. https://github.com/smujiang
