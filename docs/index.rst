@@ -9,7 +9,6 @@ Welcome to dicom-wsi's documentation!
    installation
    tldr
    gettingstarted
-   modules
    contributing
    authors
    history
