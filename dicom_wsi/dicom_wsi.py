@@ -30,7 +30,7 @@ def create_dicom(cfg):
 
         logger.info('Beginning instance {}.'.format(instance))
         # Update config with slide attributes
-        wsi = get_wsi(cfg)  # TODO: Add tests
+        cfg, wsi = get_wsi(cfg)  # TODO: Add tests
         t_get_wsi = timer()
         logger.debug('Updating config with slide attributes took {} seconds.'.format(round(t_get_wsi - start, 1)))
 

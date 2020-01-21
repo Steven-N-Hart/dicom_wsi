@@ -15,8 +15,13 @@ def get_wsi(cfg):
     :param cfg:
     :return: cfg, wsi_object
     """
-    wsi = pyvips.Image.new_from_file(wsi_fn, access='sequential')
-    return wsi
+    wsi_fn = cfg.get('General').get('WSIFile')
+    if wsi_fn.endswith('svs'):
+        cfg, wsi = _parse_aperio_svs(cfg)
+    elif wsi_fn.endswith('tiff'):
+        cfg, wsi = _parse_phillips_tiff(cfg)
+
+    return cfg, wsi
 
 
 def _parse_aperio_svs(cfg):
