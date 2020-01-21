@@ -18,6 +18,12 @@
 # relative to the documentation root, use os.path.abspath to make it
 # absolute, like shown here.
 #
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath('..'))
+# noinspection PyPep8
+import dicom_wsi
 
 # -- General configuration ---------------------------------------------
 
@@ -48,12 +54,7 @@ project = u'dicom-wsi'
 copyright = u"2019, Steven N. Hart"
 author = u"Steven N. Hart"
 
-import os
-import sys
 
-sys.path.insert(0, os.path.abspath('..'))
-# noinspection PyPep8
-import dicom_wsi
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
@@ -88,7 +89,7 @@ todo_include_todos = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-
+html_theme = 'sphinx_rtd_theme'
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
