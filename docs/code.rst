@@ -1,6 +1,6 @@
 ===========================
-Documentation for the Code
+Code
 ===========================
 
-.. automodule:: dicom_wsi
+.. automodule:: dicom_wsi.mods
     :members:
