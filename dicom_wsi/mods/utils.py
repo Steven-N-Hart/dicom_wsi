@@ -10,6 +10,8 @@ logger = logging.getLogger(__name__)
 
 def add_data(ds, k, v, cfg, dict_element=None):
     """
+    Ensures the right kind of data is insreted into DICOM object (e.g. datetime, time, date, etc)
+
     :param ds: DICOM dataset
     :param k: DICOM keyword
     :param v: Value to set keyword
@@ -61,8 +63,9 @@ def get_info_from_keyword(kw):
     # noinspection SpellCheckingInspection
     """
         Get Value data from Keywords
+
         :param kw: KeyWord
-        :return:    VR, VM, NAME, ISRETIRED, KW
+        :return: VR, VM, NAME, ISRETIRED, KW
 
         pydicom.datadict.get_entry('StudyDate')
         ('DA', '1', 'Study Date', '', 'StudyDate')
@@ -77,6 +80,15 @@ def get_info_from_keyword(kw):
 
 # noinspection PyUnresolvedReferences
 def uid_maker(k, v, cfg, dict_element='BaseAttributes'):
+    """
+    Make a UID if needed
+
+    :param k: key
+    :param v: value
+    :param cfg: config file
+    :param dict_element: which section/module the attributes belong to
+    :return: updated config dictionary
+    """
     if k == 'SOPClassUID' or k == 'SOPInstanceUID' or k == 'DimensionOrganizationUID':
         # These are all fixed values
         pass
@@ -93,6 +105,15 @@ def uid_maker(k, v, cfg, dict_element='BaseAttributes'):
 
 # noinspection PyPep8,SpellCheckingInspection
 def make_time(k, time_var, cfg, dict_element='BaseAttributes'):
+    """
+    Need to make sure it return the format HHMMSS.FFFFFF, or return a new one
+
+    :param k: key
+    :param time_var: value
+    :param cfg: config file
+    :param dict_element: which section/module the attributes belong to
+    :return: updated config dictionary
+    """
     # Need to make sure it return the format HHMMSS.FFFFFF, or return a new one
     if isinstance(time_var, datetime.time):
         pass
@@ -119,6 +140,15 @@ def make_time(k, time_var, cfg, dict_element='BaseAttributes'):
 
 # noinspection PyPep8Naming,PyPep8,SpellCheckingInspection
 def make_datetime(k, datetime_var, cfg, dict_element='BaseAttributes'):
+    """
+    Need to make sure it return the format YYYYMMDDHHMMSS.FFFFFF, or return a new one
+
+    :param k: key
+    :param datetime_var: value
+    :param cfg: config file
+    :param dict_element: which section/module the attributes belong to
+    :return: updated config dictionary
+    """
     # Need to make sure it return the format YYYYMMDDHHMMSS.FFFFFF, or return a new one
     if isinstance(datetime_var, datetime.datetime):
         pass
@@ -158,6 +188,15 @@ def make_datetime(k, datetime_var, cfg, dict_element='BaseAttributes'):
 
 # noinspection PyPep8
 def make_date(k, date_var, cfg, dict_element='BaseAttributes'):
+    """
+    Need to make sure it return the format YYYYMMDD, or return a new one
+
+    :param k: key
+    :param date_var: value
+    :param cfg: config file
+    :param dict_element: which section/module the attributes belong to
+    :return: updated config dictionary
+    """
     if isinstance(date_var, datetime.date):
         pass
     # Need to ensure date format returns properly, or return a new one
@@ -184,6 +223,7 @@ def make_date(k, date_var, cfg, dict_element='BaseAttributes'):
 def get_all_keys(d, prefix=False):
     """
     Return a list of all keys (even nested ones from dict
+
     :param d: nested dictionary
     :param prefix: Whether or not to provide dot notation to keep the nesting information
 

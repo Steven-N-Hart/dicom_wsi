@@ -85,6 +85,7 @@ def add_per_frame_functional_groups_sequence(img=None, ds=None, cfg=None, tile_s
 def add_imgdata(imlist, ds, tile_size, compression_type, compression_quality):
     """
     Calls the compression algorithm and add to DICOM object
+
     :param imlist: list of images to compress
     :param ds: DICOM object
     :param tile_size: how large the image tiles should be
@@ -113,6 +114,7 @@ def add_imgdata(imlist, ds, tile_size, compression_type, compression_quality):
 def define_plane_position_slide_sequence(x, y, z, x_tile, y_tile, x_pos, y_pos):
     """
     Build up the sequence position structure for the coordinates
+
     :param x: offset position on slide
     :param y: offset position on slide
     :param z: offset position on slide (usually 1)
@@ -140,6 +142,7 @@ def define_plane_position_slide_sequence(x, y, z, x_tile, y_tile, x_pos, y_pos):
 def generate_xy_tiles(x_max, y_max, tile_size=500):
     """
     Iterate through the slide with a step size of `tile_size`
+
     :param x_max:
     :param y_max:
     :param tile_size:
@@ -163,6 +166,7 @@ def generate_xy_tiles(x_max, y_max, tile_size=500):
 def compute_slide_offsets_from_pixel_data(ds=None, row=None, col=None, series_downsample=1):
     """
     Calculate the x and y coordinate in slide space
+
     :param ds: some sort of DICOM object
     :param row: tile row number [Dimension Index Values (0020,9157)]
     :param col: tile column number [Dimension Index Values (0020,9157)]
@@ -184,6 +188,7 @@ def compute_slide_offsets_from_pixel_data(ds=None, row=None, col=None, series_do
 def ensure_even_image(tmp, tile_size):
     """
     Images must be an even before being compressed
+
     :param tmp: numpy array of image values
     :param tile_size: desired output size
     :return: an even numbered shape for the numpy array
