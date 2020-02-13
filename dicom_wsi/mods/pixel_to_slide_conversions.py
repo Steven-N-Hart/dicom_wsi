@@ -65,35 +65,38 @@ def add_per_frame_functional_groups_sequence(img=None, ds=None, cfg=None, tile_s
 
         # If the number of frames matches the limit, then save so the file doesn't get too big
         if imlist.__len__() == max_frames:
-            logger.info('imlist.__len__() {} == max_frames {}'.format(imlist.__len__(), max_frames))
-            num_frames = imlist.__len__()
-            ds.NumberOfFrames = max_frames
-
-            image_array = np.zeros((num_frames, tile_size, tile_size, 3), dtype=np.int8)
-
-            for q in range(num_frames):
-                image_array[q, :, :, :] = imlist[q]
-
-            if compression_type == 'None':
-                ds.PixelData = image_array.tobytes()
-                ds.LossyImageCompression = '00'
-            else:
-                ds = compress_img_list(ds, imlist, num_frames, compression_quality)
-
-            ds.Columns, ds.Rows = tile_size, tile_size
             fragment += 1
+            ds = add_imgdata(imlist, ds, tile_size, compression_type, compression_quality)
             out_file = out_file_prefix + '.' + str(ds.InstanceNumber) + '-' + str(fragment) + '.dcm'
+
             dcmwrite(out_file, ds, write_like_original=False)
             logger.info('Compressed {} image frames into {}'.format(imlist.__len__(), out_file))
             # Empty out contents so they don't get duplicated frames in each file
             imlist = []
             ds.PerFrameFunctionalGroupsSequence = None
 
-    # stack each of the frames
+    ds = add_imgdata(imlist, ds, tile_size, compression_type, compression_quality)
+    out_file = out_file_prefix + '.' + str(ds.InstanceNumber) + '-' + str(fragment) + '.dcm'
+
+    dcmwrite(out_file, ds, write_like_original=False)
+    logger.info('Compressed {} image frames into {}'.format(imlist.__len__(), out_file))
+
+
+def add_imgdata(imlist, ds, tile_size, compression_type, compression_quality):
+    """
+    Calls the compression algorithm and add to DICOM object
+    :param imlist: list of images to compress
+    :param ds: DICOM object
+    :param tile_size: how large the image tiles should be
+    :param compression_type: name of compression scheme
+    :param compression_quality: quality of compression
+    :return: DICOM object with pixel data
+    """
     num_frames = imlist.__len__()
     ds.NumberOfFrames = int(num_frames)
     image_array = np.zeros((num_frames, tile_size, tile_size, 3), dtype=np.uint8)
 
+    # stack each of the frames
     for q in range(num_frames):
         image_array[q, :, :, :] = imlist[q]
 
@@ -104,10 +107,7 @@ def add_per_frame_functional_groups_sequence(img=None, ds=None, cfg=None, tile_s
         ds = compress_img_list(ds, imlist, num_frames, compression_quality)
 
     ds.Columns, ds.Rows = tile_size, tile_size  # used to calculate expected size in validator
-    out_file = out_file_prefix + '.' + str(ds.InstanceNumber) + '-' + str(fragment) + '.dcm'
-
-    dcmwrite(out_file, ds, write_like_original=False)
-    logger.info('Compressed {} image frames into {}'.format(imlist.__len__(), out_file))
+    return ds
 
 
 def define_plane_position_slide_sequence(x, y, z, x_tile, y_tile, x_pos, y_pos):
