@@ -17,6 +17,7 @@ def main():
 
     parser.add_argument("-y", "--yaml",
                         dest='yaml',
+                        required=True,
                         help="YAML file containing variables")
 
     parser.add_argument("-V", "--verbose",

@@ -29,6 +29,7 @@ def add_per_frame_functional_groups_sequence(img=None, ds=None, cfg=None, tile_s
     out_file_prefix = cfg.get('General').get('OutFilePrefix')
     compression_type = cfg.get('General').get('ImageFormat')
     compression_quality = int(cfg.get('General').get('CompressionAmount'))
+    max_frames = int(cfg.get('General').get('MaxFrames'))
 
     np_3d = np.ndarray(buffer=img.write_to_memory(),
                        dtype=format_to_dtype[img.format],
@@ -48,20 +49,10 @@ def add_per_frame_functional_groups_sequence(img=None, ds=None, cfg=None, tile_s
         x_tile = int(x_tile)
         y_tile = int(y_tile)
 
-        data_group1 = Dataset()
-        dimension_index_values = Dataset()
-        plane_position = Dataset()
         x, y, z = compute_slide_offsets_from_pixel_data(ds=ds, row=y_tile, col=x_tile,
                                                         series_downsample=series_downsample)
 
-        plane_position.XOffsetInSlideCoordinateSystem = round(x, 5)
-        plane_position.YOffsetInSlideCoordinateSystem = round(y, 5)
-        plane_position.ZOffsetInSlideCoordinateSystem = round(z, 5)
-        plane_position.ColumnPositionInTotalImagePixelMatrix = x_pos
-        plane_position.RowPositionInTotalImagePixelMatrix = y_pos
-        dimension_index_values.DimensionIndexValues = [x_tile, y_tile]
-        data_group1.FrameContentSequence = Sequence([dimension_index_values])
-        data_group1.PlanePositionSlideSequence = Sequence([plane_position])
+        data_group1 = define_plane_position_slide_sequence(x, y, z, x_tile, y_tile, x_pos, y_pos)
         ds.PerFrameFunctionalGroupsSequence.append(data_group1)
 
         # Get pixel data for the frame
@@ -70,20 +61,9 @@ def add_per_frame_functional_groups_sequence(img=None, ds=None, cfg=None, tile_s
         tmp = np_3d[y_pos:y_next_step, x_pos:x_next_step, :]
 
         # Make sure the frame is square and filled
-        if tmp.shape == (tile_size, tile_size, 3):
-            tmp_img = Image.fromarray(tmp)
-            imlist.append(tmp_img)
-        else:
-            tmp3 = np.zeros((tile_size, tile_size, 3), dtype=int)
-            tmp3 = np.uint8(tmp3)
-            tmp = np.uint8(tmp)
-            a, b, c = [int(x) for x in tmp.shape]
-            tmp3[0:a, 0:b, 0:c] = tmp
-            tmp_img = Image.fromarray(tmp3)
-            imlist.append(tmp_img)
+        imlist.append(ensure_even_image(tmp, tile_size))
 
         # If the number of frames matches the limit, then save so the file doesn't get too big
-        max_frames = int(cfg.get('General').get('MaxFrames'))
         if imlist.__len__() == max_frames:
             logger.info('imlist.__len__() {} == max_frames {}'.format(imlist.__len__(), max_frames))
             num_frames = imlist.__len__()
@@ -98,36 +78,13 @@ def add_per_frame_functional_groups_sequence(img=None, ds=None, cfg=None, tile_s
                 ds.PixelData = image_array.tobytes()
                 ds.LossyImageCompression = '00'
             else:
-                f = io.BytesIO()
-                imlist[0].save(f, format='tiff', append_images=imlist[1:], save_all=True, compression='None')
-                # The BytesIO object cursor is at the end of the object, so I need to tell it to go back to the front
-                f.seek(0)
-                img = Image.open(f)
-                img_byte_list = []
-                # Get each one of the frames converted to even numbered bytes
-                for j in range(num_frames):
-                    try:
-                        img.seek(j)
-                        with io.BytesIO() as output:
-                            img.save(output, format='jpeg', quality=compression_quality)
-                            img_byte_list.append(output.getvalue())
-                    except EOFError:
-                        # Not enough frames in img
-                        break
-
-                ds.PixelData = encapsulate(img_byte_list)
-                ds['PixelData'].is_undefined_length = True
-                ds.is_implicit_VR = False
-                ds.LossyImageCompression = '01'
-                ds.LossyImageCompressionRatio = 10
-                ds.LossyImageCompressionMethod = 'ISO_10918_1'
+                ds = compress_img_list(ds, imlist, num_frames, compression_quality)
 
             ds.Columns, ds.Rows = tile_size, tile_size
             fragment += 1
             out_file = out_file_prefix + '.' + str(ds.InstanceNumber) + '-' + str(fragment) + '.dcm'
             dcmwrite(out_file, ds, write_like_original=False)
-            logger.info('Wrote: {}'.format(out_file))
-            logger.info('Compressed {} image frames'.format(imlist.__len__()))
+            logger.info('Compressed {} image frames into {}'.format(imlist.__len__(), out_file))
             # Empty out contents so they don't get duplicated frames in each file
             imlist = []
             ds.PerFrameFunctionalGroupsSequence = None
@@ -144,36 +101,40 @@ def add_per_frame_functional_groups_sequence(img=None, ds=None, cfg=None, tile_s
         ds.PixelData = image_array.tobytes()
         ds.LossyImageCompression = '00'
     else:
-        f = io.BytesIO()
-        imlist[0].save(f, format='tiff', append_images=imlist[1:], save_all=True, compression='None')
-        # The BytesIO object cursor is at the end of the object, so I need to tell it to go back to the front
-        f.seek(0)
-        img = Image.open(f)
-        img_byte_list = []
-        # Get each one of the frames converted to even numbered bytes
-        for i in range(num_frames):
-            try:
-                img.seek(i)
-                with io.BytesIO() as output:
-                    img.save(output, format='jpeg', quality=compression_quality)
-                    img_byte_list.append(output.getvalue())
-            except EOFError:
-                # Not enough frames in img
-                break
+        ds = compress_img_list(ds, imlist, num_frames, compression_quality)
 
-        ds.PixelData = encapsulate(img_byte_list)
-        ds['PixelData'].is_undefined_length = True
-        ds.is_implicit_VR = False
-        ds.LossyImageCompression = '01'
-        ds.LossyImageCompressionRatio = 10
-        ds.LossyImageCompressionMethod = 'ISO_10918_1'
-
-    ds.Columns, ds.Rows = tile_size, tile_size  # used to calculate expected size
+    ds.Columns, ds.Rows = tile_size, tile_size  # used to calculate expected size in validator
     out_file = out_file_prefix + '.' + str(ds.InstanceNumber) + '-' + str(fragment) + '.dcm'
 
     dcmwrite(out_file, ds, write_like_original=False)
-    logger.info('Wrote: {}'.format(out_file))
-    logger.info('Compressed {} image frames'.format(imlist.__len__()))
+    logger.info('Compressed {} image frames into {}'.format(imlist.__len__(), out_file))
+
+
+def define_plane_position_slide_sequence(x, y, z, x_tile, y_tile, x_pos, y_pos):
+    """
+    Build up the sequence position structure for the coordinates
+    :param x: offset position on slide
+    :param y: offset position on slide
+    :param z: offset position on slide (usually 1)
+    :param x_tile: tile position number
+    :param y_tile: tile position number
+    :param x_pos: pixel position
+    :param y_pos: pixel position
+    :return: a dataset value to be appended to the PerFrameFunctionalGroupsSequence
+    """
+    data_group1 = Dataset()
+    dimension_index_values = Dataset()
+    plane_position = Dataset()
+
+    plane_position.XOffsetInSlideCoordinateSystem = round(x, 5)
+    plane_position.YOffsetInSlideCoordinateSystem = round(y, 5)
+    plane_position.ZOffsetInSlideCoordinateSystem = round(z, 5)
+    plane_position.ColumnPositionInTotalImagePixelMatrix = x_pos
+    plane_position.RowPositionInTotalImagePixelMatrix = y_pos
+    dimension_index_values.DimensionIndexValues = [x_tile, y_tile]
+    data_group1.FrameContentSequence = Sequence([dimension_index_values])
+    data_group1.PlanePositionSlideSequence = Sequence([plane_position])
+    return data_group1
 
 
 def generate_xy_tiles(x_max, y_max, tile_size=500):
@@ -218,6 +179,52 @@ def compute_slide_offsets_from_pixel_data(ds=None, row=None, col=None, series_do
         col * float(ds.SharedFunctionalGroupsSequence[0][0x0028, 0x9110][0][0x0028, 0x0030][0]) * series_downsample)
     z = 0
     return x, y, z
+
+
+def ensure_even_image(tmp, tile_size):
+    """
+    Images must be an even before being compressed
+    :param tmp: numpy array of image values
+    :param tile_size: desired output size
+    :return: an even numbered shape for the numpy array
+    """
+    if tmp.shape == (tile_size, tile_size, 3):
+        tmp_img = Image.fromarray(tmp)
+    else:
+        tmp3 = np.zeros((tile_size, tile_size, 3), dtype=int)
+        tmp3 = np.uint8(tmp3)
+        tmp = np.uint8(tmp)
+        a, b, c = [int(x) for x in tmp.shape]
+        tmp3[0:a, 0:b, 0:c] = tmp
+        tmp_img = Image.fromarray(tmp3)
+    return tmp_img
+
+
+def compress_img_list(ds, imlist, num_frames, compression_quality):
+    f = io.BytesIO()
+    imlist[0].save(f, format='tiff', append_images=imlist[1:], save_all=True, compression='None')
+    # The BytesIO object cursor is at the end of the object, so I need to tell it to go back to the front
+    f.seek(0)
+    img = Image.open(f)
+    img_byte_list = []
+    # Get each one of the frames converted to even numbered bytes
+    for i in range(num_frames):
+        try:
+            img.seek(i)
+            with io.BytesIO() as output:
+                img.save(output, format='jpeg', quality=compression_quality)
+                img_byte_list.append(output.getvalue())
+        except EOFError:
+            # Not enough frames in img
+            break
+
+    ds.PixelData = encapsulate(img_byte_list)
+    ds['PixelData'].is_undefined_length = True
+    ds.is_implicit_VR = False
+    ds.LossyImageCompression = '01'
+    ds.LossyImageCompressionRatio = 100 - compression_quality
+    ds.LossyImageCompressionMethod = 'ISO_10918_1'
+    return ds
 
 
 # https://libvips.github.io/pyvips/intro.html#numpy-and-pil

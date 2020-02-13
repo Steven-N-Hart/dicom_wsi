@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 
 """Main module."""
 
+
 def create_dicom(cfg):
     """
     Main function for creating DICOM files
@@ -63,10 +64,10 @@ def create_dicom(cfg):
 
         # Add per frame functional groups
         add_per_frame_functional_groups_sequence(img=img,
-                                             ds=dcm,
-                                             cfg=cfg,
-                                             tile_size=cfg.get('General').get('FrameSize'),
-                                                   series_downsample=instance)  # TODO: Add tests
+                                                 ds=dcm,
+                                                 cfg=cfg,
+                                                 tile_size=cfg.get('General').get('FrameSize'),
+                                                 series_downsample=instance)  # TODO: Add tests
         t_save = timer()
 
         logger.info('Total elapsed time: {} minutes.'.format(round((t_save - start) / 60, 3)))

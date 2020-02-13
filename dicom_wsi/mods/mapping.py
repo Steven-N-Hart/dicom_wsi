@@ -1,5 +1,9 @@
 import utils
 
+# =====================================================================================
+# Use this piece of code to automatically parse information from different slide types
+# =====================================================================================
+
 
 def map_aperio_features(cfg, wsi):
     """
@@ -18,7 +22,6 @@ def map_aperio_features(cfg, wsi):
         _, cfg = utils.make_time('ContentTime', wsi.get('aperio.Time'), cfg,
                                  dict_element='SharedFunctionalGroupsSequence')
 
-
     if not cfg.get('BaseAttributes').get('SeriesTime'):
         _, cfg = utils.make_time('SeriesTime', wsi.get('aperio.Time'), cfg,
                                  dict_element='SharedFunctionalGroupsSequence')
@@ -31,5 +34,3 @@ def map_aperio_features(cfg, wsi):
     cfg['OnTheFly']['PixelSpacing'] = [float(x) for x in pv]
 
     return cfg
-
-
