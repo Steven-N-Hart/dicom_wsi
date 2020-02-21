@@ -27,7 +27,22 @@ Features
 TODO
 --------
 * Find out how to determine what `FileMetaInformationGroupLength` should be
-* Add more tests
+* Thorough Unit tests
+* Pass validation with dciodvfy_
+* Add option to add Annotations from XML file
+* Ensure Python Idioms are followed (where practical)
+* Parse logic from each `file type`_ available from the OpenSlide website
+
+  * Aperio (.svs, .tif)
+  * Hamamatsu (.vms, .vmu, .ndpi)
+  * Leica (.scn)
+  * MIRAX (.mrxs)
+  * Philips (.tiff)
+  * Sakura (.svslide)
+  * Trestle (.tif)
+  * Ventana (.bif, .tif)
+  * Generic tiled TIFF (.tif)
+
 
 Credits
 -------
@@ -36,3 +51,5 @@ This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypack
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
+.. _dciodvfy: https://www.dclunie.com/dicom3tools/dciodvfy.html
+.. _`file type`: https://openslide.org/
