@@ -5,9 +5,7 @@ THIS NEEDS TESTED!!!!!!!!!!!!!!!!!
 
 Given an XML file of annotations, extract the data into the appropriate DICOM element.
 
-|Annotation|
-
-.. |Annotation| image:: images/annotation.jpg
+.. image:: images/annotation.jpg
     :width: 500
 
 
