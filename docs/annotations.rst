@@ -175,7 +175,7 @@ Determine what type of annotation element is needed:
     GraphicObjectSequence  = Dataset()
     GraphicObjectSequence.GraphicType = "POLYLINE"  # add polyline
     GraphicObjectSequence.NumberofGraphicPoints = 4 # how many points where saved in this domain
-    GraphicObjectSequence.GraphicData = [150, 80, 160, 80, 180, 120, 130, 120]
+    GraphicObjectSequence.GraphicData = [36382.175781, 4644.585938, 36389.238281, 4651.647949, ..., ...]
     GraphicObjectSequence.GraphicAnnotationUnits = 'PIXEL'  # unit of coordinates
     GraphicObjectSequence.GraphicGroupID = 3  # Annotation Label ID: 2
     gos = Sequence([GraphicObjectSequence ])
