@@ -21,7 +21,8 @@ restricted_inputs = {
                   'DERIVED, PRIMARY, LOCALIZER, RESAMPLED', 'ORIGINAL, PRIMARY, LABEL, NONE'],
     'SamplesPerPixel': ['1', '3'],
     'PatientOrientation': ['L', 'R', 'A', 'P', 'H', 'F'],
-    'OrgUIDRoot': []
+    'OrgUIDRoot': [],
+    'DimensionOrganizationType': ['TILED_FULL', 'TILED_SPARSE']
 }
 
 required_fields = {
