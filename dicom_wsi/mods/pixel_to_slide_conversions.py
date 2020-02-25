@@ -8,6 +8,7 @@ from pydicom.encaps import encapsulate
 from pydicom.filewriter import dcmwrite
 from pydicom.sequence import Sequence
 
+from image_filter import image_filter
 logger = logging.getLogger(__name__)
 
 
@@ -30,6 +31,10 @@ def add_per_frame_functional_groups_sequence(img=None, ds=None, cfg=None, tile_s
     compression_type = cfg.get('General').get('ImageFormat')
     compression_quality = int(cfg.get('General').get('CompressionAmount'))
     max_frames = int(cfg.get('General').get('MaxFrames'))
+    tiled_sparse = cfg.get('BaseAttributes').get('DimensionOrganizationType')
+    if tiled_sparse == 'TILED_SPARSE':
+        background_range = int(cfg.get('General').get('background_range'))
+        threshold = float(cfg.get('General').get('threshold'))
 
     np_3d = np.ndarray(buffer=img.write_to_memory(),
                        dtype=format_to_dtype[img.format],
@@ -59,6 +64,13 @@ def add_per_frame_functional_groups_sequence(img=None, ds=None, cfg=None, tile_s
         x_next_step = tile_size + x_pos
         y_next_step = tile_size + y_pos
         tmp = np_3d[y_pos:y_next_step, x_pos:x_next_step, :]
+
+        # Skip images if tiled_sparse
+        if tiled_sparse == 'TILED_SPARSE':
+            if not image_filter(tmp, background_range=background_range, threshold=threshold):
+                # Skip to avoid background tiles
+                logger.debug('Skipping {} {}'.format(x_pos, y_pos))
+                continue
 
         # Make sure the frame is square and filled
         imlist.append(ensure_even_image(tmp, tile_size))

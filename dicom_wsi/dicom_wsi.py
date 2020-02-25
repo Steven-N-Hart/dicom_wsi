@@ -73,4 +73,3 @@ def create_dicom(cfg):
         logger.info('Total elapsed time: {} minutes.'.format(round((t_save - start) / 60, 3)))
         # logger.debug('file_meta: {}'.format(dcm.file_meta))
         # logger.debug('file_contents: {}'.format(dcm))
-        # exit(1)

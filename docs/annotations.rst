@@ -6,7 +6,7 @@ THIS NEEDS BUILT & TESTED!!!!!!!!!!!!!!!!!
 Given an XML file of annotations, extract the data into the appropriate DICOM element.
 
 .. |Annotation| image:: images/annotation.jpg
-    :width: 500
+    :width: 800
 
 |Annotation|
 
@@ -15,7 +15,7 @@ Getting some sample XML data
 We have prepared some different annotations on the Aperio_ example CMU-1-JP2K-33005.svs.
 These examples were drawn using QuPath_ and extracted with this_ script. The annotations
 have no physiological relevance, only to show how the different data types can be
-stored inside DICOM. Each of the yellow markups in the image abive describe one of the following data types:
+stored inside DICOM. Each of the yellow markups in the image above describe one of the following data types:
 
 * Points
 * Rectangle

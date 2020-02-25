@@ -10,6 +10,7 @@ cffi==1.13.0
 chardet==3.0.4
 colorama==0.4.3
 coverage==4.5.4
+digipath_mltk>=0.1
 docutils==0.15.2
 entrypoints==0.3
 filelock==3.0.12
@@ -46,6 +47,7 @@ PyYAML==5.1.2
 readme-renderer==24.0
 requests==2.22.0
 requests-toolbelt==0.9.1
+scikit-image>=0.16.1
 six==1.12.0
 snowballstemmer==2.0.0
 Sphinx==1.8.5
