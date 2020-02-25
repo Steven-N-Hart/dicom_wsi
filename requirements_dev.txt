@@ -10,7 +10,6 @@ cffi==1.13.0
 chardet==3.0.4
 colorama==0.4.3
 coverage==4.5.4
-digipath_mltk>=0.1
 docutils==0.15.2
 entrypoints==0.3
 filelock==3.0.12
