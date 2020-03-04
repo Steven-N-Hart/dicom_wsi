@@ -9,9 +9,16 @@ from mods.utils import add_data
 
 
 # noinspection PyUnresolvedReferences
-def build_base(cfg, dcm=None, dict_element='BaseAttributes', instance=1):
-    base_dict = cfg[dict_element]
-    logging.debug('Beginning {} Module'.format(dict_element))
+def build_base(cfg, instance=1):
+    """
+    Creates the initial file and configuration, as well as sets defaults and 1st level data.
+
+    :param cfg: dictionary of input values
+    :param instance: 'BaseAttributes' in case we wanted to use this function later
+    :return: DICOM and new config files
+    """
+    base_dict = cfg['BaseAttributes']
+    logging.debug('Beginning {} Module'.format('BaseAttributes'))
 
     # Define hard coded variables
     # VL Whole Slide Microscopy Image Storage
@@ -24,41 +31,40 @@ def build_base(cfg, dcm=None, dict_element='BaseAttributes', instance=1):
     implementation_class_uid = '1.2.276.0.7230010.3.0.3.6.2'
 
     file_meta_information_version = b'\x00\x01'
-    # noinspection SpellCheckingInspection,SpellCheckingInspection
+    # noinspection SpellCheckingInspection
     implementation_version_name = 'OFFIS_DCMTK_362'
     file_meta_information_group_length = 206  # TODO: Not sure what this should be exactly
 
-    if dict_element == 'BaseAttributes':
-        suffix = '.' + str(instance) + '.dcm'
-        filename_little_endian = tempfile.NamedTemporaryFile(suffix=suffix).name
+    suffix = '.' + str(instance) + '.dcm'
+    filename_little_endian = tempfile.NamedTemporaryFile(suffix=suffix).name
 
-        file_meta = Dataset()
+    file_meta = Dataset()
 
-        if compression_type == 'None':
-            # noinspection PyPep8,PyUnresolvedReferences
-            file_meta.TransferSyntaxUID = pydicom.uid.UncompressedPixelTransferSyntaxes[
-                1]  # Implicit VR Endian: Default Transfer Syntax for DICOM
-        elif compression_type == '.jpg':
-            # noinspection PyUnresolvedReferences
-            file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.50'  # JPEGBaseline
-            # file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.51'  # JPEG Extended (Process 2 and 4)
-            file_meta.is_implicit_VR = False
-        elif compression_type == '.j2k':
-            # noinspection SpellCheckingInspection
-            file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.80'  # JPEG-LS Lossless Image Compression
-        else:
-            raise ValueError('Compression type {} is not yet supported'.format(compression_type))
-        logging.debug('TransferSyntaxUID {} '.format(file_meta.TransferSyntaxUID))
+    if compression_type == 'None':
+        # noinspection PyPep8,PyUnresolvedReferences
+        file_meta.TransferSyntaxUID = pydicom.uid.UncompressedPixelTransferSyntaxes[
+            1]  # Implicit VR Endian: Default Transfer Syntax for DICOM
+    elif compression_type == '.jpg':
+        # noinspection PyUnresolvedReferences
+        file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.50'  # JPEGBaseline
+        # file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.51'  # JPEG Extended (Process 2 and 4)
+        file_meta.is_implicit_VR = False
+    elif compression_type == '.j2k':
+        # noinspection SpellCheckingInspection
+        file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.80'  # JPEG-LS Lossless Image Compression
+    else:
+        raise ValueError('Compression type {} is not yet supported'.format(compression_type))
+    logging.debug('TransferSyntaxUID {} '.format(file_meta.TransferSyntaxUID))
 
-        file_meta.MediaStorageSOPInstanceUID = media_storage_sop_instance_uid
-        file_meta.FileMetaInformationVersion = file_meta_information_version
-        file_meta.ImplementationClassUID = implementation_class_uid
-        file_meta.ImplementationVersionName = implementation_version_name
-        file_meta.FileMetaInformationGroupLength = file_meta_information_group_length
+    file_meta.MediaStorageSOPInstanceUID = media_storage_sop_instance_uid
+    file_meta.FileMetaInformationVersion = file_meta_information_version
+    file_meta.ImplementationClassUID = implementation_class_uid
+    file_meta.ImplementationVersionName = implementation_version_name
+    file_meta.FileMetaInformationGroupLength = file_meta_information_group_length
 
-        # Create the FileDataset instance (initially no data elements, but file_meta supplied)
-        dcm = FileDataset(filename_little_endian, {},
-                          file_meta=file_meta, preamble=b"\0" * 128)
+    # Create the FileDataset instance (initially no data elements, but file_meta supplied)
+    dcm = FileDataset(filename_little_endian, {},
+                      file_meta=file_meta, preamble=b"\0" * 128)
 
     # For each element in the Patient data, add to the DICOM object
     for k, v in base_dict.items():
@@ -69,5 +75,5 @@ def build_base(cfg, dcm=None, dict_element='BaseAttributes', instance=1):
     dcm.SOPInstanceUID = media_storage_sop_instance_uid
     dcm.SOPClassUID = media_storage_sop_class_uid
 
-    logging.debug('Completed {} Module'.format(dict_element))
+    logging.debug('Completed {} Module'.format('BaseAttributes'))
     return dcm, cfg

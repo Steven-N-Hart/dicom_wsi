@@ -4,7 +4,6 @@ Code
 
 Base Attributes
 ---------------
-
 .. automodule:: dicom_wsi.mods.base_attributes
     :members:
 
@@ -20,19 +19,16 @@ Input Validation
 
 Mapping Functions
 -----------------
-
 .. automodule:: dicom_wsi.mods.mapping
     :members:
 
 Whole Slide Image Parsing
 -------------------------
-
 .. automodule:: dicom_wsi.mods.parse_wsi
     :members:
 
 Down-sampling the WSI
 ---------------------
-
 .. automodule:: dicom_wsi.mods.pixel_data_conversion
     :members:
 
