@@ -30,8 +30,8 @@ def test_get_wsi():
     #print(dcm.SeriesInstanceUID)
     dcm = build_sequences(dcm)
     #print(dcm.SeriesInstanceUID)
-    print(dcm)
-    sys.exit(0)
+    #print(dcm)
+    #sys.exit(0)
     dict_dicom_returned["ContentDate"]=dcm.ContentDate
     dict_dicom_returned["SOPInstanceUID"]=dcm.SOPInstanceUID
     dict_dicom_returned["SOPClassUID"]=dcm.SOPClassUID
