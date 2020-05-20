@@ -6,7 +6,9 @@
 import pytest
 
 from ..dicom_wsi.mods import character_validations as cv
+#import unittest
 
+#class TestStringMethods(unittest.TestCase):
 
 def test_cs():
     cv.cs_validator('patient', 'Roberto')
@@ -52,3 +54,5 @@ def test_intstring_validator():
     with pytest.raises(AssertionError):
         cv.int_validator('SER', 'a')
 
+#if __name__ == '__main__':
+#    unittest.main()
