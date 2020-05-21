@@ -1,7 +1,7 @@
 .. highlight:: python
 
 =====
-USAGE
+TL;DR
 =====
 
 To use dicom-wsi in a project::
