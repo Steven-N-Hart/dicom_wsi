@@ -7,7 +7,7 @@ Welcome to dicom-wsi's documentation!
 
    readme
    installation
-   tldr
+   usage
    gettingstarted
    annotations
    code
