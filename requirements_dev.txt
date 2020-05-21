@@ -52,7 +52,6 @@ snowballstemmer==2.0.0
 Sphinx==1.8.5
 sphinx-rtd-theme==0.4.3
 sphinxcontrib-websupport==1.1.2
-sphinxcontrib-programoutput
 tifffile==2019.7.26.2
 tiffile==2018.10.18
 toml==0.10.0
