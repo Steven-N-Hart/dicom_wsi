@@ -67,3 +67,11 @@ Without a YAML file
 While a `YAML` file is recommended, you don't actually need one.  You could choose
 to make the dictionary yourself. The dictionary has two nested components, `General` and `BaseAttributes`,
 each of which has the elements defined in `yaml/base.yaml`.
+
+Sample RUN
+-------------------
+This Step will download the sample svs file
+python ./tests/__init__.py
+
+This is sample execution
+python cli.py -y ./tests/testfiles/base.yaml
