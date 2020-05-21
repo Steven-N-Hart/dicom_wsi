@@ -2,8 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """The setup script."""
-
 from setuptools import setup, find_packages
+import sys
+if sys.version_info < (2,7):
+    sys.exit('Sorry, Python < 2.7 is not supported')
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
