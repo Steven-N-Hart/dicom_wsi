@@ -6,13 +6,14 @@ import sys
 import os 
 #sys.path.append("../dicom_wsi/")
 #sys.path.append("../dicom_wsi/submodules")
+#sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import pytest
 from yaml import load, BaseLoader, dump, FullLoader
 from ..dicom_wsi.mods import parse_wsi
 from ..dicom_wsi.mods.parse_wsi import *
 #import unittest
 import json
-from base_attributes import build_base
+from ..dicom_wsi.mods.base_attributes import build_base
 import datetime
 #class TestParseWSIMethods(unittest.TestCase):
 def test_get_wsi():

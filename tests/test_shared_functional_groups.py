@@ -4,6 +4,7 @@
 """Tests for `dicom_wsi` package."""
 import sys
 import os 
+#sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 #sys.path.append("../dicom_wsi/")
 #sys.path.append("../dicom_wsi/submodules")
 import pytest
@@ -12,10 +13,10 @@ from ..dicom_wsi.mods import parse_wsi
 from ..dicom_wsi.mods.parse_wsi import *
 #import unittest
 import json
-from base_attributes import build_base
+from ..dicom_wsi.mods.base_attributes import build_base
 import datetime
-from sequence_attributes import build_sequences
-from shared_functional_groups import build_functional_groups
+from ..dicom_wsi.mods.sequence_attributes import build_sequences
+from ..dicom_wsi.mods.shared_functional_groups import build_functional_groups
 
 #class TestParseWSIMethods(unittest.TestCase):
 def test_get_wsi():
