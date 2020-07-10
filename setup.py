@@ -13,8 +13,6 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-with open('requirements_dev.txt') as req:
-    requirements = req.read()
 
 setup_requirements = ['pytest-runner', ]
 
@@ -41,7 +39,6 @@ setup(
             'dicom_wsi=dicom_wsi.cli:main',
         ],
     },
-    install_requires=requirements,
     license="MIT license",
     long_description=readme + '\n\n' + history,
     include_package_data=True,
