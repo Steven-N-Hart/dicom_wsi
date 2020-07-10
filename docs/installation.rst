@@ -39,6 +39,11 @@ Once conda is installed, then you can install `dicom_wsi`:
     $ pip install -U -r requirements_dev.txt
 
 
+
+If using iSyntax files, you also need libtiff
+http://download.osgeo.org/libtiff/tiff-4.1.0.zip
+
+
 Stable release
 --------------
 

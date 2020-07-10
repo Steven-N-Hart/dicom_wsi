@@ -5,6 +5,7 @@ __pycache__/
 *$py.class
 
 venv2/
+tiff-4.1.0/
 .idea*
 *dcm
 # C extensions

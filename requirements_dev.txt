@@ -46,6 +46,7 @@ PyYAML==5.1.2
 readme-renderer==24.0
 requests==2.22.0
 requests-toolbelt==0.9.1
+setuptools<46
 scikit-image>=0.16.1
 six==1.12.0
 snowballstemmer==2.0.0
