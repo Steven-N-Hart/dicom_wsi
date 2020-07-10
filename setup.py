@@ -2,8 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """The setup script."""
-
 from setuptools import setup, find_packages
+import sys
+if sys.version_info < (2,7):
+    sys.exit('Sorry, Python < 2.7 is not supported')
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -62,7 +64,6 @@ requirements = ['alabaster',
                 'six',
                 'snowballstemmer',
                 'Sphinx',
-                'sphinxcontrib-programoutput',
                 'sphinx-rtd-theme',
                 'sphinxcontrib-websupport',
                 'tifffile',
@@ -97,7 +98,6 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
     ],
     description="Package for converting whole slide image files to dicom.",
     entry_points={

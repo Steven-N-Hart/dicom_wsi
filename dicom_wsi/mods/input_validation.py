@@ -3,8 +3,8 @@ import os
 import re
 
 
-import character_validations as cv
-from utils import get_all_keys
+from . import character_validations as cv
+from .utils import get_all_keys
 
 logger = logging.getLogger(__name__)
 
