@@ -23,7 +23,7 @@ MarkupSafe==1.1.1
 mccabe==0.6.1
 more-itertools==7.2.0
 numpy==1.17.3
-openslide-python==1.1.1
+openslide-python
 packaging==19.2
 pathtools==0.1.2
 Pillow>=6.2.2
@@ -46,7 +46,6 @@ PyYAML==5.1.2
 readme-renderer==24.0
 requests==2.22.0
 requests-toolbelt==0.9.1
-setuptools<46
 scikit-image>=0.16.1
 six==1.12.0
 snowballstemmer==2.0.0
