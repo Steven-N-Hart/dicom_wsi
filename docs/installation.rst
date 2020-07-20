@@ -83,6 +83,14 @@ Once you have a copy of the source, you can install it with:
 .. _tarball: https://github.com/Steven-N-Hart/dicom_wsi/tarball/master
 
 
+With Docker
+-----------
+You can also build a container using Docker:
+
+.. code-block:: console
+
+    $ docker build -t stevennhart/dicom_wsi .
+
 Development with PyCharm
 ------------------------
 If you are going to do some development work with PyCharm, you will need to copy the binary files into your venv.
