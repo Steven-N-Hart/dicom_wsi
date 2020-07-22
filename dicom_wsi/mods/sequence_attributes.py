@@ -6,7 +6,7 @@ from pydicom.tag import Tag
 from pydicom.uid import generate_uid
 
 
-# noinspection PyPep8
+# noinspection PyPep8,PyPep8
 def build_sequences(dcm):
     """ all values are hard coded to ensure they are present in the final file """
     dimension_organization_uid = '1.2.276.0.7230010.3.1.4.8323329.20175.1573232544.237437'

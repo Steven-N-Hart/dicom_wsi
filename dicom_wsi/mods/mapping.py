@@ -1,4 +1,4 @@
-import utils
+import mods.utils
 
 # =====================================================================================
 # Use this piece of code to automatically parse information from different slide types
