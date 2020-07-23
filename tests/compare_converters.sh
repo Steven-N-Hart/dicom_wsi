@@ -29,9 +29,9 @@ time python3 cli.py -y yaml/base.yaml
 
 time python3 cli.py -y yaml/base.yaml
 
-#real	10m25.355s
-#user	21m59.080s
-#sys	2m5.060s
+#real	11m24.203s
+#user	29m3.130s
+#sys	3m18.600s
 
 #ll output-full.*
 #-rw-r--r-- 1 root root  7545834 Jul 21 18:32 output-full.0-1.dcm
