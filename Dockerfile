@@ -22,8 +22,10 @@ RUN apt install ./wsi2dcm_1.0.3.deb
 # Orthanc
 RUN wget -O Orthanc.tar.gz https://www.orthanc-server.com/downloads/get.php?path=/whole-slide-imaging/OrthancWSI-0.7.tar.gz
 RUN tar xvzf Orthanc.tar.gz
-RUN cd OrthancWSI-0.7/ && mkdir Applications/Build && cd Applications/Build
-RUN cmake .. -DSTATIC_BUILD=ON -DCMAKE_BUILD_TYPE=Release
+RUN cd OrthancWSI-0.7/
+RUN mkdir /OrthancWSI-0.7/Applications/Build
+RUN cd /OrthancWSI-0.7/Applications/Build
+RUN cmake /OrthancWSI-0.7/Applications -DSTATIC_BUILD=ON -DCMAKE_BUILD_TYPE=Release
 RUN make
 RUN mkdir ../../ViewerPlugin/Build
 RUN cd ../../ViewerPlugin/Build
