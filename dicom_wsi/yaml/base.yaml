@@ -3,7 +3,6 @@ General:
     OutFilePrefix: '../tests/dicom_wsi/output'
     NumberOfLevels: 7
     OrgUIDRoot: 1.2.840.113713.15.
-    WSIBrand: aperio_svs
     FrameSize: 500
     MaxFrames: 500
     ImageFormat: .jpg       # None, .jpg

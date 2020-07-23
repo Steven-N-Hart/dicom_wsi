@@ -18,7 +18,7 @@ the `Phillips Website`_.
 
 Next, get the Phillips SDK. You need to create a _`log in` first.
 
-`log in`_ https://www.openpathology.philips.com/login/
+.. `log in`_ https://www.openpathology.philips.com/login/
 
 You will need to follow ithe installation instructions for your specific operating system.  Once you have it installed,
 open a python terminal and run:
@@ -27,7 +27,7 @@ open a python terminal and run:
 
     import pixelengine
 
-If you get `ModuleNotFoundError: No module named 'pixelengine'` then you do not have this installed propoerly. Ask Phillips tech support for help.
+If you get `ModuleNotFoundError: No module named 'pixelengine'` then you do not have this installed properly. Ask Phillips tech support for help.
 
 
 

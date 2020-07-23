@@ -9,7 +9,6 @@ from mods.utils import get_all_keys
 logger = logging.getLogger(__name__)
 
 restricted_inputs = {
-    'WSIBrand': ['aperio_svs', 'phillips_tiff'],
     'PatientSex': ['M', 'F', 'O'],
     'Modality': ['SM'],
     'ImageFormat': ['.jpg', 'None'],
@@ -26,7 +25,7 @@ restricted_inputs = {
 }
 
 required_fields = {
-    'General': ['WSIFile', 'OutFilePrefix', 'NumberOfLevels', 'OrgUIDRoot', 'WSIBrand', 'ImageFormat'],
+    'General': ['WSIFile', 'OutFilePrefix', 'NumberOfLevels', 'OrgUIDRoot', 'ImageFormat'],
     'BaseAttributes': ['PatientName', 'PatientBirthDate', 'PatientSex', 'ReferringPhysicianName', 'AccessionNumber',
                        'Manufacturer', 'ManufacturerModelName', 'DeviceSerialNumber', 'SoftwareVersions',
                        'AcquisitionDateTime', 'ImageType', 'SpecimenLabelInImage', 'BurnedInAnnotation',
