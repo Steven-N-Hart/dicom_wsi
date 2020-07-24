@@ -1,5 +1,5 @@
 =========
-dicom-wsi
+dicom_wsi
 =========
 
 
