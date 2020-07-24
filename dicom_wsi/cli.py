@@ -39,6 +39,11 @@ def main():
                         default='TILED_FULL',
                         help="Convenience function to override DimensionOrganizationType value in yaml file")
 
+    parser.add_argument("-P", "--pools",
+                        dest='pools',
+                        default=-1,
+                        help="How many CPUs to use (default=all")
+
     parser.add_argument("-V", "--verbose",
                         dest="logLevel",
                         choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
@@ -78,7 +83,7 @@ def main():
     cfg['General']['OutFilePrefix'] = os.path.join(cfg['General']['OutDir'], cfg['General']['OutFilePrefix'])
     logging.debug(f'Running with parameters: {cfg}')
 
-    dicom_wsi.create_dicom(cfg)
+    dicom_wsi.create_dicom(cfg, pools=args.pools)
     return 0
 
 
