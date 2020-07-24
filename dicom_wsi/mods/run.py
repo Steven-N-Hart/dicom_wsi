@@ -1,12 +1,12 @@
 import logging
 from timeit import default_timer as timer
 
-from mods.base_attributes import build_base
-from mods.parse_wsi import get_wsi
-from mods.pixel_data_conversion import resize_wsi_image
-from mods.pixel_to_slide_conversions import add_per_frame_functional_groups_sequence
-from mods.sequence_attributes import build_sequences
-from mods.shared_functional_groups import build_functional_groups
+from .base_attributes import build_base
+from .parse_wsi import get_wsi
+from .pixel_data_conversion import resize_wsi_image
+from .pixel_to_slide_conversions import add_per_frame_functional_groups_sequence
+from .sequence_attributes import build_sequences
+from .shared_functional_groups import build_functional_groups
 logger = logging.getLogger(__name__)
 
 

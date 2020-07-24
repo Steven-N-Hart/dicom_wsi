@@ -2,7 +2,7 @@ import openslide
 import pyvips
 import logging
 
-import mods.mapping as mp
+from . import mapping as mp
 
 logger = logging.getLogger(__name__)
 
