@@ -7,6 +7,7 @@ from .pixel_data_conversion import resize_wsi_image
 from .pixel_to_slide_conversions import add_per_frame_functional_groups_sequence
 from .sequence_attributes import build_sequences
 from .shared_functional_groups import build_functional_groups
+from .add_annotations import add_annotations
 logger = logging.getLogger(__name__)
 
 
@@ -37,6 +38,11 @@ def run_instance(instance, cfg):
     dcm.SeriesInstanceUID = dcm.SeriesInstanceUID + '.' + str(instance)
     dcm.InstanceNumber = instance
     dcm.SeriesNumber = instance
+
+    # Add Annotations
+    dcm = add_annotations(dcm, cfg, instance)  # TODO: Add tests
+    t_add_ann = timer()
+    logger.debug('Adding annotations took {} seconds.'.format(round(t_add_ann - t_get_func, 1)))
 
     # Resize image
     img = resize_wsi_image(wsi=wsi, series_downsample=instance)

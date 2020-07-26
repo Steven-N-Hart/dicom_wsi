@@ -1,6 +1,6 @@
 General:
-    WSIFile: './testfiles/CMU-1-JP2K-33005.svs'
-    OutFilePrefix: './output'
+    WSIFile: './tests/testfiles/CMU-1-JP2K-33005.svs'
+    OutFilePrefix: './tests/output'
     NumberOfLevels: 7
     OrgUIDRoot: 1.2.840.113713.15.
     WSIBrand: aperio_svs
@@ -10,7 +10,7 @@ General:
     CompressionAmount: 90   # 0 for no compression, [0-99]
     background_range: 80    # Number of pixels from 255 to identify as background
     threshold: 0.5          # At least x (%) needs to be contained in non-background pixels
-    Annotations: './CMU-1-JP2K-33005.xml'
+    Annotations: './tests/CMU-1-JP2K-33005.xml'
 
 BaseAttributes:
     PatientName: Bo^Jangles
