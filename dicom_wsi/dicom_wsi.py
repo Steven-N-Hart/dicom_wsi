@@ -12,6 +12,15 @@ pool = mp.Pool(mp.cpu_count())
 """Main module."""
 
 
+
+logger = logging.getLogger(__name__)
+import multiprocessing as mp
+
+pool = mp.Pool(mp.cpu_count())
+
+"""Main module."""
+
+
 def create_dicom(cfg):
     """
     Main function for creating DICOM files
