@@ -3,14 +3,7 @@
 
 """Tests for `dicom_wsi` package."""
 import sys, os
-#sys.path.append("../dicom_wsi/")
-#sys.path.append("../dicom_wsi/submodules")
-#sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-import pytest
 from yaml import load, BaseLoader, dump, FullLoader
-from ..dicom_wsi.mods import parse_wsi
-from ..dicom_wsi.mods.parse_wsi import *
-#import unittest
 import json
 
 #class TestParseWSIMethods(unittest.TestCase):

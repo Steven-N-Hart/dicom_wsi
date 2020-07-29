@@ -1,10 +1,7 @@
 from pydicom.dataset import Dataset
 from pydicom.sequence import Sequence
-import csv
-import requests
 import xml.etree.ElementTree as ET
-import sys
-import openslide
+
 
 
 def add_Ellipse(coord, id, type, text):
@@ -16,9 +13,6 @@ def add_Ellipse(coord, id, type, text):
     GraphicObjectSequence.GraphicAnnotationUnits = 'PIXEL'  # unit of coordinates
     GraphicObjectSequence.GraphicGroupID = id  # Annotation Label ID: 2
     GraphicObjectSequence.UnformattedTextValue = text  # Text="Necrosis"
-    # gos = Sequence([GraphicObjectSequence ])
-    # del GraphicObjectSequence
-    # return gos
     return GraphicObjectSequence
 
 
@@ -31,9 +25,6 @@ def add_Area(coord, id, type, text):
     GraphicObjectSequence.GraphicAnnotationUnits = 'PIXEL'  # unit of coordinates
     GraphicObjectSequence.GraphicGroupID = id  # Annotation Label ID: 2
     GraphicObjectSequence.UnformattedTextValue = text  # Text="Necrosis"
-    # gos = Sequence([GraphicObjectSequence ])
-    # del GraphicObjectSequence
-    # return gos
     return GraphicObjectSequence
 
 
@@ -47,9 +38,6 @@ def add_Rectangle(coord, id, type, text):
     GraphicObjectSequence.BoundingBoxHorizontalJustification = 'LEFT'
     GraphicObjectSequence.UnformattedTextValue = text  # Text="Necrosis"
     GraphicObjectSequence.GraphicGroupID = id  # Id="2"
-    # gos = Sequence([GraphicObjectSequence ])
-    # del GraphicObjectSequence
-    # return gos
     return GraphicObjectSequence
 
 
@@ -63,19 +51,12 @@ def add_Point(coord, id, type, text):
     GraphicObjectSequence.GraphicAnnotationUnits = 'PIXEL'  # unit of coordinates
     GraphicObjectSequence.GraphicGroupID = id  # Id="1" Type="0" Text="null"
     GraphicObjectSequence.UnformattedTextValue = text
-    # gos = Sequence([GraphicObjectSequence ])
-    # del GraphicObjectSequence
-    # return gos
     return GraphicObjectSequence
 
 
 def add_annotations(ds, cfg, instance):
     """ all values are hard coded to ensure they are present in the final file """
-    wsi = cfg.get('General').get('WSIFile')
-    #print(instance, wsi)
-    #sys.exit(0)
     file_ann = cfg.get('General').get('Annotations')
-    # print(file_ann)
 
     # create element tree object
     tree = ET.parse(file_ann)
@@ -90,7 +71,6 @@ def add_annotations(ds, cfg, instance):
     ds.DisplayedAreaSelectionSequence = Sequence([dsDisplayedArea])
     ds.GraphicAnnotationSequence = Sequence([Dataset()])
     ds.GraphicAnnotationSequence[0].ReferencedImageSequence = Sequence([Dataset()])
-    # ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence = Sequence([Dataset()])
 
     list_gos = []
     # iterate news items

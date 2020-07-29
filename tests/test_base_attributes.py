@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 """Tests for `dicom_wsi` package."""
-import sys
 import os
 
 from yaml import load, BaseLoader, dump, FullLoader

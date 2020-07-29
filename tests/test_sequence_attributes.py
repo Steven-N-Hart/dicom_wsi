@@ -4,7 +4,6 @@
 """Tests for `dicom_wsi` package."""
 import os
 from yaml import load, BaseLoader, dump, FullLoader
-from ..dicom_wsi.mods import parse_wsi
 from ..dicom_wsi.mods.parse_wsi import *
 from ..dicom_wsi.mods.base_attributes import build_base
 import datetime
