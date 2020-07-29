@@ -75,9 +75,10 @@ def main():
         cfg['BaseAttributes']['DimensionOrganizationType'] = args.tile
         logging.debug(f'Overwriting DimensionOrganizationType with : {args.tile}')
 
-    if not os.path.exists(args.out):
-        os.mkdir(args.out)
-        logging.debug(f'Creating directory: {args.out}')
+    if not os.path.exists(cfg['General']['OutDir']):
+        val = cfg['General']['OutDir']
+        os.mkdir(val)
+        logging.debug(f'Creating directory: {val}')
 
     # Combine the output directory and prefix so that the file can be written
     cfg['General']['OutFilePrefix'] = os.path.join(cfg['General']['OutDir'], cfg['General']['OutFilePrefix'])

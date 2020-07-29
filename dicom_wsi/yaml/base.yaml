@@ -1,6 +1,7 @@
 General:
     WSIFile: '../tests/CMU-1-JP2K-33005.svs'
-    OutFilePrefix: '../tests/output'
+    OutDir: '../tests/output'
+    OutFilePrefix: test
     NumberOfLevels: 7
     OrgUIDRoot: 1.2.840.113713.15.
     FrameSize: 500
