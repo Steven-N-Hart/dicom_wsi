@@ -29,8 +29,6 @@ The `YAML` file contains two sections: `General` and `BaseAttributes`. The `Gene
 +------------------------+------------------------------------------------------+
 | *OrgUIDRoot*           | Your organizations UID root prefix                   |
 +------------------------+------------------------------------------------------+
-| *WSIBrand*             | Currently supported options are `aperio_svs`         |
-+------------------------+------------------------------------------------------+
 | *FrameSize*            | How many pixels should be used for DICOM frames      |
 +------------------------+------------------------------------------------------+
 | *MaxFrames*            | Number of frames allowed before writing to a new file|

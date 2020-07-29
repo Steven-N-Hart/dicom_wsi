@@ -1,5 +1,5 @@
 =========
-dicom-wsi
+dicom_wsi
 =========
 
 
@@ -20,28 +20,34 @@ Package for converting whole slide image files to DICOM.
 * Free software: MIT license
 * Documentation: https://dicom-wsi.readthedocs.io.
 
+=====
+Usage
+=====
+
+First, you need to install dicom_wsi and its dependencies. See this link_ for details.
+
+.. _link: https://dicom-wsi.readthedocs.io/en/latest/installation.html
+
+To use dicom-wsi:
+
+.. code-block:: console
+
+    python cli.py cli.py -w <WSI File path> -o <OutputDirectory> -p <output file prefix> -y yaml/base.yaml
+
+
+That's it! Most of the time you wan't need to change anything. But if you do, please see the example yaml_ file.
+
+.. _yaml: https://github.com/Steven-N-Hart/dicom_wsi/blob/master/dicom_wsi/yaml/base.yaml
+
 Features
 --------
-* Validate DICOM elements
+* Validate DICOM elements using pydicom_
+* Output format DICOM formatted files (vetted with dciodvfy_)
 
 TODO
 --------
 * Find out how to determine what `FileMetaInformationGroupLength` should be
-* Thorough Unit tests
-* Pass validation with dciodvfy_
-* Add option to add Annotations from XML file
-* Ensure Python Idioms are followed (where practical)
-* Parse logic from each `file type`_ available from the OpenSlide website
-
-  * Aperio (.svs, .tif)
-  * Hamamatsu (.vms, .vmu, .ndpi)
-  * Leica (.scn)
-  * MIRAX (.mrxs)
-  * Philips (.tiff)
-  * Sakura (.svslide)
-  * Trestle (.tif)
-  * Ventana (.bif, .tif)
-  * Generic tiled TIFF (.tif)
+* Add option to add Annotations from XML file (Naresh working on this)
 
 
 Credits
@@ -53,3 +59,4 @@ This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypack
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
 .. _dciodvfy: https://www.dclunie.com/dicom3tools/dciodvfy.html
 .. _`file type`: https://openslide.org/
+.. _pydicom: https://pydicom.github.io/
