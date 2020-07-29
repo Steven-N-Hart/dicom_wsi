@@ -31,8 +31,5 @@ def create_dicom(cfg):
     validate_cfg(cfg)
     logger.info('All inputs are valid')
     number_of_levels = int(cfg.get('General').get('NumberOfLevels'))
-    results = pool.starmap(run_instance, [(i, cfg) for i in reversed(range(number_of_levels))])
+    pool.starmap(run_instance, [(i, cfg) for i in reversed(range(number_of_levels))])
     pool.close()
-    #for i in reversed(range(number_of_levels)):
-        #results = run_instance(i, cfg)
-        #print(i, results)
