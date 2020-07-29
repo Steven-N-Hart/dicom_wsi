@@ -2,10 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """The setup script."""
+
 from setuptools import setup, find_packages
-import sys
-if sys.version_info < (2,7):
-    sys.exit('Sorry, Python < 2.7 is not supported')
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -13,6 +11,73 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
+requirements = ['alabaster',
+                'argh',
+                'atomicwrites',
+                'attrs',
+                'Babel',
+                'bleach',
+                'bump2version',
+                'certifi',
+                'cffi',
+                'chardet',
+                'colorama',
+                'coverage',
+                'docutils',
+                'entrypoints',
+                'filelock',
+                'flake8',
+                'idna',
+                'imagecodecs',
+                'imagesize',
+                'importlib-metadata',
+                'Jinja2',
+                'MarkupSafe',
+                'mccabe',
+                'more-itertools',
+                'numpy',
+                'openslide-wrapper',
+                'packaging',
+                'pathtools',
+                'Pillow',
+                'pkginfo',
+                'pluggy',
+                'py',
+                'pycodestyle',
+                'pycparser',
+                'pydicom',
+                'pyflakes',
+                'Pygments',
+                'pyparsing',
+                'PyQt5',
+                'PyQt5-sip',
+                'pytest',
+                'pytest-runner',
+                'pytz',
+                'pyvips',
+                'PyYAML',
+                'readme-renderer',
+                'requests',
+                'requests-toolbelt',
+                'six',
+                'snowballstemmer',
+                'Sphinx',
+                'sphinxcontrib-programoutput',
+                'sphinx-rtd-theme',
+                'sphinxcontrib-websupport',
+                'tifffile',
+                'tiffile',
+                'toml',
+                'tox',
+                'tqdm',
+                'twine',
+                'urllib3',
+                'virtualenv',
+                'watchdog',
+                'wcwidth',
+                'webencodings',
+                'zipp'
+                ]
 
 setup_requirements = ['pytest-runner', ]
 
@@ -32,6 +97,7 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ],
     description="Package for converting whole slide image files to dicom.",
     entry_points={
@@ -39,6 +105,7 @@ setup(
             'dicom_wsi=dicom_wsi.cli:main',
         ],
     },
+    install_requires=requirements,
     license="MIT license",
     long_description=readme + '\n\n' + history,
     include_package_data=True,

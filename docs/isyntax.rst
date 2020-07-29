@@ -13,14 +13,30 @@ the `Phillips Website`_.
 .. code-block:: console
 
    $ cd isyntax
-   $ wget https://www.openpathology.philips.com/wp-content/uploads/AnimalSlides/1.isyntax
+   $ curl -o ex1.isyntax  https://www.openpathology.philips.com/wp-content/uploads/AnimalSlides/1.isyntax
 
-Next, run the conversion script.
+
+Next, get the Phillips SDK. You need to create a _`log in` first.
+
+`log in`_ https://www.openpathology.philips.com/login/
+
+You will need to follow ithe installation instructions for your specific operating system.  Once you have it installed,
+open a python terminal and run:
+
+.. code-block:: python
+
+    import pixelengine
+
+If you get `ModuleNotFoundError: No module named 'pixelengine'` then you do not have this installed propoerly. Ask Phillips tech support for help.
+
+
+
+Once you have the Phillips SDK installed, you can run the conversion script.
 
 .. code-block:: console
 
-    $ python isyntax_to_tiff.py --input ..\ex1.isyntax --tif BIGTIFF --sparse 0  --startlevel 0
+    $ python isyntax_to_tiff.py --input 1.isyntax --tif BIGTIFF --sparse 0  --startlevel 0
 
 This will create a file called `ex1_BIG_sparse.tiff`.
 
-Now you can create the configuration file.
+Now you can create the configuration file and proceed as normal.

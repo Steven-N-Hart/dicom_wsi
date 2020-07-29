@@ -34,7 +34,7 @@ Once conda is installed, then you can install `dicom_wsi`:
 
     $ conda config --add channels bioconda
     $ conda config --add channels conda-forge
-    $ conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION pyvips openslide openjpeg libtiff
+    $ conda create -q -n test-environment python pyvips openslide openjpeg libtiff
     $ conda activate test-environment
     $ pip install -U -r requirements_dev.txt
 
@@ -87,6 +87,14 @@ Once you have a copy of the source, you can install it with:
 .. _Github repo: https://github.com/Steven-N-Hart/dicom_wsi
 .. _tarball: https://github.com/Steven-N-Hart/dicom_wsi/tarball/master
 
+
+With Docker
+-----------
+You can also build a container using Docker:
+
+.. code-block:: console
+
+    $ docker build -t stevennhart/dicom_wsi .
 
 Development with PyCharm
 ------------------------

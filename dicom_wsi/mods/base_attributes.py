@@ -5,8 +5,8 @@ import tempfile
 import pydicom
 from pydicom.dataset import Dataset, FileDataset
 # noinspection PyUnresolvedReferences,PyUnresolvedReferences,PyUnresolvedReferences
+#from mods.utils import add_data
 from .utils import add_data
-
 
 # noinspection PyUnresolvedReferences
 def build_base(cfg, instance=1):

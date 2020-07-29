@@ -28,10 +28,13 @@ def add_per_frame_functional_groups_sequence(img=None, ds=None, cfg=None, tile_s
     tile_size = int(tile_size)
 
     out_file_prefix = cfg.get('General').get('OutFilePrefix')
+    background_range = cfg.get('General').get('background_range')
+    threshold = cfg.get('General').get('threshold')
     compression_type = cfg.get('General').get('ImageFormat')
     compression_quality = int(cfg.get('General').get('CompressionAmount'))
     max_frames = int(cfg.get('General').get('MaxFrames'))
     tiled_sparse = cfg.get('BaseAttributes').get('DimensionOrganizationType')
+
     if tiled_sparse == 'TILED_SPARSE':
         background_range = int(cfg.get('General').get('background_range'))
         threshold = float(cfg.get('General').get('threshold'))
@@ -57,9 +60,6 @@ def add_per_frame_functional_groups_sequence(img=None, ds=None, cfg=None, tile_s
         x, y, z = compute_slide_offsets_from_pixel_data(ds=ds, row=y_tile, col=x_tile,
                                                         series_downsample=series_downsample)
 
-        data_group1 = define_plane_position_slide_sequence(x, y, z, x_tile, y_tile, x_pos, y_pos)
-        ds.PerFrameFunctionalGroupsSequence.append(data_group1)
-
         # Get pixel data for the frame
         x_next_step = tile_size + x_pos
         y_next_step = tile_size + y_pos
@@ -74,6 +74,9 @@ def add_per_frame_functional_groups_sequence(img=None, ds=None, cfg=None, tile_s
 
         # Make sure the frame is square and filled
         imlist.append(ensure_even_image(tmp, tile_size))
+
+        data_group1 = define_plane_position_slide_sequence(x, y, z, x_tile, y_tile, x_pos, y_pos)
+        ds.PerFrameFunctionalGroupsSequence.append(data_group1)
 
         # If the number of frames matches the limit, then save so the file doesn't get too big
         if imlist.__len__() == max_frames:
@@ -92,6 +95,7 @@ def add_per_frame_functional_groups_sequence(img=None, ds=None, cfg=None, tile_s
 
     dcmwrite(out_file, ds, write_like_original=False)
     logger.info('Compressed {} image frames into {}'.format(imlist.__len__(), out_file))
+    return 1
 
 
 def add_imgdata(imlist, ds, tile_size, compression_type, compression_quality):
@@ -216,7 +220,7 @@ def ensure_even_image(tmp, tile_size):
         tmp_img = Image.fromarray(tmp3)
     return tmp_img
 
-
+# TODO: Make this faster!!!
 def compress_img_list(ds, imlist, num_frames, compression_quality):
     f = io.BytesIO()
     imlist[0].save(f, format='tiff', append_images=imlist[1:], save_all=True, compression='None')

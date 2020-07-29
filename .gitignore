@@ -1,3 +1,7 @@
+tests/orthanc
+tests/wsi2dcm
+tests/dicom_wsi
+
 # Byte-compiled / optimized / DLL files
 .idea/
 __pycache__/

@@ -1,27 +1,17 @@
 {
-    "PatientName": "Bo^Jangles",
-    "PatientBirthDate": "20000101",
-    "PatientSex": "M",
-    "PatientID": "4f3a7f54-c23f-4d96-9a6c-35930bf6acc3",
-    "ReferringPhysicianName": "UNKNOWN^UNKNOWN",
-    "AccessionNumber": "UNKNOWN",
-    "Manufacturer": "aperio",
-    "ManufacturerModelName": "UNKNOWN",
-    "DeviceSerialNumber": "UNKNOWN",
-    "SoftwareVersions": "UNKNOWN",
-    "AcquisitionDateTime": "20191229194128.000000",
-    "ImageType": [
-        "ORIGINAL",
-        "PRIMARY",
-        "VOLUME",
-        "NONE"
-    ],
-    "SpecimenLabelInImage": "NO",
-    "BurnedInAnnotation": "NO",
-    "FocusMethod": "AUTO",
-    "ExtendedDepthOfField": "NO",
+  "PatientID" : "4f3a7f54-c23f-4d96-9a6c-35930bf6acc3",
+  "PatientName" : "Bo^Jangles",
+  "PatientBirthDate" : "20000101",
+  "PatientSex" : "M",
+  "StudyID" : "Test",
+  "SeriesNumber" : "1",
+  "ReferringPhysicianName" : "UNKNOWN^UNKNOWN",
+  "AccessionNumber" : "UNKNOWN",
+  "Manufacturer" : "aperio",
+  "ManufacturerModelName" : "MyModel",
+  "DeviceSerialNumber" : "UNKNOWN",
+  "SoftwareVersions" : "UNKNOWN",
     "SpecificCharacterSet": "ISO_IR 100",
-    "StudyID": "Test",
     "StudyDate": "20191229",
     "SeriesDate": "20191229",
     "ContentDate": "20191108",
@@ -43,30 +33,28 @@
     "ImagedVolumeWidth": "15",
     "ImagedVolumeHeight": "15",
     "ImagedVolumeDepth": "1",
-    "ImageOrientationSlide": [
-        "0",
-        "-1",
-        "0",
-        "-1",
-        "0",
-        "0"
-    ],
+  "ImageType" : "DERIVED\\PRIMARY\\VOLUME\\NONE",
+  "FocusMethod" : "AUTO",
+  "ExtendedDepthOfField" : "NO",
+
+  "AcquisitionContextSequence" : [
+  ],
+  "AcquisitionDuration" : "100",
+  "ContainerTypeCodeSequence" : [
+  ],
+  "IssuerOfTheContainerIdentifierSequence" : [
+  ],
     "DimensionOrganizationType": "TILED_FULL",
-    "TotalPixelMatrixFocalPlanes": "1",
-    "NumberOfOpticalPaths": "1",
-    "SeriesNumber": "1",
-    "AcquisitionContextSequence": [
-    ],
-    "AcquisitionDuration": "100",
-    "ContainerIdentifier": "CI_12345",
-    "SpecimenDescriptionSequence": [
-        {
-            "SpecimenIdentifier": "Specimen^Identifier",
-            "SpecimenUID": "1.2.276.0.7230010.3.1.4.3252829876.4112.1426166133.871",
-            "IssuerOfTheSpecimenIdentifierSequence": [
-            ],
-            "SpecimenPreparationSequence": [
-            ]
-        }
-    ]
+  "SpecimenDescriptionSequence" : [
+    {
+      "SpecimenIdentifier" : "Specimen^Identifier",
+      "SpecimenUID" : "1.2.276.0.7230010.3.1.4.3252829876.4112.1426166133.871",
+      "IssuerOfTheSpecimenIdentifierSequence" : [
+      ],
+      "SpecimenPreparationSequence" : [
+      ]
+    }
+  ],
+  "SpecimenLabelInImage" : "NO",
+  "BurnedInAnnotation" : "NO"
 }
