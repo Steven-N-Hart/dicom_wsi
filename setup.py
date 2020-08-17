@@ -17,6 +17,7 @@ try:
 except FileNotFoundError:
     import os
     print(os.listdir)
+    exit(1)
 
 requirements = [req]
 

@@ -11,7 +11,7 @@ RUN python3 -m pip install --upgrade pip
 RUN pip3 install numpy Pillow pydicom datetime openslide-python pyvips pyaml
 
 RUN git clone https://github.com/Steven-N-Hart/dicom_wsi.git
-RUN cd dicom_wsi && pip install -r requirements_dev.txt
+RUN cd dicom_wsi && pip install -r requirements.txt
 ENV PYTHONPATH=/dicom_wsi/dicom_wsi/mods/
 
 # Add other tools
