@@ -14,8 +14,7 @@ with open('HISTORY.rst') as history_file:
 with open('requirements.txt') as requirements:
     req = requirements.read()
 
-
-requirements = [ req ]
+requirements = [req]
 
 setup_requirements = ['pytest-runner', ]
 

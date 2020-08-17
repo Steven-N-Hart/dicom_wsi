@@ -93,7 +93,7 @@ def uid_maker(k, v, cfg, dict_element='BaseAttributes'):
         # These are all fixed values
         pass
     # elif k == 'SeriesInstanceUID':
-        # Need to decrease the length of this UID because I append the series number to it
+    # Need to decrease the length of this UID because I append the series number to it
     #    cfg[dict_element][k] = pydicom.uid.generate_uid(prefix=cfg['General']['OrgUIDRoot'])[:60]
     elif v.startswith('1.2'):
         # If user has already specified a UID, use that

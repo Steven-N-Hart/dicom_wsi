@@ -2,7 +2,6 @@ import logging
 import os
 import re
 
-
 from . import character_validations as cv
 from .utils import get_all_keys
 
@@ -37,9 +36,8 @@ required_fields = {
                        'ImagedVolumeWidth', 'ImagedVolumeHeight', 'ImagedVolumeDepth',
                        'ImageOrientationSlide', 'DimensionOrganizationType']
 
-
 }
-# TODO: Add size validation
+
 size_limits = {
     '2': ['PixelPaddingValue', 'BitsAllocated', 'BitsStored', 'Columns', 'HighBit', 'PixelRepresentation', 'Rows',
           'SamplesPerPixel', 'PlanarConfiguration', 'InConcatenationNumber'],

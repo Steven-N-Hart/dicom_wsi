@@ -7,8 +7,6 @@ from mods.run import run_instance
 logger = logging.getLogger(__name__)
 import multiprocessing as mp
 
-
-
 """Main module."""
 
 
@@ -16,6 +14,7 @@ def create_dicom(cfg, pools=-1):
     """
     Main function for creating DICOM files
     :param cfg: dictionary containing all required variables
+    :param pools: how many processors to use
     :return: 0
     """
     logger.debug('Beginning validation')

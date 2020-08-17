@@ -31,9 +31,9 @@
 libTIFF interfacing code
 """
 
-import sys
 import ctypes
 import platform
+import sys
 
 # Specify the path for the lib tiff dll
 # Change this path according to your Operating System(OS)
@@ -73,7 +73,6 @@ YCBCRHORIZONTAL = 2
 YCBCRVERTICAL = 2
 TIFF_TILE_WIDTH = 512
 TIFF_TILE_HEIGHT = 512
-
 
 TIFFTAGS = {
     TIFFTAG_IMAGEWIDTH: (ctypes.c_uint32, lambda _d: _d.value),
@@ -186,6 +185,5 @@ LIBTIFF.TIFFWriteEncodedTile.restype = ctypes.c_int32
 LIBTIFF.TIFFWriteEncodedTile.argtypes = [TIFF, ctypes.c_uint32, ctypes.c_void_p, ctypes.c_int32]
 LIBTIFF.TIFFClose.restype = None
 LIBTIFF.TIFFClose.argtypes = [TIFF]
-
 
 # ################ #END-----libTIFF interfacing code------END ################

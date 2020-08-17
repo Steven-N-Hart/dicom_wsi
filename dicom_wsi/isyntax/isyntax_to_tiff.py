@@ -59,13 +59,14 @@ Dependencies:
     Pip modules: numpy
 """
 
-import os
 import argparse
+import os
 import traceback
+
 import numpy as np
 import pixelengine
-import softwarerendercontext
 import softwarerenderbackend
+import softwarerendercontext
 from libtiff_interface import *
 
 
@@ -92,8 +93,8 @@ def write_tiff_tile(tiff_handle, offset, level, sparse, data, data_size, bb_list
                 return
         # Write Tile
         if LIBTIFF.TIFFWriteEncodedTile(tiff_handle, LIBTIFF.TIFFComputeTile
-                                        (tiff_handle, offset[0], offset[1],
-                                         level, 0), data, data_size) < 0:
+            (tiff_handle, offset[0], offset[1],
+             level, 0), data, data_size) < 0:
             print("Error in generating TIFF")
 
     except RuntimeError:
@@ -110,13 +111,13 @@ def is_background_tile(bb_list, bb_range):
     outside_x = True
     outside_y = True
     for data_envelope in bb_list:
-        if(not((bb_range[0] < data_envelope[0] and bb_range[1] < data_envelope[0]) or
-               (bb_range[0] > data_envelope[1] and bb_range[1] > data_envelope[1]))):
+        if (not ((bb_range[0] < data_envelope[0] and bb_range[1] < data_envelope[0]) or
+                 (bb_range[0] > data_envelope[1] and bb_range[1] > data_envelope[1]))):
             outside_x = False
             break
     for data_envelope in bb_list:
-        if(not((bb_range[2] < data_envelope[2] and bb_range[3] < data_envelope[2]) or
-               (bb_range[2] > data_envelope[3] and bb_range[3] > data_envelope[3]))):
+        if (not ((bb_range[2] < data_envelope[2] and bb_range[3] < data_envelope[2]) or
+                 (bb_range[2] > data_envelope[3] and bb_range[3] > data_envelope[3]))):
             outside_y = False
             break
     return outside_x or outside_y
@@ -181,7 +182,7 @@ def find_bounding_boxes(view, level):
         if evalute(envelope):
             print("Data envelope is not having indices")
         else:
-            print("Data envelope_" + str(step) + ": "+str(envelope[1]))
+            print("Data envelope_" + str(step) + ": " + str(envelope[1]))
             data_envelope.append(envelope[1])
             data_env = data_envelope[step]
             final_range = create_view_range(data_env, level)
@@ -290,8 +291,8 @@ def create_tiff_from_isyntax(pixel_engine, tiff_file_handle, start_level,
 
         # As the index representation is always in Base Level i.e. Level0, but
         # the step size increase with level as (2**level)
-        width_patch_level = TIFF_TILE_WIDTH * (2**level)
-        height_patch_level = TIFF_TILE_HEIGHT * (2**level)
+        width_patch_level = TIFF_TILE_WIDTH * (2 ** level)
+        height_patch_level = TIFF_TILE_HEIGHT * (2 ** level)
         width_roi = x_end - x_start
         height_roi = y_end - y_start
 
@@ -317,7 +318,7 @@ def create_tiff_from_isyntax(pixel_engine, tiff_file_handle, start_level,
             print("TIFF Directory Write bypassed")
             continue
 
-        level_scale_factor = 2**level
+        level_scale_factor = 2 ** level
         # For subdirectories corresponding to the multi-resolution pyramid, set the following
         # Tag for all levels but the initial level
         if sub_level:
@@ -354,7 +355,7 @@ def set_attribute(tiff_file_handle, key, value):
     :return: None
     """
     assert tiff_file_handle.SetField(key, value) == 1, \
-        "could not set "+str(key)+" tag"
+        "could not set " + str(key) + " tag"
 
 
 def set_tiff_file_attributes(tiff_file_handle, use_rgb):
@@ -432,7 +433,7 @@ def get_tiff_handle(tiff_type, input_file, sparse):
     """
     file_name = ".tiff"
     if sparse:
-        file_name = "_sparse"+file_name
+        file_name = "_sparse" + file_name
     image_name = os.path.splitext(os.path.basename(input_file))[0]
 
     if tiff_type == 0:
@@ -443,7 +444,7 @@ def get_tiff_handle(tiff_type, input_file, sparse):
         tiff_file_handle = TIFF.open(file_path, mode=b'w')
     elif tiff_type == 1:
         print("Big Tiff")
-        file_path = "." + os.path.sep + image_name + "_BIG"+file_name
+        file_path = "." + os.path.sep + image_name + "_BIG" + file_name
         file_path = encode_file_path(file_path)
         tiff_file_handle = TIFF.open(file_path, mode=b'w8')
 
@@ -491,7 +492,7 @@ def main():
     else:
         tiff_type = 0
     sparse = int(args.sparse)
-    if not(0 <= sparse <= 1 and 0 <= tiff_type <= 1):
+    if not (0 <= sparse <= 1 and 0 <= tiff_type <= 1):
         print("Invalid arguments passed")
         return
     tiff_file_handle = get_tiff_handle(tiff_type, args.input, sparse)

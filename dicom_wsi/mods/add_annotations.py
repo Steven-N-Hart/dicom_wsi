@@ -1,7 +1,7 @@
-from pydicom.dataset import Dataset
-from pydicom.sequence import Sequence
 import xml.etree.ElementTree as ET
 
+from pydicom.dataset import Dataset
+from pydicom.sequence import Sequence
 
 
 def add_Ellipse(coord, id, text):

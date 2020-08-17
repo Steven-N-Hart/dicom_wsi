@@ -3,12 +3,13 @@
 """Console script for dicom_wsi."""
 import argparse
 import logging
-import sys
 import os
-import dicom_wsi
-from mods import parse_wsi
+import sys
 
+from mods import parse_wsi
 from yaml import load, BaseLoader
+
+import dicom_wsi
 
 
 def main():

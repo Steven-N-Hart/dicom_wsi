@@ -1,5 +1,6 @@
-import pyvips
 import logging
+
+import pyvips
 
 from . import mapping as mp
 

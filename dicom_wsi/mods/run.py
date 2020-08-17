@@ -1,13 +1,14 @@
 import logging
 from timeit import default_timer as timer
 
+from .add_annotations import add_annotations
 from .base_attributes import build_base
 from .parse_wsi import get_wsi
 from .pixel_data_conversion import resize_wsi_image
 from .pixel_to_slide_conversions import add_per_frame_functional_groups_sequence
 from .sequence_attributes import build_sequences
 from .shared_functional_groups import build_functional_groups
-from .add_annotations import add_annotations
+
 logger = logging.getLogger(__name__)
 
 
@@ -44,7 +45,7 @@ def run_instance(instance, cfg):
         dcm = add_annotations(dcm, cfg, instance)
         t_add_ann = timer()
         logger.debug('Adding annotations took {} seconds.'.format(round(t_add_ann - t_get_func, 1)))
-        t_get_func = t_add_ann  #Overwrite this so that it doesn't break down below
+        t_get_func = t_add_ann  # Overwrite this so that it doesn't break down below
 
     # Resize image
     img = resize_wsi_image(wsi=wsi, series_downsample=instance)
@@ -63,4 +64,3 @@ def run_instance(instance, cfg):
 
     logger.info('Total elapsed time: {} minutes.'.format(round((t_save - start) / 60, 3)))
     return 0
-
