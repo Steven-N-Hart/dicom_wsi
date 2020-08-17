@@ -25,7 +25,7 @@ restricted_inputs = {
 }
 
 required_fields = {
-    'General': ['WSIFile', 'OutFilePrefix', 'NumberOfLevels', 'OrgUIDRoot', 'ImageFormat'],
+    'General': ['WSIFile', 'OutDir', 'OutFilePrefix', 'NumberOfLevels', 'OrgUIDRoot', 'ImageFormat'],
     'BaseAttributes': ['PatientName', 'PatientBirthDate', 'PatientSex', 'ReferringPhysicianName', 'AccessionNumber',
                        'Manufacturer', 'ManufacturerModelName', 'DeviceSerialNumber', 'SoftwareVersions',
                        'AcquisitionDateTime', 'ImageType', 'SpecimenLabelInImage', 'BurnedInAnnotation',
