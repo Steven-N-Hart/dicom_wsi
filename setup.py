@@ -11,14 +11,18 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-with open('./requirements.txt') as requirements:
-    req = requirements.read()
+try:
+    with open('requirements.txt') as requirements:
+        req = requirements.read()
+except FileNotFoundError:
+    import os
+    print(os.listdir)
 
 requirements = [req]
 
-setup_requirements = ['pytest-runner', ]
+setup_requirements = ['pytest-runner']
 
-test_requirements = ['pytest>=3', ]
+test_requirements = ['pytest>=3']
 
 setup(
     author="Steven N. Hart",
