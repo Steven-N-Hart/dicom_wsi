@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime
-
+import pyvips
 from . import utils
 
 logger = logging.getLogger(__name__)
@@ -94,7 +94,17 @@ def map_other_features(cfg, wsi):
             _, cfg = utils.make_time('ContentTime', now, cfg,
                                      dict_element='SharedFunctionalGroupsSequence')
 
-    pv = wsi.get('openslide.mpp-x'), wsi.get('openslide.mpp-y')
+    try:
+        pv = wsi.get('openslide.mpp-x'), wsi.get('openslide.mpp-y')
+    except pyvips.error.Error:
+        try:
+            logger.warning('openslide.mpp-? not found. trying config file')
+            pv = cfg.get('BaseAttributes').get('PixelSpacing')
+            logger.warning(f'PV: {pv}')
+        except:
+            logger.error('openslide.mpp-? not found in config file or image file')
+            raise AttributeError("openslide.mpp-? not found. You need to specify these values in your"
+                                 " base.yaml: BaseAttributes.PixelSpacing: x,y")
     cfg['OnTheFly']['PixelSpacing'] = [float(x) for x in pv]
 
     return cfg
