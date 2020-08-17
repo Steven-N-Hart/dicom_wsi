@@ -15,22 +15,22 @@ def run_instance(instance, cfg):
     start = timer()
     logger.info('Beginning instance {}.'.format(instance))
     # Update config with slide attributes
-    cfg, wsi = get_wsi(cfg)  # TODO: Add tests
+    cfg, wsi = get_wsi(cfg)
     t_get_wsi = timer()
     logger.debug('Updating config with slide attributes took {} seconds.'.format(round(t_get_wsi - start, 1)))
 
     # Add the BaseAttributes and set the file metadata
-    dcm, cfg = build_base(cfg, instance=instance)  # TODO: Add tests
+    dcm, cfg = build_base(cfg, instance=instance)
     t_get_base = timer()
     logger.debug('Updating base attributes took {} seconds.'.format(round(t_get_base - t_get_wsi, 1)))
 
     # Add the SequenceAttributes
-    dcm = build_sequences(dcm)  # TODO: Add tests
+    dcm = build_sequences(dcm)
     t_get_seq = timer()
     logger.debug('Updating sequence attributes took {} seconds.'.format(round(t_get_seq - t_get_base, 1)))
 
     # Build functional groups
-    dcm = build_functional_groups(dcm, cfg)  # TODO: Add tests
+    dcm = build_functional_groups(dcm, cfg)
     t_get_func = timer()
     logger.debug('Updating functional groups took {} seconds.'.format(round(t_get_func - t_get_seq, 1)))
 
@@ -40,9 +40,11 @@ def run_instance(instance, cfg):
     dcm.SeriesNumber = instance
 
     # Add Annotations
-    dcm = add_annotations(dcm, cfg, instance)  # TODO: Add tests
-    t_add_ann = timer()
-    logger.debug('Adding annotations took {} seconds.'.format(round(t_add_ann - t_get_func, 1)))
+    if cfg['General']['Annotations']:
+        dcm = add_annotations(dcm, cfg, instance)
+        t_add_ann = timer()
+        logger.debug('Adding annotations took {} seconds.'.format(round(t_add_ann - t_get_func, 1)))
+        t_get_func = t_add_ann  #Overwrite this so that it doesn't break down below
 
     # Resize image
     img = resize_wsi_image(wsi=wsi, series_downsample=instance)
@@ -56,7 +58,7 @@ def run_instance(instance, cfg):
                                              ds=dcm,
                                              cfg=cfg,
                                              tile_size=cfg.get('General').get('FrameSize'),
-                                             series_downsample=instance)  # TODO: Add tests
+                                             series_downsample=instance)
     t_save = timer()
 
     logger.info('Total elapsed time: {} minutes.'.format(round((t_save - start) / 60, 3)))
