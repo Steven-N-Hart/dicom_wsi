@@ -47,7 +47,6 @@ Features
 TODO
 --------
 * Find out how to determine what `FileMetaInformationGroupLength` should be
-* Add option to add Annotations from XML file (Naresh working on this)
 
 
 Credits
