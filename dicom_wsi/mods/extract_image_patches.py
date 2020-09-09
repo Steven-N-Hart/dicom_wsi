@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 
 def extract_imagepatches_dicom(dicom_file, image_dir):
     '''Pydicom help:https://pydicom.github.io/pydicom/stable/old/getting_started.html'''
-    '''Pydicom object from input dicome file'''
+    '''Pydicom object from input dicom file'''
 
     ds = pydicom.dcmread(dicom_file)
     for i in range(0,len(ds.PerFrameFunctionalGroupsSequence)):
@@ -29,16 +29,7 @@ def extract_imagepatches_dicom(dicom_file, image_dir):
         '''Gettng image content'''
         ds.convert_pixel_data('pillow')
         img = Image.fromarray(ds.pixel_array[i],'RGB')
-        #RGB_img = cv2.cvtColor(ds.pixel_array[i], cv2.COLOR_BGR2RGB)
-        #img = Image.fromarray(RGB_img, 'RGB')
         img.save(img_name, "PNG")
-        #cv2.imwrite(img_name, ds.pixel_array[i])
-        #img = ds.pixel_array[i]  # get image array
-        #cv2.imwrite(img_name, img)
-        #plt.imshow(ds.pixel_array[i], cmap=plt.cm.bone)
-        #plt.savefig(img_name)
-        #sys.exit(0)
-
 
 
 def main():
@@ -47,7 +38,6 @@ def main():
 
     parser.add_argument("-D", "--dicom", dest='dicom', required=True, help="DICOM file")
     parser.add_argument("-d", "--image_dir", dest='image_dir', required=True, help="OUTPUT Image directory")
-    args = parser.parse_args()
 
     '''Create Looger'''
     logging.basicConfig()
