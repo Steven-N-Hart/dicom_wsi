@@ -1,0 +1,108 @@
+BaseAttributes:
+    AccessionNumber: UNKNOWN
+    AcquisitionDateTime:
+        args:
+            - 'B+MKHQIoLgAAAA==
+
+      '
+        state:
+            original_string: '20191029024046.000000'
+    BitsAllocated: '8'
+    BitsStored: '8'
+    BurnedInAnnotation: 'NO'
+    ContentDate:
+        args:
+            - 'B+MKCQ==
+
+      '
+        state:
+            original_string: '20191009'
+    DeviceSerialNumber: UNKNOWN
+    DimensionOrganizationType: TILED_FULL
+    ExtendedDepthOfField: 'NO'
+    FocusMethod: AUTO
+    HighBit: '7'
+    ImageOrientationSlide:
+        - '0'
+        - '-1'
+        - '0'
+        - '-1'
+        - '0'
+        - '0'
+    ImageType:
+        - ORIGINAL
+        - PRIMARY
+        - VOLUME
+        - NONE
+    ImagedVolumeDepth: '1'
+    ImagedVolumeHeight: '15'
+    ImagedVolumeWidth: '15'
+    LossyImageCompression: '00'
+    Manufacturer: aperio
+    ManufacturerModelName: UNKNOWN
+    Modality: SM
+    PatientBirthDate:
+        args:
+            - 'B9ABAQ==
+
+      '
+        state:
+            original_string: '20000101'
+    PatientID: 53a5145d-f8b4-4963-bb5c-37de8cbc21ee
+    PatientName: BoJangles
+    PatientOrientation: ''
+    PatientSex: M
+    PhotometricInterpretation: RGB
+    PixelRepresentation: '0'
+    PlanarConfiguration: '0'
+    ReferringPhysicianName: UNKNOWNUNKNOWN
+    SOPClassUID: 1.2.840.10008.5.1.4.1.1.77.1.6
+    SOPInstanceUID: 1.2.276.0.7230010.3.1.4.8323329.17698.1572316882.287667
+    SamplesPerPixel: '3'
+    SeriesDate:
+        args:
+            - 'B+MKCQ==
+
+      '
+        state:
+            original_string: '20191009'
+    SeriesDescription: '1004486'
+    SeriesInstanceUID:
+        - 1.2.840.113713.15.5247963260757598249367904847094294190075185412
+    SoftwareVersions: UNKNOWN
+    SpecificCharacterSet: ISO_IR 100
+    SpecimenLabelInImage: 'NO'
+    StudyDate:
+        args:
+            - 'B+MKCQ==
+
+      '
+        state:
+            original_string: '20191009'
+    StudyID: Test
+    StudyInstanceUID:
+        - 1.2.840.113713.15.6166510354615990407217027839575985104416473222
+    VolumetricProperties: VOLUME
+ConditionalAttributes:
+    LossyImageCompression:
+        '01':
+            LossyImageCompressionMethod: ISO_10918_1
+            LossyImageCompressionRatio: '30'
+General:
+    CompressionAmount: '0'
+    FrameSize: '500'
+    ImageFormat: jpg
+    MaxFrames: '500'
+    NumberOfLevels: '7'
+    OrgUIDRoot: 1.2.840.113713.15.
+    OutFilePrefix: output
+    WSIBrand: aperio_svs
+    WSIFile: CMU-1-JP2K-33005.svs
+OnTheFly:
+    PixelSpacing:
+        - '0.499'
+        - '0.499'
+SharedFunctionalGroupsSequence:
+    ContentTime: '024046.000000'
+    SeriesTime: '024046.000000'
+    StudyTime: '024046.000000'

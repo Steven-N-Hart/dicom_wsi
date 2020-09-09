@@ -1,7 +1,7 @@
 Annotations
 -----------
 
-THIS NEEDS BUILT & TESTED!!!!!!!!!!!!!!!!!
+THIS NEEDS TESTED!!!!!!!!!!!!!!!!!
 
 Given an XML file of annotations, extract the data into the appropriate DICOM element.
 

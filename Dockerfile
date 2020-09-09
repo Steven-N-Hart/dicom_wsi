@@ -11,8 +11,8 @@ RUN python3 -m pip install --upgrade pip
 RUN pip3 install numpy Pillow pydicom datetime openslide-python pyvips pyaml
 
 RUN git clone https://github.com/Steven-N-Hart/dicom_wsi.git
-RUN cd dicom_wsi/dicom_wsi
-ENV PYTHONPATH=dicom_wsi/dicom_wsi/mods/
+RUN cd dicom_wsi && pip install -r requirements.txt
+ENV PYTHONPATH=/dicom_wsi/dicom_wsi/mods/
 
 # Add other tools
 #Google
@@ -27,8 +27,8 @@ RUN mkdir /OrthancWSI-0.7/Applications/Build
 RUN cd /OrthancWSI-0.7/Applications/Build
 RUN cmake /OrthancWSI-0.7/Applications -DSTATIC_BUILD=ON -DCMAKE_BUILD_TYPE=Release
 RUN make
-RUN mkdir ../../ViewerPlugin/Build
-RUN cd ../../ViewerPlugin/Build
+RUN mkdir /OrthancWSI-0.7/ViewerPlugin/Build
+RUN cd /OrthancWSI-0.7/ViewerPlugin/Build
 RUN cmake .. -DSTATIC_BUILD=ON -DCMAKE_BUILD_TYPE=Release
 RUN make
 
@@ -38,11 +38,11 @@ RUN cd /
 # Clunie's Tools
 RUN wget -O D3TOOLS.tar.bz https://www.dclunie.com/dicom3tools/workinprogress/dicom3tools_1.00.snapshot.20200716155940.tar.bz2
 RUN tar xjvf D3TOOLS.tar.bz
-RUN cd dicom3tools_1.00.snapshot.20200716155940/
-RUN ./Configure
-RUN imake -I./config -DInstallInTopDir -DUseXXXXID
-RUN make World
-RUN make install
-RUN make install.man
+RUN cd dicom3tools_1.00.snapshot.20200716155940/ && ./Configure
+RUN cd dicom3tools_1.00.snapshot.20200716155940/ && imake -I./config -DInstallInTopDir -DUseXXXXID
+RUN cd dicom3tools_1.00.snapshot.20200716155940/ && make World
+RUN cd dicom3tools_1.00.snapshot.20200716155940/ && make install
 ENV PATH=$PATH:$PWD/bin/1.4.9.184.x8664/
 RUN cd /
+
+ENV alias python=python3

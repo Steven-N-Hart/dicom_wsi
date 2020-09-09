@@ -11,77 +11,19 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['alabaster',
-                'argh',
-                'atomicwrites',
-                'attrs',
-                'Babel',
-                'bleach',
-                'bump2version',
-                'certifi',
-                'cffi',
-                'chardet',
-                'colorama',
-                'coverage',
-                'docutils',
-                'entrypoints',
-                'filelock',
-                'flake8',
-                'idna',
-                'imagecodecs',
-                'imagesize',
-                'importlib-metadata',
-                'Jinja2',
-                'MarkupSafe',
-                'mccabe',
-                'more-itertools',
-                'numpy',
-                'openslide-wrapper',
-                'packaging',
-                'pathtools',
-                'Pillow',
-                'pkginfo',
-                'pluggy',
-                'py',
-                'pycodestyle',
-                'pycparser',
-                'pydicom',
-                'pyflakes',
-                'Pygments',
-                'pyparsing',
-                'PyQt5',
-                'PyQt5-sip',
-                'pytest',
-                'pytest-runner',
-                'pytz',
-                'pyvips',
-                'PyYAML',
-                'readme-renderer',
-                'requests',
-                'requests-toolbelt',
-                'six',
-                'snowballstemmer',
-                'Sphinx',
-                'sphinxcontrib-programoutput',
-                'sphinx-rtd-theme',
-                'sphinxcontrib-websupport',
-                'tifffile',
-                'tiffile',
-                'toml',
-                'tox',
-                'tqdm',
-                'twine',
-                'urllib3',
-                'virtualenv',
-                'watchdog',
-                'wcwidth',
-                'webencodings',
-                'zipp'
-                ]
+try:
+    with open('requirements.txt') as requirements:
+        req = requirements.read()
+except FileNotFoundError:
+    import os
+    print(os.listdir)
+    exit(1)
 
-setup_requirements = ['pytest-runner', ]
+requirements = [req]
 
-test_requirements = ['pytest>=3', ]
+setup_requirements = ['pytest-runner']
+
+test_requirements = ['pytest>=3']
 
 setup(
     author="Steven N. Hart",
