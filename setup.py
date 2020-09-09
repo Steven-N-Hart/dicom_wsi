@@ -11,19 +11,18 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-try:
-    with open('requirements.txt') as requirements:
-        req = requirements.read()
-except FileNotFoundError:
-    import os
-    print(os.listdir)
-    exit(1)
+setup_requirements = ['pytest-runner', 'pydicom>=1.3.0']
 
-requirements = [req]
-
-setup_requirements = ['pytest-runner']
-
-test_requirements = ['pytest>=3']
+test_requirements = ['pytest>=3',
+                     'pyvips>=2.1.8',
+                    'PyYAML>=5.1.2',
+                    'pydicom>=1.3.0',
+                    'numpy>=1.17.3',
+                    'openslide-wrapper==1.1.2',
+                    'Pillow>=6.2.2',
+                    'tifffile>=2019.7.26.2',
+                    'tiffile>=2018.10.18'
+]
 
 setup(
     author="Steven N. Hart",
@@ -47,7 +46,7 @@ setup(
             'dicom_wsi=dicom_wsi.cli:main',
         ],
     },
-    install_requires=requirements,
+    install_requires=test_requirements,
     license="MIT license",
     long_description=readme + '\n\n' + history,
     include_package_data=True,
