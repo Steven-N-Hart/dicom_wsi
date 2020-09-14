@@ -11,6 +11,7 @@ Welcome to dicom-wsi's documentation!
    gettingstarted
    isyntax
    annotations
+   extract
    code
    contributing
    authors

@@ -4,7 +4,7 @@
 """Tests for `dicom_wsi` package."""
 import os
 import sys
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+#sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import pytest
 
 from ..dicom_wsi.mods import character_validations as cv
