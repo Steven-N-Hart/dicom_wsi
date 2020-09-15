@@ -17,27 +17,23 @@ def extract_imagepatches_dicom(dicom_file, image_dir):
     '''Pydicom object from input dicome file'''
 
     ds = pydicom.dcmread(dicom_file)
-    for i in range(0,len(ds.PerFrameFunctionalGroupsSequence)):
-        '''Getting image coordinates'''
-        y=str(ds.PerFrameFunctionalGroupsSequence[i].PlanePositionSlideSequence[0].RowPositionInTotalImagePixelMatrix)
-        x=str(ds.PerFrameFunctionalGroupsSequence[i].PlanePositionSlideSequence[0].ColumnPositionInTotalImagePixelMatrix)
-        XOffset=str(ds.PerFrameFunctionalGroupsSequence[i].PlanePositionSlideSequence[0].XOffsetInSlideCoordinateSystem)
-        YOffset=str(ds.PerFrameFunctionalGroupsSequence[i].PlanePositionSlideSequence[0].YOffsetInSlideCoordinateSystem)
-        print()
-        img_name =  os.path.join(image_dir,x+'_'+y+'_'+XOffset+'_'+YOffset+'.png')
+    
+    '''checking if PerFrameFunctionalGroupsSequence in ds'''
+    
+    if 'PerFrameFunctionalGroupsSequence' in ds:
+        for i in range(0,len(ds.PerFrameFunctionalGroupsSequence)):
+            '''Getting image coordinates'''
+            y=str(ds.PerFrameFunctionalGroupsSequence[i].PlanePositionSlideSequence[0].RowPositionInTotalImagePixelMatrix)
+            x=str(ds.PerFrameFunctionalGroupsSequence[i].PlanePositionSlideSequence[0].ColumnPositionInTotalImagePixelMatrix)
+            XOffset=str(ds.PerFrameFunctionalGroupsSequence[i].PlanePositionSlideSequence[0].XOffsetInSlideCoordinateSystem)
+            YOffset=str(ds.PerFrameFunctionalGroupsSequence[i].PlanePositionSlideSequence[0].YOffsetInSlideCoordinateSystem)
+            img_name =  os.path.join(image_dir,x+'_'+y+'_'+XOffset+'_'+YOffset+'.png')
 
-        '''Gettng image content'''
-        ds.convert_pixel_data('pillow')
-        img = Image.fromarray(ds.pixel_array[i],'RGB')
-        #RGB_img = cv2.cvtColor(ds.pixel_array[i], cv2.COLOR_BGR2RGB)
-        #img = Image.fromarray(RGB_img, 'RGB')
-        img.save(img_name, "PNG")
-        #cv2.imwrite(img_name, ds.pixel_array[i])
-        #img = ds.pixel_array[i]  # get image array
-        #cv2.imwrite(img_name, img)
-        #plt.imshow(ds.pixel_array[i], cmap=plt.cm.bone)
-        #plt.savefig(img_name)
-        #sys.exit(0)
+            '''Gettng image content'''
+            ds.convert_pixel_data('pillow')
+            img = Image.fromarray(ds.pixel_array[i],'RGB')
+            img.save(img_name, "PNG")
+
 
 
 

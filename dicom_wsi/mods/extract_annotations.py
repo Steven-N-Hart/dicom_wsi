@@ -7,6 +7,8 @@ import pydicom
 from pydicom.dataset import Dataset
 from pydicom.sequence import Sequence
 
+
+
 def extract_ann_dicom(dicom_file):
     '''Pydicom help:https://pydicom.github.io/pydicom/stable/old/getting_started.html'''
     '''Pydicom object from input dicome file'''
@@ -17,42 +19,43 @@ def extract_ann_dicom(dicom_file):
 
     '''dictionary object for all regions'''
     dict_annotations={}
+    
+    '''Checking if the dicom file have annotations'''
+    if 'GraphicAnnotationSequence' in ds and len(ds.GraphicAnnotationSequence)>0 and 'ReferencedImageSequence' in ds.GraphicAnnotationSequence[0] and len(ds.GraphicAnnotationSequence[0].ReferencedImageSequence)>0 and 'GraphicObjectSequence' in ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0]:
+        '''Number of regions in the annotation'''
+        dict_annotations['Num_Regions']=len(ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence)
 
-    '''Number of regions in the annotation'''
-    dict_annotations['Num_Regions']=len(ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence)
+        '''Empty list for regions'''
+        dict_annotations['Regions']=[]
 
-    '''Empty list for regions'''
-    dict_annotations['Regions']=[]
+        '''Extract each region'''
+        for i in range(0,dict_annotations['Num_Regions']):
+            dict_Region={}
+            dict_Region['GeoShape'] = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].GraphicType
+            dict_Region['Id'] = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].GraphicGroupID
+            list_tmp = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].UnformattedTextValue.split("_")
+            dict_Region['Text'] = list_tmp[0]
+            dict_Region['GeoShape'] = list_tmp[1]
+            dict_Region['Zoom'] = list_tmp[2]
+            dict_Region['Type'] = list_tmp[3]
 
-    '''Extract each region'''
-    for i in range(0,dict_annotations['Num_Regions']):
-        dict_Region={}
-        #vertex, int(id), type, text + '_' + geo_shape + '_' + zoom
-        dict_Region['GeoShape'] = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].GraphicType
-        dict_Region['Id'] = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].GraphicGroupID
-        list_tmp = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].UnformattedTextValue.split("_")
-        dict_Region['Text'] = list_tmp[0]
-        dict_Region['GeoShape'] = list_tmp[1]
-        dict_Region['Zoom'] = list_tmp[2]
-        dict_Region['Type'] = list_tmp[3]
+            if dict_Region['GeoShape'] == 'Points':
+                dict_Region['Vertices'] = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].GraphicData
 
-        if dict_Region['GeoShape'] == 'Points':
-            dict_Region['Vertices'] = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].GraphicData
+            if dict_Region['GeoShape'] == 'Rectangle':
+                x2 = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].BoundingBoxBottomRightHandCorner[0]
+                y1 = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].BoundingBoxBottomRightHandCorner[1]
+                x1 = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].BoundingBoxTopLeftHandCorner[0]
+                y2 = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].BoundingBoxTopLeftHandCorner[1]
+                dict_Region['Vertices'] = [x1,y1,x2,y1,x1,y2,x2,y2]
 
-        if dict_Region['GeoShape'] == 'Rectangle':
-            x2 = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].BoundingBoxBottomRightHandCorner[0]
-            y1 = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].BoundingBoxBottomRightHandCorner[1]
-            x1 = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].BoundingBoxTopLeftHandCorner[0]
-            y2 = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].BoundingBoxTopLeftHandCorner[1]
-            dict_Region['Vertices'] = [x1,y1,x2,y1,x1,y2,x2,y2]
+            if dict_Region['GeoShape'] == 'Ellipse':
+                dict_Region['Vertices'] = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].GraphicData
 
-        if dict_Region['GeoShape'] == 'Ellipse':
-            dict_Region['Vertices'] = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].GraphicData
+            if dict_Region['GeoShape'] == 'Area' or dict_Region['GeoShape'] == 'Polygon':
+                dict_Region['Vertices'] = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].GraphicData
 
-        if dict_Region['GeoShape'] == 'Area' or dict_Region['GeoShape'] == 'Polygon':
-            dict_Region['Vertices'] = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].GraphicData
-
-        dict_annotations['Regions'].append(dict_Region)
+            dict_annotations['Regions'].append(dict_Region)
 
     return dict_annotations
 
@@ -79,8 +82,8 @@ def main():
 
     '''Extract annotations from dicom'''
     dict_annotations = extract_ann_dicom(dicom_file)
-
     print(dict_annotations)
+
 
 if __name__ == "__main__":
     sys.exit(main())  # pragma: no cover
