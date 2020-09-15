@@ -11,7 +11,6 @@ from yaml import load, BaseLoader
 
 import dicom_wsi
 
-
 def main():
     """Console script for dicom_wsi."""
     parser = argparse.ArgumentParser()
@@ -27,6 +26,7 @@ def main():
 
     parser.add_argument("-o", "--outdir",
                         dest='out',
+                        default='.',
                         help="Convenience function to override OutDir value in yaml file")
 
     parser.add_argument("-p", "--prefix",

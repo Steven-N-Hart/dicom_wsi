@@ -1,35 +1,34 @@
 """Console script for dicom_wsi."""
 import argparse
-import logging
 import sys
 import logging
 import pydicom
 import os
-import cv2
-from pydicom.dataset import Dataset
-from pydicom.sequence import Sequence
 from PIL import Image
-import cv2
-import matplotlib.pyplot as plt
 
 def extract_imagepatches_dicom(dicom_file, image_dir):
     '''Pydicom help:https://pydicom.github.io/pydicom/stable/old/getting_started.html'''
-    '''Pydicom object from input dicom file'''
+    '''Pydicom object from input DICOM file'''
 
     ds = pydicom.dcmread(dicom_file)
-    for i in range(0,len(ds.PerFrameFunctionalGroupsSequence)):
-        '''Getting image coordinates'''
-        y=str(ds.PerFrameFunctionalGroupsSequence[i].PlanePositionSlideSequence[0].RowPositionInTotalImagePixelMatrix)
-        x=str(ds.PerFrameFunctionalGroupsSequence[i].PlanePositionSlideSequence[0].ColumnPositionInTotalImagePixelMatrix)
-        XOffset=str(ds.PerFrameFunctionalGroupsSequence[i].PlanePositionSlideSequence[0].XOffsetInSlideCoordinateSystem)
-        YOffset=str(ds.PerFrameFunctionalGroupsSequence[i].PlanePositionSlideSequence[0].YOffsetInSlideCoordinateSystem)
-        print()
-        img_name =  os.path.join(image_dir,x+'_'+y+'_'+XOffset+'_'+YOffset+'.png')
 
-        '''Gettng image content'''
-        ds.convert_pixel_data('pillow')
-        img = Image.fromarray(ds.pixel_array[i],'RGB')
-        img.save(img_name, "PNG")
+    '''checking if PerFrameFunctionalGroupsSequence in ds'''
+
+    if 'PerFrameFunctionalGroupsSequence' in ds:
+        for i in range(0,len(ds.PerFrameFunctionalGroupsSequence)):
+            '''Getting image coordinates'''
+            y=str(ds.PerFrameFunctionalGroupsSequence[i].PlanePositionSlideSequence[0].RowPositionInTotalImagePixelMatrix)
+            x=str(ds.PerFrameFunctionalGroupsSequence[i].PlanePositionSlideSequence[0].ColumnPositionInTotalImagePixelMatrix)
+            XOffset=str(ds.PerFrameFunctionalGroupsSequence[i].PlanePositionSlideSequence[0].XOffsetInSlideCoordinateSystem)
+            YOffset=str(ds.PerFrameFunctionalGroupsSequence[i].PlanePositionSlideSequence[0].YOffsetInSlideCoordinateSystem)
+            img_name =  os.path.join(image_dir,x+'_'+y+'_'+XOffset+'_'+YOffset+'.png')
+
+            '''Gettng image content'''
+            ds.convert_pixel_data()
+            img = Image.fromarray(ds.pixel_array[i],'RGB')
+            img.save(img_name, "PNG")
+
+
 
 
 def main():
@@ -53,6 +52,9 @@ def main():
     '''Input Dicom file'''
     dicom_file = arg.dicom
     image_dir = arg.image_dir
+    if not os.path.exists(image_dir):
+        logger.info(f'Creating {image_dir}')
+        os.mkdir(image_dir)
 
     '''Extract image patches'''
     extract_imagepatches_dicom(dicom_file,image_dir)

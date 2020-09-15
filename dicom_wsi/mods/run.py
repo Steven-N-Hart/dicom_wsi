@@ -1,13 +1,13 @@
 import logging
 from timeit import default_timer as timer
 
-from .add_annotations import add_annotations
 from .base_attributes import build_base
 from .parse_wsi import get_wsi
 from .pixel_data_conversion import resize_wsi_image
 from .pixel_to_slide_conversions import add_per_frame_functional_groups_sequence
 from .sequence_attributes import build_sequences
 from .shared_functional_groups import build_functional_groups
+from .add_annotations import add_annotations
 
 logger = logging.getLogger(__name__)
 
@@ -40,12 +40,15 @@ def run_instance(instance, cfg):
     dcm.InstanceNumber = instance
     dcm.SeriesNumber = instance
 
-    # Add Annotations
-    if cfg['General']['Annotations']:
+    # Add Annotations if there are any
+    anno_file = cfg.get('General').get('Annotations')
+    if anno_file != "" and anno_file != None and os.path.exists(anno_file):
+        logger.info('Annotations found!')
         dcm = add_annotations(dcm, cfg, instance)
-        t_add_ann = timer()
-        logger.debug('Adding annotations took {} seconds.'.format(round(t_add_ann - t_get_func, 1)))
-        t_get_func = t_add_ann  # Overwrite this so that it doesn't break down below
+    else:
+        logger.info('No Annotations found')
+    t_add_ann = timer()
+    logger.debug('Adding annotations (if there were any) took {} seconds.'.format(round(t_add_ann - t_get_func, 1)))
 
     # Resize image
     img = resize_wsi_image(wsi=wsi, series_downsample=instance)
@@ -64,3 +67,4 @@ def run_instance(instance, cfg):
 
     logger.info('Total elapsed time: {} minutes.'.format(round((t_save - start) / 60, 3)))
     return 0
+
