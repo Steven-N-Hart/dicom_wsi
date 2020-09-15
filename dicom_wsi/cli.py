@@ -3,13 +3,13 @@
 """Console script for dicom_wsi."""
 import argparse
 import logging
-import sys
 import os
-import dicom_wsi
-from mods import parse_wsi
+import sys
 
+from mods import parse_wsi
 from yaml import load, BaseLoader
 
+import dicom_wsi
 
 def main():
     """Console script for dicom_wsi."""
@@ -76,9 +76,15 @@ def main():
         cfg['BaseAttributes']['DimensionOrganizationType'] = args.tile
         logging.debug(f'Overwriting DimensionOrganizationType with : {args.tile}')
 
+    if not os.path.exists(cfg['General']['OutDir']):
+        val = cfg['General']['OutDir']
+        os.mkdir(val)
+        logging.debug(f'Creating directory: {val}')
+
     # Combine the output directory and prefix so that the file can be written
     cfg['General']['OutFilePrefix'] = os.path.join(cfg['General']['OutDir'], cfg['General']['OutFilePrefix'])
     logging.debug(f'Running with parameters: {cfg}')
+
     dicom_wsi.create_dicom(cfg, pools=args.pools)
     return 0
 

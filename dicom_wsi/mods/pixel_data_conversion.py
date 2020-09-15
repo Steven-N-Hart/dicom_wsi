@@ -15,4 +15,3 @@ def resize_wsi_image(wsi=None, series_downsample=0):
     logger.debug('Resizing to {}'.format(resize_level))
     img = wsi.resize(resize_level)
     return img
-

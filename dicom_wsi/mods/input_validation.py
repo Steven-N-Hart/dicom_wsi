@@ -2,7 +2,6 @@ import logging
 import os
 import re
 
-
 from . import character_validations as cv
 from .utils import get_all_keys
 
@@ -25,7 +24,7 @@ restricted_inputs = {
 }
 
 required_fields = {
-    'General': ['WSIFile', 'OutFilePrefix', 'NumberOfLevels', 'OrgUIDRoot', 'ImageFormat'],
+    'General': ['WSIFile', 'OutDir', 'OutFilePrefix', 'NumberOfLevels', 'OrgUIDRoot', 'ImageFormat'],
     'BaseAttributes': ['PatientName', 'PatientBirthDate', 'PatientSex', 'ReferringPhysicianName', 'AccessionNumber',
                        'Manufacturer', 'ManufacturerModelName', 'DeviceSerialNumber', 'SoftwareVersions',
                        'AcquisitionDateTime', 'ImageType', 'SpecimenLabelInImage', 'BurnedInAnnotation',
@@ -37,9 +36,8 @@ required_fields = {
                        'ImagedVolumeWidth', 'ImagedVolumeHeight', 'ImagedVolumeDepth',
                        'ImageOrientationSlide', 'DimensionOrganizationType']
 
-
 }
-# TODO: Add size validation
+
 size_limits = {
     '2': ['PixelPaddingValue', 'BitsAllocated', 'BitsStored', 'Columns', 'HighBit', 'PixelRepresentation', 'Rows',
           'SamplesPerPixel', 'PlanarConfiguration', 'InConcatenationNumber'],

@@ -1,6 +1,7 @@
 General:
-    WSIFile: '../tests/CMU-1-JP2K-33005.svs'
-    OutFilePrefix: '../tests/output'
+    WSIFile: '../tests/CMU-1.tiff'
+    OutDir: '../tests/output'
+    OutFilePrefix: test
     NumberOfLevels: 7
     OrgUIDRoot: 1.2.840.113713.15.
     FrameSize: 500
@@ -54,4 +55,5 @@ BaseAttributes:
     DimensionOrganizationType: TILED_FULL
     TotalPixelMatrixFocalPlanes: 1
     NumberOfOpticalPaths: 1
+    PixelSpacing: [0.25,0.3]
 

@@ -9,6 +9,7 @@ from pydicom.filewriter import dcmwrite
 from pydicom.sequence import Sequence
 
 from .image_filter import image_filter
+
 logger = logging.getLogger(__name__)
 
 
@@ -219,6 +220,7 @@ def ensure_even_image(tmp, tile_size):
         tmp3[0:a, 0:b, 0:c] = tmp
         tmp_img = Image.fromarray(tmp3)
     return tmp_img
+
 
 # TODO: Make this faster!!!
 def compress_img_list(ds, imlist, num_frames, compression_quality):
