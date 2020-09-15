@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 
 
 
-def add_Ellipse(coord, id, type, text):
+def add_Ellipse(coord, id, text):
     # ellipse
     GraphicObjectSequence = Dataset()
     GraphicObjectSequence.GraphicType = "ELLIPSE"
@@ -16,7 +16,7 @@ def add_Ellipse(coord, id, type, text):
     return GraphicObjectSequence
 
 
-def add_Area(coord, id, type, text):
+def add_Area(coord, id, text):
     # Area
     GraphicObjectSequence = Dataset()
     GraphicObjectSequence.GraphicType = "POLYLINE"  # add polyline
@@ -28,12 +28,12 @@ def add_Area(coord, id, type, text):
     return GraphicObjectSequence
 
 
-def add_Rectangle(coord, id, type, text):
+def add_Rectangle(coord, id, text):
     # Rectangle: Graphics on the first referenced image
     GraphicObjectSequence = Dataset()
+    GraphicObjectSequence.GraphicType = "RECTANGLE"
     GraphicObjectSequence.BoundingBoxTopLeftHandCorner = [coord[6], coord[7]]
-    GraphicObjectSequence.BoundingBoxBottomRightHandCorner = [coord[2], coord[
-        3]]  # bottom right coordinates of bounding box [max_x, min_y]
+    GraphicObjectSequence.BoundingBoxBottomRightHandCorner = [coord[2], coord[3]]  # bottom right coordinates of bounding box [max_x, min_y]
     GraphicObjectSequence.BoundingBoxAnnotationUnits = 'PIXEL'  # unit of coordinates
     GraphicObjectSequence.BoundingBoxHorizontalJustification = 'LEFT'
     GraphicObjectSequence.UnformattedTextValue = text  # Text="Necrosis"
@@ -41,7 +41,7 @@ def add_Rectangle(coord, id, type, text):
     return GraphicObjectSequence
 
 
-def add_Point(coord, id, type, text):
+def add_Point(coord, id, text):
     # Points
     GraphicObjectSequence = Dataset()
     GraphicObjectSequence.GraphicType = "POINT"
@@ -105,25 +105,25 @@ def add_annotations(ds, cfg, instance):
             vertex.append(float(y))
 
         if geo_shape == "Points":
-            gos = add_Point(vertex, int(id), type, text + '_' + geo_shape)
+            gos = add_Point(vertex, int(id),  text + '_' + geo_shape + '_' + zoom+'_'+type)
             # ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence.append(gos)
             list_gos.append(gos)
             del gos
 
         if geo_shape == "Rectangle":
-            gos = add_Rectangle(vertex, int(id), type, text + '_' + geo_shape)
+            gos = add_Rectangle(vertex, int(id),  text + '_' + geo_shape + '_' + zoom+'_'+type)
             # ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence.append(gos)
             list_gos.append(gos)
             del gos
 
         if geo_shape == "Ellipse":
-            gos = add_Ellipse(vertex, int(id), type, text + '_' + geo_shape)
+            gos = add_Ellipse(vertex, int(id),  text + '_' + geo_shape + '_' + zoom+'_'+type)
             # ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence.append(gos)
             list_gos.append(gos)
             del gos
 
         if geo_shape == "Area" or geo_shape == "Polygon":
-            gos = add_Area(vertex, int(id), type, text + '_' + geo_shape)
+            gos = add_Area(vertex, int(id),  text + '_' + geo_shape + '_' + zoom+'_'+type)
             # ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence.append(gos)
             list_gos.append(gos)
             del gos
