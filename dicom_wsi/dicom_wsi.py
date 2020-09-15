@@ -32,4 +32,3 @@ def create_dicom(cfg, pools=-1):
 
     results = pool.starmap(run_instance, [(i, cfg) for i in reversed(range(number_of_levels))])
     pool.close()
-    print(results)

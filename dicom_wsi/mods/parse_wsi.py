@@ -14,6 +14,7 @@ def get_wsi(cfg):
     :return: cfg, wsi_object
     """
     wsi_fn = cfg.get('General').get('WSIFile')
+    pyvips.logger.setLevel(30)
     wsi = pyvips.Image.new_from_file(wsi_fn, access='sequential')
 
     if wsi_fn.endswith('svs'):

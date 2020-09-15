@@ -1,12 +1,8 @@
 """Console script for dicom_wsi."""
 import argparse
-import logging
 import sys
 import logging
 import pydicom
-from pydicom.dataset import Dataset
-from pydicom.sequence import Sequence
-
 
 
 def extract_ann_dicom(dicom_file):
@@ -19,7 +15,7 @@ def extract_ann_dicom(dicom_file):
 
     '''dictionary object for all regions'''
     dict_annotations={}
-    
+
     '''Checking if the dicom file have annotations'''
     if 'GraphicAnnotationSequence' in ds and len(ds.GraphicAnnotationSequence)>0 and 'ReferencedImageSequence' in ds.GraphicAnnotationSequence[0] and len(ds.GraphicAnnotationSequence[0].ReferencedImageSequence)>0 and 'GraphicObjectSequence' in ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0]:
         '''Number of regions in the annotation'''
@@ -34,10 +30,9 @@ def extract_ann_dicom(dicom_file):
             dict_Region['GeoShape'] = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].GraphicType
             dict_Region['Id'] = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].GraphicGroupID
             list_tmp = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].UnformattedTextValue.split("_")
+            assert(len(list_tmp) >= 2)
             dict_Region['Text'] = list_tmp[0]
             dict_Region['GeoShape'] = list_tmp[1]
-            dict_Region['Zoom'] = list_tmp[2]
-            dict_Region['Type'] = list_tmp[3]
 
             if dict_Region['GeoShape'] == 'Points':
                 dict_Region['Vertices'] = ds.GraphicAnnotationSequence[0].ReferencedImageSequence[0].GraphicObjectSequence[i].GraphicData
@@ -64,7 +59,6 @@ def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("-D", "--dicom", dest='dicom', required=True, help="DICOM file")
-    args = parser.parse_args()
 
     '''Create Looger'''
     logging.basicConfig()

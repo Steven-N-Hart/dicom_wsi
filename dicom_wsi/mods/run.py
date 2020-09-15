@@ -8,6 +8,7 @@ from .pixel_to_slide_conversions import add_per_frame_functional_groups_sequence
 from .sequence_attributes import build_sequences
 from .shared_functional_groups import build_functional_groups
 from .add_annotations import add_annotations
+import os
 logger = logging.getLogger(__name__)
 
 
@@ -39,10 +40,15 @@ def run_instance(instance, cfg):
     dcm.InstanceNumber = instance
     dcm.SeriesNumber = instance
 
-    # Add Annotations
-    dcm = add_annotations(dcm, cfg, instance)  # TODO: Add tests
+    # Add Annotations if there are any
+    anno_file = cfg.get('General').get('Annotations')
+    if anno_file != "" and anno_file != None and os.path.exists(anno_file):
+        logger.info('Annotations found!')
+        dcm = add_annotations(dcm, cfg, instance)
+    else:
+        logger.info('No Annotations found')
     t_add_ann = timer()
-    logger.debug('Adding annotations took {} seconds.'.format(round(t_add_ann - t_get_func, 1)))
+    logger.debug('Adding annotations (if there were any) took {} seconds.'.format(round(t_add_ann - t_get_func, 1)))
 
     # Resize image
     img = resize_wsi_image(wsi=wsi, series_downsample=instance)

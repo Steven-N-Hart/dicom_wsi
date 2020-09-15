@@ -1,9 +1,16 @@
 Annotations
 -----------
-
-THIS NEEDS TESTED!!!!!!!!!!!!!!!!!
-
 Given an XML file of annotations, extract the data into the appropriate DICOM element.
+
+If you have Annotations in the XML file structure listed below, and you want to include them in
+your DICOM file, then all you need to do is to add the Annotations key and the associated
+file path to the `General` attribute in the YAML file.
+
+.. code-block:: xml
+
+General:
+    Annotations: '/path/to/xmlFile'
+
 
 .. |Annotation| image:: images/annotation.jpg
     :width: 800
