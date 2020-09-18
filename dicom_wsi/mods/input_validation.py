@@ -2,14 +2,12 @@ import logging
 import os
 import re
 
-
 from . import character_validations as cv
 from .utils import get_all_keys
 
 logger = logging.getLogger(__name__)
 
 restricted_inputs = {
-    'WSIBrand': ['aperio_svs', 'phillips_tiff'],
     'PatientSex': ['M', 'F', 'O'],
     'Modality': ['SM'],
     'ImageFormat': ['.jpg', 'None'],
@@ -26,7 +24,7 @@ restricted_inputs = {
 }
 
 required_fields = {
-    'General': ['WSIFile', 'OutFilePrefix', 'NumberOfLevels', 'OrgUIDRoot', 'WSIBrand', 'ImageFormat'],
+    'General': ['WSIFile', 'OutDir', 'OutFilePrefix', 'NumberOfLevels', 'OrgUIDRoot', 'ImageFormat'],
     'BaseAttributes': ['PatientName', 'PatientBirthDate', 'PatientSex', 'ReferringPhysicianName', 'AccessionNumber',
                        'Manufacturer', 'ManufacturerModelName', 'DeviceSerialNumber', 'SoftwareVersions',
                        'AcquisitionDateTime', 'ImageType', 'SpecimenLabelInImage', 'BurnedInAnnotation',
@@ -38,9 +36,8 @@ required_fields = {
                        'ImagedVolumeWidth', 'ImagedVolumeHeight', 'ImagedVolumeDepth',
                        'ImageOrientationSlide', 'DimensionOrganizationType']
 
-
 }
-# TODO: Add size validation
+
 size_limits = {
     '2': ['PixelPaddingValue', 'BitsAllocated', 'BitsStored', 'Columns', 'HighBit', 'PixelRepresentation', 'Rows',
           'SamplesPerPixel', 'PlanarConfiguration', 'InConcatenationNumber'],

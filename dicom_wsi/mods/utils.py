@@ -93,7 +93,7 @@ def uid_maker(k, v, cfg, dict_element='BaseAttributes'):
         # These are all fixed values
         pass
     # elif k == 'SeriesInstanceUID':
-        # Need to decrease the length of this UID because I append the series number to it
+    # Need to decrease the length of this UID because I append the series number to it
     #    cfg[dict_element][k] = pydicom.uid.generate_uid(prefix=cfg['General']['OrgUIDRoot'])[:60]
     elif v.startswith('1.2'):
         # If user has already specified a UID, use that
@@ -117,15 +117,15 @@ def make_time(k, time_var, cfg, dict_element='BaseAttributes'):
     # Need to make sure it return the format HHMMSS.FFFFFF, or return a new one
     if isinstance(time_var, datetime.time):
         pass
-    elif re.match('\d\d\d\d\d\d\.\d\d\d\d\d\d', str(time_var)):
+    elif re.match(r'\d\d\d\d\d\d\.\d\d\d\d\d\d', str(time_var)):
         # Already formatted properly
         t = datetime.time(int(time_var[:2]), int(time_var[2:4]), int(time_var[4:6]), int(time_var[8:]))
         time_var = t.strftime("%H%M%S.%f")
-    elif re.match('\d\d:\d\d:\d\d', str(time_var)):
+    elif re.match(r'\d\d:\d\d:\d\d', str(time_var)):
         h, m, s = time_var.split(':')
         t = datetime.time(int(h), int(m), int(s))
         time_var = t.strftime("%H%M%S.%f")
-    elif re.match('\d\d/\d\d/\d\d', str(time_var)):
+    elif re.match(r'\d\d/\d\d/\d\d', str(time_var)):
         h, m, s = time_var.split('/')
         t = datetime.time(int(h), int(m), int(s))
         time_var = t.strftime("%H%M%S.%f")
@@ -152,7 +152,7 @@ def make_datetime(k, datetime_var, cfg, dict_element='BaseAttributes'):
     # Need to make sure it return the format YYYYMMDDHHMMSS.FFFFFF, or return a new one
     if isinstance(datetime_var, datetime.datetime):
         pass
-    elif re.match('\d\d\d\d\d\d\d\d\d\d\d\d\d\d\.\d\d\d\d\d\d', str(datetime_var)):
+    elif re.match(r'\d\d\d\d\d\d\d\d\d\d\d\d\d\d\.\d\d\d\d\d\d', str(datetime_var)):
         # Already formatted properly
         y = int(datetime_var[:4])
         m = int(datetime_var[4:6])
@@ -166,13 +166,13 @@ def make_datetime(k, datetime_var, cfg, dict_element='BaseAttributes'):
         datetime_var = t.strftime("%Y%m%d%H%M%S.%f")
         datetime_var = pydicom.valuerep.DT(datetime_var)
         logger.debug('FULL datetime_var: {}'.format(type(datetime_var)))
-    elif re.match('\d\d:\d\d:\d\d', str(datetime_var)):
+    elif re.match(r'\d\d:\d\d:\d\d', str(datetime_var)):
         h, m, s = datetime_var.split(':')
         t = datetime.time(int(h), int(m), int(s))
         datetime_var = t.strftime("%Y%m%d%H%M%S.%f")
         datetime_var = pydicom.valuerep.DT(datetime_var)
         logger.debug('COLON datetime_var: {}'.format(type(datetime_var)))
-    elif re.match('\d\d/\d\d/\d\d', str(datetime_var)):
+    elif re.match(r'\d\d/\d\d/\d\d', str(datetime_var)):
         m, d, y = datetime_var.split('/')
         t = datetime.datetime(int(y), int(m), int(d))
         datetime_var = t.strftime("%Y%m%d%H%M%S.%f")
@@ -200,10 +200,10 @@ def make_date(k, date_var, cfg, dict_element='BaseAttributes'):
     if isinstance(date_var, datetime.date):
         pass
     # Need to ensure date format returns properly, or return a new one
-    elif re.match('\d\d\d\d\d\d\d\d', str(date_var)):
+    elif re.match(r'\d\d\d\d\d\d\d\d', str(date_var)):
         # Already formatted correctly
         date_var = datetime.datetime(int(date_var[0:4]), int(date_var[4:6]), int(date_var[6:])).strftime("%Y%m%d")
-    elif re.match('\d\d/\d\d/\d\d', str(date_var)):
+    elif re.match(r'\d\d/\d\d/\d\d', str(date_var)):
         m, d, y = date_var.split('/')
         date_var = datetime.datetime(int(y), int(m), int(d)).strftime("%Y%m%d")
     elif date_var is None or date_var == '000000.000000' or date_var == 'NUMBER':

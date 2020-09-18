@@ -29,8 +29,6 @@ The `YAML` file contains two sections: `General` and `BaseAttributes`. The `Gene
 +------------------------+------------------------------------------------------+
 | *OrgUIDRoot*           | Your organizations UID root prefix                   |
 +------------------------+------------------------------------------------------+
-| *WSIBrand*             | Currently supported options are `aperio_svs`         |
-+------------------------+------------------------------------------------------+
 | *FrameSize*            | How many pixels should be used for DICOM frames      |
 +------------------------+------------------------------------------------------+
 | *MaxFrames*            | Number of frames allowed before writing to a new file|
@@ -64,25 +62,33 @@ A full example can be found in `yaml/base.yaml`.
 
 Without a YAML file
 -------------------
+
 While a `YAML` file is recommended, you don't actually need one.  You could choose
 to make the dictionary yourself. The dictionary has two nested components, `General` and `BaseAttributes`,
 each of which has the elements defined in `yaml/base.yaml`.
 
-To use dicom-wsi in a project::
 
-from yaml import load, BaseLoader
-from dicom_wsi import create_dicom
-from parse_wsi import get_wsi
+Using in existing code
+-------------------
 
-# Define your YAML file
-my_yaml = '/path/to/yaml'
-# Load your YAML file
-cfg = load(open(my_yaml), Loader=BaseLoader)
-# Read the WSI, updating the config with information contained in the slide
-cfg, wsi = get_wsi(cfg)
-# Create DICOM files
-create_dicom(cfg)
-	
+To use dicom-wsi in a project:
+
+.. code-block:: python
+
+    from yaml import load, BaseLoader
+    from dicom_wsi import create_dicom
+    from parse_wsi import get_wsi
+
+    # Define your YAML file
+    my_yaml = '/path/to/yaml'
+    # Load your YAML file
+    cfg = load(open(my_yaml), Loader=BaseLoader)
+    # Read the WSI, updating the config with information contained in the slide
+    cfg, wsi = get_wsi(cfg)
+    # Create DICOM files
+    create_dicom(cfg)
+
+
 Sample RUN
 -------------------
 This Step will download the sample svs file

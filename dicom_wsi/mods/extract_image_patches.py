@@ -1,25 +1,19 @@
 """Console script for dicom_wsi."""
 import argparse
-import logging
 import sys
 import logging
 import pydicom
 import os
-import cv2
-from pydicom.dataset import Dataset
-from pydicom.sequence import Sequence
 from PIL import Image
-import cv2
-import matplotlib.pyplot as plt
 
 def extract_imagepatches_dicom(dicom_file, image_dir):
     '''Pydicom help:https://pydicom.github.io/pydicom/stable/old/getting_started.html'''
-    '''Pydicom object from input dicome file'''
+    '''Pydicom object from input DICOM file'''
 
     ds = pydicom.dcmread(dicom_file)
-    
+
     '''checking if PerFrameFunctionalGroupsSequence in ds'''
-    
+
     if 'PerFrameFunctionalGroupsSequence' in ds:
         for i in range(0,len(ds.PerFrameFunctionalGroupsSequence)):
             '''Getting image coordinates'''
@@ -30,7 +24,7 @@ def extract_imagepatches_dicom(dicom_file, image_dir):
             img_name =  os.path.join(image_dir,x+'_'+y+'_'+XOffset+'_'+YOffset+'.png')
 
             '''Gettng image content'''
-            ds.convert_pixel_data('pillow')
+            ds.convert_pixel_data()
             img = Image.fromarray(ds.pixel_array[i],'RGB')
             img.save(img_name, "PNG")
 
@@ -43,7 +37,6 @@ def main():
 
     parser.add_argument("-D", "--dicom", dest='dicom', required=True, help="DICOM file")
     parser.add_argument("-d", "--image_dir", dest='image_dir', required=True, help="OUTPUT Image directory")
-    args = parser.parse_args()
 
     '''Create Looger'''
     logging.basicConfig()
@@ -59,6 +52,9 @@ def main():
     '''Input Dicom file'''
     dicom_file = arg.dicom
     image_dir = arg.image_dir
+    if not os.path.exists(image_dir):
+        logger.info(f'Creating {image_dir}')
+        os.mkdir(image_dir)
 
     '''Extract image patches'''
     extract_imagepatches_dicom(dicom_file,image_dir)

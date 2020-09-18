@@ -4,18 +4,17 @@
 """Tests for `dicom_wsi` package."""
 import os
 import sys
-#sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import pytest
 
 from ..dicom_wsi.mods import character_validations as cv
-#import unittest
-
-#class TestStringMethods(unittest.TestCase):
 
 def test_cs():
     cv.cs_validator('patient', 'Roberto')
     with pytest.raises(AssertionError):
         cv.cs_validator('patient', 'Roberto#')
+
 
 def test_int_validator():
     cv.int_validator('date', 20190304)
@@ -23,25 +22,30 @@ def test_int_validator():
     with pytest.raises(AssertionError):
         cv.int_validator('date', '20190304x')
 
+
 def test_signedint_validator():
     cv.signedint_validator('Pixel padding value', '-001102')
     with pytest.raises(AssertionError):
         cv.signedint_validator('Pixel padding value', '-001102 ')
 
+
 def test_time_validator():
     cv.time_validator('date', '201901.121 ')
     with pytest.raises(AssertionError):
-       cv.time_validator('date', '2019/01/01')
+        cv.time_validator('date', '2019/01/01')
+
 
 def test_ui_validator():
     cv.ui_validator('UID', '201901.121')
     with pytest.raises(AssertionError):
-       cv.ui_validator('UID', '2019/01/01')
+        cv.ui_validator('UID', '2019/01/01')
+
 
 def test_dt_validator():
     cv.dt_validator('datetime', '2019.+-')
     with pytest.raises(AssertionError):
         cv.dt_validator('datetime', 'q 2019.+-')
+
 
 def test_ds_validator():
     cv.ds_validator('Xoffset', '+2.3e6')
@@ -51,10 +55,10 @@ def test_ds_validator():
         cv.ds_validator('Xoffset', '2.3**6')
         cv.ds_validator('Xoffset', '2.3^6')
 
+
 def test_intstring_validator():
     cv.intstring_validator('Series Number', '+30000')
     with pytest.raises(AssertionError):
         cv.int_validator('SER', 'a')
 
-#if __name__ == '__main__':
-#    unittest.main()
+
