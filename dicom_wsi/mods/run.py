@@ -1,6 +1,6 @@
 import logging
 from timeit import default_timer as timer
-
+import os
 from .base_attributes import build_base
 from .parse_wsi import get_wsi
 from .pixel_data_conversion import resize_wsi_image
