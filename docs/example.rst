@@ -28,10 +28,7 @@ getting the annotations
 
     $ cp ../tests/CMU-1-JP2K-33005.xml .
 
-Getting the input yaml file to generate the dicom file
-
-Modifying values for params 'WSIFile','OutFilePrefix','Annotations'
-
+Getting the input yaml file to generate the dicom file.Modifying values for params 'WSIFile','OutFilePrefix','Annotations'.
 Annotations are optional, if you want to skip annotation remove 'Annotations' param in the base.yaml file
 
 .. code-block:: console
@@ -43,6 +40,19 @@ Generating the dicom filepython ../dicom_wsi/cli.py -y base.yaml
 .. code-block:: console
 
     $ python ../dicom_wsi/cli.py -y base.yaml
+	
+
+Following dicom files will be generated (Multiple dicom files for multiple levels)
+
+.. code-block:: console
+
+    $ ls output.*.dcm
+	
+output.0-10.dcm  output.0-2.dcm  output.0-6.dcm  output.1-1.dcm  output.3-0.dcm  
+output.0-11.dcm  output.0-3.dcm  output.0-7.dcm  output.1-2.dcm  output.4-0.dcm
+output.0-12.dcm  output.0-4.dcm  output.0-8.dcm  output.1-3.dcm  output.5-0.dcm
+output.0-1.dcm   output.0-5.dcm  output.0-9.dcm  output.2-0.dcm  output.6-0.dcm
+
 
 Optional: Validating the generated dicom files
 Download this tool https://www.dclunie.com/dicom3tools/dciodvfy.html to validate the generated dicom files
