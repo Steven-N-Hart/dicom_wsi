@@ -42,17 +42,13 @@ Running the tool & generating the dicom files
 
     $ python ../dicom_wsi/cli.py -y base.yaml
 
-Following dicom files will be generated (Multiple dicom files for multiple levels)
+Following dicom files will be generated (Multiple dicom files for multiple levels).
 
 .. code-block:: console
 
     $ ls output.*.dcm
 
-output.0-10.dcm  output.0-2.dcm  output.0-6.dcm  output.1-1.dcm  output.3-0.dcm  
- output.0-11.dcm  output.0-3.dcm  output.0-7.dcm  output.1-2.dcm  output.4-0.dcm
- output.0-12.dcm  output.0-4.dcm  output.0-8.dcm  output.1-3.dcm  output.5-0.dcm
- output.0-1.dcm   output.0-5.dcm  output.0-9.dcm  output.2-0.dcm  output.6-0.dcm
-
+output.0-10.dcm  output.0-2.dcm  output.0-6.dcm  output.1-1.dcm  output.3-0.dcm output.0-11.dcm  output.0-3.dcm  output.0-7.dcm  output.1-2.dcm  output.4-0.dcm output.0-12.dcm  output.0-4.dcm  output.0-8.dcm  output.1-3.dcm  output.5-0.dcm output.0-1.dcm   output.0-5.dcm  output.0-9.dcm  output.2-0.dcm  output.6-0.dcm
 
 Optional: Validating the generated dicom files.
 
