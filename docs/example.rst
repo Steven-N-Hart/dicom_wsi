@@ -22,7 +22,7 @@ Downloading the svs file
     $ wget http://openslide.cs.cmu.edu/download/openslide-testdata/Aperio/CMU-1-JP2K-33005.svs
 	
 
-getting the annotations
+getting the annotations file
 
 .. code-block:: console
 
@@ -76,7 +76,8 @@ Download this tool  `dciodvfy`_  to validate the generated dicom files
 
 .. _`dciodvfy`: https://www.dclunie.com/dicom3tools/dciodvfy.html
 
-Other functions.
+Other functions
+---------------
 
 Extracting Annotations from Dicom file to a python dictionary(Here i'm running it on only one level Dicom file)
 
