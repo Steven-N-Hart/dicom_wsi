@@ -14,7 +14,7 @@ Clone the git repo
 	$ mkdir example
 	$ cd example
 
-Install the required packages  as described `here`_ `Also here <js/installation.html>`_
+Install the required packages  as described `here <installation.html>`_
 
 .. _`here`: https://dicom-wsi.readthedocs.io/en/latest/installation.html
 
