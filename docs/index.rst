@@ -9,6 +9,7 @@ Welcome to dicom-wsi's documentation!
    installation
    tldr
    gettingstarted
+   example
    isyntax
    annotations
    extract
