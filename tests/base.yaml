@@ -1,11 +1,11 @@
 General:
-    WSIFile: 'tests/CMU-1.tiff'
+    WSIFile: 'tests/CMU-1-JP2K-33005.svs'
     OutFilePrefix: './tests/output'
     NumberOfLevels: 7
     OrgUIDRoot: 1.2.840.113713.15.
     FrameSize: 500
     MaxFrames: 500
-    ImageFormat: .j2k       # None, .jpg, .j2k
+    ImageFormat: .jpg       # None, .jpg, .j2k
     CompressionAmount: 90   # 0 for no compression, [0-99]
     background_range: 80    # Number of pixels from 255 to identify as background
     threshold: 0.5          # At least x (%) needs to be contained in non-background pixels
