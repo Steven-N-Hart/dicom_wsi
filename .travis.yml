@@ -31,9 +31,8 @@ script: tox
 deploy:
     provider: pypi
     distributions: sdist bdist_wheel
-    user: Steven-N-Hart
-    password:
-        secure: PLEASE_REPLACE_ME
+    user: "__token__"
+    password: pypi-AgEIcHlwaS5vcmcCJGFjNDJhNjc2LTc5ZGMtNGZhMy1hN2VmLTVkYmNlZDA4YTg5YgACJXsicGVybWlzc2lvbnMiOiAidXNlciIsICJ2ZXJzaW9uIjogMX0AAAYgp4t9B7lYfUyLyhWsBQgXbkK1TTCizP_U_50gc44qJA4
     on:
         tags: true
         repo: Steven-N-Hart/dicom_wsi
