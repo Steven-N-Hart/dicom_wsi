@@ -51,9 +51,9 @@ def build_base(cfg, instance=1):
         file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.50'  # JPEGBaseline
         # file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.51'  # JPEG Extended (Process 2 and 4)
         file_meta.is_implicit_VR = False
-    elif compression_type == '.j2k':
+    elif compression_type == '.jp2':
         # noinspection SpellCheckingInspection
-        file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.80'  # JPEG-LS Lossless Image Compression
+        file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.90'  # JPEG-LS Lossless Image Compression
     else:
         raise ValueError('Compression type {} is not yet supported'.format(compression_type))
     logging.debug('TransferSyntaxUID {} '.format(file_meta.TransferSyntaxUID))

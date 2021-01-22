@@ -20,7 +20,7 @@ Next, get the Phillips SDK. You need to create a _`log in` first.
 
 .. `log in`_ https://www.openpathology.philips.com/login/
 
-You will need to follow ithe installation instructions for your specific operating system.  Once you have it installed,
+You will need to follow the installation instructions for your specific operating system.  Once you have it installed,
 open a python terminal and run:
 
 .. code-block:: python
@@ -29,6 +29,7 @@ open a python terminal and run:
 
 If you get `ModuleNotFoundError: No module named 'pixelengine'` then you do not have this installed properly. Ask Phillips tech support for help.
 
+> Note you need to ensure that you have the Phillips SDK installed and available. It is not possible for this toolkit
 
 
 Once you have the Phillips SDK installed, you can run the conversion script.
@@ -40,3 +41,6 @@ Once you have the Phillips SDK installed, you can run the conversion script.
 This will create a file called `ex1_BIG_sparse.tiff`.
 
 Now you can create the configuration file and proceed as normal.
+
+> Note: Since the `isyntax_to_tiff.py` is maintained by Phillips, its name or usage might change. Please consult the Phillips documentation.
+
