@@ -4,6 +4,8 @@ Installation
 
 .. important:: The libvips_ and OpenSlide_ packages are required, but not available on PyPi. You will need to make sure your environment has these packages available.
 
+.. important:: Windows is *VERY* finicky with OpenSlide_, and it's not always straightforward. The recommended way for windows users is through Docker.
+
 .. _PhillipsSDK: https://www.openpathology.philips.com/
 .. _OpenSlide: https://openslide.org/download/
 .. _libvips: https://libvips.github.io/libvips/
