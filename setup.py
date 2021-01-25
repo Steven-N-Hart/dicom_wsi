@@ -14,11 +14,11 @@ with open('HISTORY.rst') as history_file:
 with open('requirements.txt') as sr:
     setup_requirements = sr.read()
 
-with open('requirements_dev.txt') as sr:
-    test_requirements = sr.read()
+with open('requirements_dev.txt') as tr:
+    test_requirements = tr.read()
 
-with open('VERSION') as sr:
-    version = sr.read()
+with open('VERSION') as vr:
+    version = vr.read()
 
 setup(
     author="Steven N. Hart",
