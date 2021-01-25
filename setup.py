@@ -29,8 +29,7 @@ setup_requirements = [
 
 test_requirements = setup_requirements
 
-with open('VERSION') as vr:
-    version = vr.read()
+version = '1.0.0'
 
 setup(
     author="Steven N. Hart",
