@@ -11,11 +11,23 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-with open('requirements.txt') as sr:
-    setup_requirements = sr.read()
+setup_requirements = [pyvips>=2.1.8,
+    pydicom>=1.3.0,
+    PyYAML>=5.1.2,
+    numpy>=1.17.3,
+    Pillow>=6.2.2,
+    tifffile>=2019.7.26.2,
+    tiffile>=2018.10.18,
+    Pillow,
+    datetime,
+    openslide-python,
+    cython,
+    pylibjpeg,
+    pylibjpeg-libjpeg,
+    pylibjpeg-openjpeg
+]
 
-with open('requirements_dev.txt') as tr:
-    test_requirements = tr.read()
+test_requirements = setup_requirements
 
 with open('VERSION') as vr:
     version = vr.read()
