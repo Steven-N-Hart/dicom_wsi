@@ -7,7 +7,7 @@ dicom_wsi
         :target: https://pypi.python.org/pypi/dicom_wsi
 
 .. image:: https://img.shields.io/travis/Steven-N-Hart/dicom_wsi.svg
-        :target: https://travis-ci.org/Steven-N-Hart/dicom_wsi
+        :target: https://travis-ci.com/Steven-N-Hart/dicom_wsi
 
 .. image:: https://readthedocs.org/projects/dicom-wsi/badge/?version=latest
         :target: https://dicom-wsi.readthedocs.io/en/latest/?badge=latest
