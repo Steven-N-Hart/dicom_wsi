@@ -3,15 +3,11 @@ RUN mkdir /data
 # tz data will prompt for interactive Q&A which we dont want
 ARG DEBIAN_FRONTEND=noninteractive
 # INSTALL PYTHON AND DEPENDENCIES
-RUN apt-get -y update && apt-get install -y build-essential python-dev cython3 checkinstall cmake default-jdk git libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev liblcms2-dev libtiff-dev libpng-dev libvips libvips-dev libz-dev libbz2-dev libjpeg-dev openslide-tools unzip python3-openslide wget xutils-dev zlib1g-dev libopenjp2-7-dev  python3-gdcm
-
-RUN wget https://www.python.org/ftp/python/3.6.8/Python-3.6.8.tar.xz
-RUN tar -xvf Python-3.6.8.tar.xz && cd Python-3.6.8 && ./configure && make && make install && cd /
-RUN python3 -m pip install --upgrade pip
+RUN apt-get -y update && apt-get install -y build-essential python3.6 python3-pip python3-dev cython3 checkinstall cmake default-jdk git libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev liblcms2-dev libtiff-dev libpng-dev libvips libvips-dev libz-dev libbz2-dev libjpeg-dev openslide-tools unzip python3-openslide wget xutils-dev zlib1g-dev libopenjp2-7-dev  python3-gdcm
 
 RUN git clone https://github.com/Steven-N-Hart/dicom_wsi.git
 RUN cd dicom_wsi && pip install -r requirements.txt && cd /
-RUN pip install --upgrade cython
+RUN pip3 install --upgrade cython
 RUN python3 -m pip install git+https://github.com/Who8MyLunch/CharPyLS
 ENV PYTHONPATH=/dicom_wsi/dicom_wsi/mods/
 #

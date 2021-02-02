@@ -36,7 +36,7 @@ Once conda is installed, then you can install `dicom_wsi`:
 
     $ conda config --add channels bioconda
     $ conda config --add channels conda-forge
-    $ conda create -q -n test-environment python pyvips openslide openjpeg libtiff
+    $ conda create -q -n test-environment python pyvips openjpeg libtiff
     $ conda activate test-environment
     $ pip install -U -r requirements_dev.txt
 
