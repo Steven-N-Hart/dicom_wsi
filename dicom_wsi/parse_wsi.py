@@ -2,7 +2,7 @@ import logging
 
 import pyvips
 
-from dicom_wsi.mods import mapping as mp
+from . import mapping as mp
 
 logger = logging.getLogger(__name__)
 

@@ -7,9 +7,9 @@ import os
 
 from yaml import load, BaseLoader
 
-from ..dicom_wsi.mods.base_attributes import build_base
-from ..dicom_wsi.mods.parse_wsi import *
-from ..dicom_wsi.mods.sequence_attributes import build_sequences
+from ..dicom_wsi.base_attributes import build_base
+from ..dicom_wsi.parse_wsi import get_wsi
+from ..dicom_wsi.sequence_attributes import build_sequences
 
 
 def test_get_wsi():

@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime
 import pyvips
-from dicom_wsi.mods import utils
+from . import utils
 
 logger = logging.getLogger(__name__)
 
