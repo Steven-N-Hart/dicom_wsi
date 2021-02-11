@@ -3,10 +3,9 @@ import logging
 import tempfile
 
 import pydicom
-from pydicom.dataset import Dataset, FileDataset
+from pydicom.dataset import FileMetaDataset, FileDataset
 
 # noinspection PyUnresolvedReferences,PyUnresolvedReferences,PyUnresolvedReferences
-# from mods.utils import add_data
 from .utils import add_data
 
 
@@ -40,7 +39,8 @@ def build_base(cfg, instance=1):
     suffix = '.' + str(instance) + '.dcm'
     filename_little_endian = tempfile.NamedTemporaryFile(suffix=suffix).name
 
-    file_meta = Dataset()
+    # file_meta = Dataset() # deprecated in pydicom 3.0
+    file_meta = FileMetaDataset()
 
     if compression_type == 'None':
         # noinspection PyPep8,PyUnresolvedReferences

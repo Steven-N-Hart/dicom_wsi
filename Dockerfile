@@ -11,7 +11,7 @@ RUN cd dicom_wsi && pip3 install -r requirements.txt && cd /
 ENV PYTHONPATH=$PYTHONPATH:/dicom_wsi/dicom_wsi/mods/
 #
 ## Add other tools
-##Google
+## Google
 #RUN wget https://github.com/GoogleCloudPlatform/wsi-to-dicom-converter/releases/download/v1.0.3/wsi2dcm_1.0.3.deb
 #RUN apt install ./wsi2dcm_1.0.3.deb
 #
