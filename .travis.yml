@@ -19,7 +19,7 @@ install:
     - conda update -q conda
     - conda config --add channels bioconda
     - conda config --add channels conda-forge
-    - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION pyvips openjpeg libtiff libvips librsvg libiconv
+    - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION pyvips openjpeg libtiff libvips librsvg libiconv 'imagemagick<7.0.9'
     - conda activate test-environment
     - pip install pytest
     - python setup.py install
