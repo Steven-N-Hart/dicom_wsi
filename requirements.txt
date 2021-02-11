@@ -11,3 +11,4 @@ cython
 pylibjpeg
 pylibjpeg-libjpeg
 pylibjpeg-openjpeg
+pytest
