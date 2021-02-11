@@ -8,7 +8,7 @@ from pydicom.encaps import encapsulate
 from pydicom.filewriter import dcmwrite
 from pydicom.sequence import Sequence
 
-from .image_filter import image_filter
+from dicom_wsi.mods.image_filter import image_filter
 
 logger = logging.getLogger(__name__)
 

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from mods.input_validation import validate_cfg
-from mods.run import run_instance
+from dicom_wsi.mods.input_validation import validate_cfg
+from dicom_wsi.mods.run import run_instance
 
 logger = logging.getLogger(__name__)
 import multiprocessing as mp

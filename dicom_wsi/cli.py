@@ -6,7 +6,7 @@ import logging
 import os
 import sys
 
-from mods import parse_wsi
+from dicom_wsi.mods import parse_wsi
 from yaml import load, BaseLoader
 
 import dicom_wsi

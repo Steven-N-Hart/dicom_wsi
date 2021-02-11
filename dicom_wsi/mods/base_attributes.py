@@ -7,7 +7,7 @@ from pydicom.dataset import Dataset, FileDataset
 
 # noinspection PyUnresolvedReferences,PyUnresolvedReferences,PyUnresolvedReferences
 # from mods.utils import add_data
-from .utils import add_data
+from dicom_wsi.mods import add_data
 
 
 # noinspection PyUnresolvedReferences
