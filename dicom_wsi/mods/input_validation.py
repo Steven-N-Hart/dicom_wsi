@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 restricted_inputs = {
     'PatientSex': ['M', 'F', 'O'],
     'Modality': ['SM'],
-    'ImageFormat': ['.jpg', 'None'],
+    'ImageFormat': ['.jpg', 'None', '.j2k'],
     'BurnedInAnnotation': ['YES', 'NO'],
     'PhotometricInterpretation': ['MONOCHROME1', 'RGB', 'YBR_FULL_422', 'YBR_ICT', 'YBR_RCT'],
     'VolumetricProperties': ['VOLUME', 'MIXED', 'SAMPLED', 'DISTORTED'],

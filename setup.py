@@ -11,22 +11,16 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-setup_requirements = ['pytest-runner', 'pydicom>=1.3.0']
+with open('requirements.txt') as req:
+    setup_requirements = req.read()
 
-test_requirements = ['pytest>=3',
-                     'pyvips>=2.1.8',
-                    'PyYAML>=5.1.2',
-                    'pydicom>=1.3.0',
-                    'numpy>=1.17.3',
-                    'openslide-wrapper==1.1.2',
-                    'Pillow>=6.2.2',
-                    'tifffile>=2019.7.26.2',
-                    'tiffile>=2018.10.18'
-]
+test_requirements = setup_requirements
+
+version = '1.0.0'
 
 setup(
     author="Steven N. Hart",
-    author_email='steven.n.hart@gmail.com',
+    author_email='hart.steven@mayo.edu',
     python_requires='>=3',
     classifiers=[
         'Development Status :: 3 - Alpha',
@@ -57,6 +51,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/Steven-N-Hart/dicom_wsi',
-    version='0.1.0',
+    version=version,
     zip_safe=False,
 )

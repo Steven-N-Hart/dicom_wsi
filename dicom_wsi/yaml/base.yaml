@@ -1,12 +1,12 @@
 General:
-    WSIFile: '../tests/CMU-1.tiff'
-    OutDir: '../tests/output'
-    OutFilePrefix: test
+    WSIFile: '../tests/CMU-1.svs'
+    OutDir: 'svs_jp2'
+    OutFilePrefix: svs_jp2
     NumberOfLevels: 7
     OrgUIDRoot: 1.2.840.113713.15.
     FrameSize: 500
     MaxFrames: 500
-    ImageFormat: .jpg       # None, .jpg
+    ImageFormat: .jp2       # None, .jpg, .jp2
     CompressionAmount: 90   # 0 for no compression, [0-99]
     background_range: 80    # Number of pixels from 255 to identify as background
     threshold: 0.5          # At least x (%) needs to be contained in non-background pixels

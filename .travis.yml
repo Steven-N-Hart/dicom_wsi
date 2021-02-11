@@ -5,6 +5,9 @@ python:
     - 3.7
     - 3.6
 
+git:
+  depth: 3
+
 # Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
     - sudo apt-get update
@@ -16,13 +19,12 @@ install:
     - conda update -q conda
     - conda config --add channels bioconda
     - conda config --add channels conda-forge
-    - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION pyvips openslide openjpeg libtiff libvips librsvg libiconv
+    - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION pyvips openjpeg libtiff libvips librsvg libiconv 'imagemagick<7.0.9'
     - conda activate test-environment
-    - pip install -U tox-travis
-    - pip install -U -r requirements.txt
+    - python setup.py install
 
 # Command to run tests, e.g. python setup.py test
-script: tox
+script: pytest
 
 # Assuming you have installed the travis-ci CLI tool, after you
 # create the Github repo and add it to Travis, run the
@@ -31,9 +33,8 @@ script: tox
 deploy:
     provider: pypi
     distributions: sdist bdist_wheel
-    user: Steven-N-Hart
-    password:
-        secure: PLEASE_REPLACE_ME
+    user: "__token__"
+    password: pypi-AgEIcHlwaS5vcmcCJGFjNDJhNjc2LTc5ZGMtNGZhMy1hN2VmLTVkYmNlZDA4YTg5YgACJXsicGVybWlzc2lvbnMiOiAidXNlciIsICJ2ZXJzaW9uIjogMX0AAAYgp4t9B7lYfUyLyhWsBQgXbkK1TTCizP_U_50gc44qJA4
     on:
         tags: true
         repo: Steven-N-Hart/dicom_wsi

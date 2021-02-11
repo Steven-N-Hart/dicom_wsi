@@ -122,7 +122,7 @@ def add_imgdata(imlist, ds, tile_size, compression_type, compression_quality):
         ds.PixelData = image_array.tobytes()
         ds.LossyImageCompression = '00'
     else:
-        ds = compress_img_list(ds, imlist, num_frames, compression_quality)
+        ds = compress_img_list(ds, imlist, num_frames, compression_type, compression_quality)
 
     ds.Columns, ds.Rows = tile_size, tile_size  # used to calculate expected size in validator
     return ds
@@ -223,7 +223,7 @@ def ensure_even_image(tmp, tile_size):
 
 
 # TODO: Make this faster!!!
-def compress_img_list(ds, imlist, num_frames, compression_quality):
+def compress_img_list(ds, imlist, num_frames, compression_type, compression_quality):
     f = io.BytesIO()
     imlist[0].save(f, format='tiff', append_images=imlist[1:], save_all=True, compression='None')
     # The BytesIO object cursor is at the end of the object, so I need to tell it to go back to the front
@@ -231,11 +231,19 @@ def compress_img_list(ds, imlist, num_frames, compression_quality):
     img = Image.open(f)
     img_byte_list = []
     # Get each one of the frames converted to even numbered bytes
+
+    if compression_type == '.jpg':
+        compression_type = 'JPEG'
+        compression_method = 'ISO_10918_1'
+    elif compression_type == '.jp2':
+        compression_type = 'JPEG2000'
+        compression_method = 'ISO_15444_1'
+
     for i in range(num_frames):
         try:
             img.seek(i)
             with io.BytesIO() as output:
-                img.save(output, format='jpeg', quality=compression_quality)
+                img.save(output, format=compression_type, quality=compression_quality)
                 img_byte_list.append(output.getvalue())
         except EOFError:
             # Not enough frames in img
@@ -246,7 +254,7 @@ def compress_img_list(ds, imlist, num_frames, compression_quality):
     ds.is_implicit_VR = False
     ds.LossyImageCompression = '01'
     ds.LossyImageCompressionRatio = 100 - compression_quality
-    ds.LossyImageCompressionMethod = 'ISO_10918_1'
+    ds.LossyImageCompressionMethod = compression_method
     return ds
 
 
