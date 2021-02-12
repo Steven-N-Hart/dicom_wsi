@@ -16,7 +16,7 @@ with open('requirements.txt') as req:
 
 test_requirements = setup_requirements
 
-version = '1.0.0'
+version = '1.0.1'
 
 setup(
     author="Steven N. Hart",
