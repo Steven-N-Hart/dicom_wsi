@@ -13,7 +13,7 @@ the `Phillips Website`_.
 .. code-block:: console
 
    $ cd isyntax
-   $ curl -o ex1.isyntax  https://www.openpathology.philips.com/wp-content/uploads/AnimalSlides/1.isyntax
+   $ curl -o ex1.isyntax  https://zenodo.org/record/5037046/files/testslide.isyntax?download=1
 
 
 Next, get the Phillips SDK. You need to create a _`log in` first.
