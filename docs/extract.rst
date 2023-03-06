@@ -11,13 +11,13 @@ in a python dictionary object.
 
 .. code-block:: console
 
-    $ python  dicom_wsi/mods/extract_annotations.py -D <Path to DICOM file>
+    $ python  dicom_wsi/extract_annotations.py -D <Path to DICOM file>
 
 or from inside a python script:
 
 .. code-block:: python
 
-    from dicom_wsi.mods.extract_annotations import extract_ann_dicom
+    from dicom_wsi.extract_annotations import extract_ann_dicom
     d = extract_ann_dicom('tests/output.6-0.dcm')   # Change this to your dicom file
 
 
@@ -31,4 +31,4 @@ to a specified directory.
 
 .. code-block:: console
 
-    $ python  ./dicom_wsi/mods/extract_image_patches.py -D <Path to Dicom file> -d <Path to output directory>
+    $ python  ./dicom_wsi/extract_image_patches.py -D <Path to Dicom file> -d <Path to output directory>
