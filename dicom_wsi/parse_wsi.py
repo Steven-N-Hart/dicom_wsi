@@ -20,7 +20,11 @@ def get_wsi(cfg):
 
     if wsi_fn.endswith('svs'):
         logger.debug('Assuming SVS file from file extension')
-        cfg = mp.map_aperio_features(cfg, wsi)
+        try:
+            cfg = mp.map_aperio_features(cfg, wsi)
+        except:
+            logger.warning('Aperio metadata not found. Trying something else')
+            cfg = mp.map_other_features(cfg, wsi)
     else:
         logger.debug('Assuming non SVS file from file extension')
         cfg = mp.map_other_features(cfg, wsi)

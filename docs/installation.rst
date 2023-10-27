@@ -38,7 +38,7 @@ Once conda is installed, then you can install `dicom_wsi`:
     $ conda config --add channels conda-forge
     $ conda create -q -n test-environment python pyvips openjpeg libtiff
     $ conda activate test-environment
-    $ pip install -U -r requirements_dev.txt
+    $ pip install -U -r requirements.txt
 
 
 
@@ -71,7 +71,7 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/Steven-N-Hart/dicom_wsi
+    $ pip install git+https://github.com/Steven-N-Hart/dicom_wsi.git
 
 Or download the `tarball`_:
 

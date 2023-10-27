@@ -4,9 +4,10 @@ RUN mkdir /data
 ARG DEBIAN_FRONTEND=noninteractive
 # INSTALL PYTHON AND DEPENDENCIES
 RUN apt-get -y update
-RUN apt-get install -y build-essential python3.6 python3-pip python3-dev libvips libvips-dev wget
-RUN pip3 install git+https://github.com/Steven-N-Hart/dicom_wsi.git@fix-deps
+RUN apt-get install -y build-essential python3.6 python3-pip python3-dev libvips libvips-dev wget git
+RUN pip3 install git+https://github.com/Steven-N-Hart/dicom_wsi.git
 RUN pip3 install git+https://github.com/Who8MyLunch/CharPyLS
+ENTRYPOINT python3 -m dicom_wsi.cli
 
 #
 ## Add other tools

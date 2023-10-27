@@ -32,7 +32,7 @@ To use dicom-wsi:
 
 .. code-block:: console
 
-    python cli.py -w <WSI File path> -o <OutputDirectory> -p <output file prefix> -y yaml/base.yaml
+    python dicom_wsi.cli.py -w <WSI File path> -o <OutputDirectory> -p <output file prefix> -y yaml/base.yaml
 
 
 That's it! Most of the time you wan't need to change anything. But if you do, please see the example yaml_ file.
