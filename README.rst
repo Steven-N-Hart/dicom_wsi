@@ -29,10 +29,16 @@ First, you need to install dicom_wsi and its dependencies. See this link_ for de
 .. _link: https://dicom-wsi.readthedocs.io/en/latest/installation.html
 
 To use dicom-wsi:
-
 .. code-block:: console
 
-    python dicom_wsi.cli.py -w <WSI File path> -o <OutputDirectory> -p <output file prefix> -y yaml/base.yaml
+    python dicom_wsi.cli -w <WSI File path> -o <OutputDirectory> -p <output file prefix> -y yaml/base.yaml
+
+or
+
+.. code-block:: python
+
+    import dicom_wsi
+    dicom_wsi.dicom_wsi.create_dicom(cfg, pools=n_pools)
 
 
 That's it! Most of the time you wan't need to change anything. But if you do, please see the example yaml_ file.
