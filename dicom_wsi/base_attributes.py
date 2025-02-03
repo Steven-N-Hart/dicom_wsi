@@ -44,7 +44,7 @@ def build_base(cfg, instance=1):
 
     if compression_type == 'None':
         # noinspection PyPep8,PyUnresolvedReferences
-        file_meta.TransferSyntaxUID = pydicom.uid.UncompressedPixelTransferSyntaxes[
+        file_meta.TransferSyntaxUID = pydicom.uid.UncompressedTransferSyntaxes[
             1]  # Implicit VR Endian: Default Transfer Syntax for DICOM
     elif compression_type == '.jpg':
         # noinspection PyUnresolvedReferences
