@@ -76,8 +76,8 @@ To use dicom-wsi in a project:
 .. code-block:: python
 
     from yaml import load, BaseLoader
-    import dicom_wsi
-    dwsi = dicom_wsi.dicom_wsi
+    from dicom_wsi import dicom_wsi as dwsi
+
     get_wsi = dicom_wsi.parse_wsi.get_wsi
 
     # Define your YAML file
