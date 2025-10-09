@@ -2,6 +2,11 @@
 History
 =======
 
+1.0.5 (2025-10-09)
+------------------
+
+* Fixed AttributeError in cli.py by updating __init__.py.
+
 1.0.4 (2023-10-27)
 ------------------
 
