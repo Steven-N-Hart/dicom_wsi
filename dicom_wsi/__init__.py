@@ -4,3 +4,4 @@ __author__ = """Steven N. Hart"""
 __email__ = 'steven.n.hart@gmail.com'
 __version__ = '1.0.0'
 
+from .dicom_wsi import create_dicom
